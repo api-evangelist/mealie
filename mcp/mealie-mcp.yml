@@ -1,0 +1,148 @@
+generated: '2026-08-27'
+method: derived
+source: openapi/mealie-openapi.json
+status: candidate
+deployment:
+  mode: none
+  endpoint: null
+  install: null
+  package: null
+  auth: unknown
+  verified: searched
+  note: >-
+    Mealie ships NO Model Context Protocol server — not hosted, not as a package.
+    Searched the mealie-recipes GitHub organisation (7 public repos, none MCP), the
+    documentation, npm and PyPI. What exists is an unusually crowded field of
+    THIRD-PARTY servers (three separate npm packages published within 24 hours of
+    this probe), which is itself the signal: agent builders want this API badly
+    enough to have built the bridge three times over, and the project has not
+    adopted one. `mode: none` because nothing here is shipped by Mealie.
+community_servers:
+- name: mealie-mcp
+  package: https://www.npmjs.com/package/mealie-mcp
+  repo: https://github.com/2fst4u/mealie-mcp
+  mode: local-stdio
+  version: 0.2.80
+  published: '2026-08-27'
+  official: false
+- name: mealie-mcp-server
+  package: https://www.npmjs.com/package/mealie-mcp-server
+  repo: https://github.com/timo-reymann/mealie-mcp-server
+  mode: local-stdio
+  version: 1.13.0
+  published: '2026-08-26'
+  official: false
+- name: '@ni-c/mealie-mcp'
+  package: https://www.npmjs.com/package/@ni-c/mealie-mcp
+  repo: https://github.com/ni-c/mealie-mcp
+  mode: local-stdio
+  version: 0.2.0
+  published: '2026-08-26'
+  official: false
+candidate_tools:
+  note: >-
+    Derived from the Mealie OpenAPI document. These are NOT tools anyone ships — they
+    are the shape an MCP server over this API would take, with each tool bound to a
+    real operationId whose parameters and requestBody are its input schema.
+  auth: 'Bearer API token minted at /user/profile/api-tokens; instance host is operator-supplied.'
+  tools:
+  - name: search_recipes
+    description: Search and page through recipes using Mealie's queryFilter grammar.
+    rest: [get_all_api_recipes_get]
+    consequence: read
+  - name: get_recipe
+    description: Fetch one recipe in full by slug.
+    rest: [get_one_api_recipes__slug__get]
+    consequence: read
+  - name: suggest_recipes
+    description: Ask Mealie to suggest recipes from foods and tools on hand.
+    rest: [suggest_recipes_api_recipes_suggestions_get]
+    consequence: read
+  - name: import_recipe_from_url
+    description: Scrape a recipe from a public URL and save it.
+    rest: [parse_recipe_url_api_recipes_create_url_post]
+    consequence: write
+    caution: Fetches an operator-supplied remote URL; the project flags this endpoint for SSRF and DoS.
+  - name: preview_recipe_from_url
+    description: Scrape a URL and return the parsed recipe WITHOUT saving it.
+    rest: [test_parse_recipe_url_api_recipes_test_scrape_url_post]
+    consequence: read
+  - name: create_recipe
+    description: Create a recipe from a supplied name/body.
+    rest: [create_one_api_recipes_post]
+    consequence: write
+    caution: Not idempotent — a retry creates a duplicate.
+  - name: update_recipe
+    description: Replace or patch a recipe by slug.
+    rest: [update_one_api_recipes__slug__put, patch_one_api_recipes__slug__patch]
+    consequence: write
+  - name: delete_recipe
+    description: Permanently delete a recipe by slug.
+    rest: [delete_one_api_recipes__slug__delete]
+    consequence: destructive
+    caution: Irreversible — no trash, no restore. See conventions reversibility block.
+  - name: list_mealplans
+    description: List meal plan entries in a date range.
+    rest: [get_all_api_households_mealplans_get]
+    consequence: read
+  - name: get_todays_meals
+    description: Get the meal plan entries for today.
+    rest: [get_todays_meals_api_households_mealplans_today_get]
+    consequence: read
+  - name: create_mealplan_entry
+    description: Add a recipe or note to the meal plan on a date.
+    rest: [create_one_api_households_mealplans_post]
+    consequence: write
+  - name: create_random_meal
+    description: Generate a random meal plan entry using the household's plan rules.
+    rest: [create_random_meal_api_households_mealplans_random_post]
+    consequence: write
+  - name: list_shopping_lists
+    description: List the household's shopping lists.
+    rest: [get_all_api_households_shopping_lists_get]
+    consequence: read
+  - name: get_shopping_list
+    description: Fetch one shopping list with its items and recipe references.
+    rest: [get_one_api_households_shopping_lists__item_id__get]
+    consequence: read
+  - name: add_recipe_to_shopping_list
+    description: Add a recipe's ingredients to a shopping list.
+    rest: [add_recipe_ingredients_to_list_api_households_shopping_lists__item_id__recipe_post]
+    consequence: write
+    reversal: remove_recipe_ingredients_from_list_api_households_shopping_lists__item_id__recipe__recipe_id__delete_post
+  - name: add_shopping_list_item
+    description: Add a free-text or food-linked item to a shopping list.
+    rest: [create_one_api_households_shopping_items_post]
+    consequence: write
+  - name: check_off_shopping_list_items
+    description: Mark shopping list items as checked.
+    rest: [update_many_api_households_shopping_items_put]
+    consequence: write
+  - name: list_cookbooks
+    description: List the household's cookbooks.
+    rest: [get_all_api_households_cookbooks_get]
+    consequence: read
+  - name: list_categories_tags_tools
+    description: List the group's organizer vocabularies.
+    rest: [get_all_api_organizers_categories_get, get_all_api_organizers_tags_get, get_all_api_organizers_tools_get]
+    consequence: read
+  - name: list_foods_and_units
+    description: List the group's ingredient foods and units.
+    rest: [get_all_api_foods_get, get_all_api_units_get]
+    consequence: read
+  - name: explore_public_recipes
+    description: Browse a group's public recipes without authentication.
+    rest: [get_all_api_explore_groups__group_slug__recipes_get]
+    consequence: read
+    auth: none
+gaps_for_an_mcp_implementer:
+- No published tool schemas exist to copy — every server in the field derives its own.
+- >-
+  The instance host is not knowable from the contract; any Mealie MCP server must take
+  the base URL as configuration.
+- >-
+  No idempotency keys, so a tool wrapping a POST create must dedupe by slug/name
+  itself before retrying.
+- >-
+  Only 422 is declared in the spec; a tool must handle undeclared 401/403/404/409/500
+  to give an agent a useful failure message.

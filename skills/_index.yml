@@ -1,0 +1,34 @@
+generated: '2026-08-27'
+method: generated
+source: openapi/mealie-openapi.json + https://docs.mealie.io/documentation/getting-started/api-usage/
+api: Mealie API
+note: >-
+  Mealie publishes no AGENTS.md and no skills of its own (searched the mealie-recipes
+  organisation and the documentation). These three are generated from the harvested
+  OpenAPI document and the API usage guide, and every operationId in them was checked
+  against the spec — none are invented.
+skills:
+- name: mealie-import-recipe-from-url
+  file: mealie-import-recipe-from-url.md
+  description: >-
+    Import a recipe from a public cooking-site URL, previewing the scrape first so a
+    bad parse never becomes a permanent delete.
+  operations: 5
+- name: mealie-plan-week-and-build-shopping-list
+  file: mealie-plan-week-and-build-shopping-list.md
+  description: >-
+    Fill a week of meal plan entries and turn them into a consolidated shopping list,
+    using the one paired reverse operation the API provides.
+  operations: 11
+- name: mealie-sync-shopping-list-to-external-app
+  file: mealie-sync-shopping-list-to-external-app.md
+  description: >-
+    Keep a Mealie shopping list in sync with an external list manager through the
+    documented `extras` key/value escape hatch.
+  operations: 9
+shared_constraints:
+- No idempotency key — every POST create must be reconciled by slug or name before retry.
+- No rate limiting from Mealie; any 429 comes from the operator's reverse proxy.
+- Only 422 is declared in the contract; 401/403/404/409/500 occur but are undeclared.
+- Deletes are permanent — no trash, no restore, no undo.
+- Base URL is operator-supplied; Mealie is self-hosted.

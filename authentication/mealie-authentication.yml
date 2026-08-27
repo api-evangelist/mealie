@@ -1,0 +1,83 @@
+generated: '2026-08-27'
+method: searched
+source: https://docs.mealie.io/documentation/getting-started/api-usage/
+docs: https://docs.mealie.io/documentation/getting-started/api-usage/
+spec_source: openapi/mealie-openapi.json
+summary:
+  types:
+  - oauth2
+  - http-bearer
+  oauth2_flows:
+  - password
+  primary_model: long-lived bearer API token minted in the Mealie UI
+  note: >-
+    Mealie is self-hosted, so every instance is its own authorization server. The
+    OpenAPI document declares a single OAuth2 password-bearer scheme applied to 230
+    of 264 operations; in practice the documented way to call the API from a script
+    or a third-party integration is a long-lived API token created by the user at
+    /user/profile/api-tokens and sent as `Authorization: Bearer <token>`.
+schemes:
+- name: OAuth2PasswordBearer
+  type: oauth2
+  flows:
+  - flow: password
+    tokenUrl: /api/auth/token
+    scopes: 0
+  applied_to_operations: 230
+  sources:
+  - openapi/mealie-openapi.json
+  note: >-
+    FastAPI's OAuth2 password flow. POST /api/auth/token with form-encoded
+    username/password returns an access token; POST /api/auth/refresh refreshes it
+    and POST /api/auth/logout ends the session.
+- name: API Token (bearer)
+  type: http
+  scheme: bearer
+  in: header
+  header: Authorization
+  format: 'Bearer <token>'
+  minted_at: /user/profile/api-tokens
+  operations:
+  - create_api_token_api_users_api_tokens_post
+  - delete_api_token_api_users_api_tokens__token_id__delete
+  expiry: long-lived (no stated expiry; revoked by deleting the token)
+  docs: https://docs.mealie.io/documentation/getting-started/api-usage/
+  note: >-
+    Not declared as a separate securityScheme in the OpenAPI document — it is
+    accepted by the same bearer handler as the password-flow token. This is the
+    model the docs tell integrators to use.
+user_login_methods:
+- method: local credentials
+  description: Username/password stored in the Mealie instance.
+- method: OpenID Connect
+  description: >-
+    Mealie acts as an OIDC relying party against an external IdP (Authentik,
+    Authelia, Keycloak, Okta, Google, Entra ID). Requires the Authorization Code
+    flow with PKCE and a confidential client. Since v3.21.0 the IdP must assert
+    `email_verified` unless OIDC_REQUIRES_EMAIL_VERIFICATION=false.
+  docs: https://docs.mealie.io/documentation/getting-started/authentication/oidc-v2/
+  operations:
+  - oauth_login_api_auth_oauth_get
+  - oauth_callback_api_auth_oauth_callback_get
+  - oauth_native_config_api_auth_oauth_native_config_get
+  - oauth_native_token_api_auth_oauth_native_token_post
+- method: LDAP
+  description: Directory-backed login for self-hosted deployments.
+  docs: https://docs.mealie.io/documentation/getting-started/authentication/ldap/
+authorization_model:
+  scheme: per-user permission flags plus group/household visibility
+  permissions:
+  - name: Administrator
+    allows: Access to administrator tools
+  - name: Invite
+    allows: Generating invitation links for other users
+  - name: Manage group
+    allows: Access to group management areas and settings
+  - name: Organize group data
+    allows: Creating, updating, deleting and merging foods, tags and categories
+  public_access: >-
+    Unauthenticated reads are possible through the /api/explore/groups/{group_slug}/*
+    surface only when the group is not private, the household is not private and
+    allows outside viewing, and the recipe itself is public. Private share links
+    bypass those checks.
+  docs: https://docs.mealie.io/documentation/getting-started/usage/permissions-and-public-access/

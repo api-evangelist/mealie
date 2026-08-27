@@ -1,0 +1,141 @@
+generated: '2026-08-27'
+method: searched
+source: registry.npmjs.org, pypi.org, api.github.com, hub.docker.com — probed 2026-08-27
+summary:
+  official_sdks: 0
+  note: >-
+    THE HEADLINE FINDING: Mealie publishes NO first-party client SDK in any package
+    registry. The mealie-recipes GitHub organisation ships the application itself and
+    nothing else installable as a library — searches of npm, PyPI, RubyGems, crates.io,
+    Packagist, NuGet, Maven Central and pkg.go.dev return only third-party wrappers.
+    The project's own distribution channel is a container image, and its "SDK" story
+    is the interactive Swagger UI every instance serves at /docs. Because there is no
+    official SDK, no `SDKs` pointer is emitted for this provider — every entry below
+    with official:false is somebody else's work.
+official_distribution:
+- name: mealie
+  kind: container-image
+  registry: ghcr
+  identifier: ghcr.io/mealie-recipes/mealie
+  official: true
+  version: v3.24.0
+  published: '2026-08-24'
+  version_source: https://github.com/mealie-recipes/mealie/releases
+  url: https://github.com/mealie-recipes/mealie/pkgs/container/mealie
+  note: >-
+    The primary supported distribution. Tags follow the semver release tags plus a
+    rolling :nightly from the mealie-next branch.
+- name: hkotel/mealie
+  kind: container-image
+  registry: dockerhub
+  identifier: docker.io/hkotel/mealie
+  official: true
+  version: null
+  published: '2026-08-27'
+  version_source: https://hub.docker.com/v2/repositories/hkotel/mealie/
+  url: https://hub.docker.com/r/hkotel/mealie
+  note: >-
+    The original maintainer's Docker Hub namespace, still receiving pushes (15.8M
+    pulls, last_updated 2026-08-27). `version: null` because the Docker Hub API
+    reports a last-updated timestamp for the repository but no single "latest
+    version" — a consumer pulling :latest here cannot tell which release they got.
+- name: mealie-hacs
+  kind: home-assistant-integration
+  registry: hacs
+  identifier: mealie-recipes/mealie-hacs
+  official: true
+  version: null
+  published: '2023-03-03'
+  version_source: https://api.github.com/repos/mealie-recipes/mealie-hacs
+  url: https://github.com/mealie-recipes/mealie-hacs
+  archived: true
+  note: >-
+    First-party Home Assistant integration, but ARCHIVED and untouched since
+    2023-03-03. Home Assistant now ships a core Mealie integration built on the
+    third-party `aiomealie` library instead. This is the clearest decay signal in
+    Mealie's package surface: the only first-party client-side artifact the project
+    ever published is three and a half years stale and read-only.
+third_party_clients:
+- name: aiomealie
+  language: Python
+  registry: pypi
+  official: false
+  version: 2.0.0
+  published: '2026-07-27'
+  version_source: https://pypi.org/pypi/aiomealie/json
+  url: https://github.com/joostlek/python-mealie
+  note: >-
+    The most actively maintained Mealie client anywhere, and the library behind Home
+    Assistant's core Mealie integration — so in practice this third-party package,
+    not anything Mealie publishes, is the reference Python client.
+- name: mealie-client
+  language: Python
+  registry: pypi
+  official: false
+  version: 0.1.3
+  published: '2025-07-05'
+  version_source: https://pypi.org/pypi/mealie-client/json
+  url: https://github.com/MaoBui2907/mealie-client
+  note: Self-described "Unofficial Python SDK for Mealie". Last release predates Mealie v3.
+- name: mealie-typescript
+  language: TypeScript
+  registry: npm
+  official: false
+  version: 1.0.92
+  published: '2026-03-07'
+  version_source: https://registry.npmjs.org/mealie-typescript
+  url: https://github.com/TilDoesCode/mealie-sdk
+- name: node-mealie
+  language: JavaScript
+  registry: npm
+  official: false
+  version: 0.1.1
+  published: '2025-04-27'
+  version_source: https://registry.npmjs.org/node-mealie
+  url: https://github.com/democratize-technology/node-mealie
+  note: Last released 2025-04-27, before the Mealie v2 household model landed.
+- name: n8n-nodes-mealie
+  language: JavaScript
+  registry: npm
+  official: false
+  version: 0.1.7
+  published: '2026-01-14'
+  version_source: https://registry.npmjs.org/n8n-nodes-mealie
+  url: https://github.com/dineiar/n8n-nodes-mealie
+  kind: workflow-node
+- name: mealie-mcp
+  language: TypeScript
+  registry: npm
+  official: false
+  version: 0.2.80
+  published: '2026-08-27'
+  version_source: https://registry.npmjs.org/mealie-mcp
+  url: https://github.com/2fst4u/mealie-mcp
+  kind: mcp-server
+- name: mealie-mcp-server
+  language: TypeScript
+  registry: npm
+  official: false
+  version: 1.13.0
+  published: '2026-08-26'
+  version_source: https://registry.npmjs.org/mealie-mcp-server
+  url: https://github.com/timo-reymann/mealie-mcp-server
+  kind: mcp-server
+- name: '@ni-c/mealie-mcp'
+  language: TypeScript
+  registry: npm
+  official: false
+  version: 0.2.0
+  published: '2026-08-26'
+  version_source: https://registry.npmjs.org/@ni-c/mealie-mcp
+  url: https://github.com/ni-c/mealie-mcp
+  kind: mcp-server
+registries_probed_with_no_first_party_result:
+- npm
+- pypi
+- rubygems
+- crates.io
+- packagist
+- nuget
+- maven-central
+- pkg.go.dev

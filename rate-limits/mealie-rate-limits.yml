@@ -1,0 +1,30 @@
+generated: '2026-08-27'
+method: searched
+source: https://docs.mealie.io/documentation/getting-started/installation/security/
+docs: https://docs.mealie.io/documentation/getting-started/installation/security/
+limit_count: 0
+rate_limits: []
+headers: []
+status_on_exhaustion: null
+retry_after: false
+note: >-
+  Mealie ships NO rate limiting and returns no rate-limit headers. This is not an
+  undocumented gap — the project states it plainly in its security documentation:
+  "By default, the API is not rate limited. This leaves Mealie open to a potential
+  Denial of Service Attack." Because Mealie is self-hosted, rate limiting is pushed
+  to the operator's reverse proxy (the docs name Traefik, Nginx and Caddy), so any
+  429 or Retry-After an agent observes comes from that proxy and is instance-specific,
+  not part of Mealie's contract. An honest zero.
+endpoints_the_project_flags_as_needing_strict_limits:
+- path: /api/recipes/create/url
+  reason: Fetches an operator-supplied remote URL; abusable for DoS and SSRF.
+- path: /api/recipes/create/ai
+  reason: Fetches an operator-supplied remote URL and spends AI provider quota.
+- path: /api/recipes/{id}/image
+  reason: Fetches an operator-supplied remote URL; abusable for DoS and SSRF.
+mitigation_guidance:
+  source: https://docs.mealie.io/documentation/getting-started/installation/security/
+  summary: >-
+    Rate limit the API generally at a reverse proxy and apply strict limits to the
+    three scraping endpoints above; isolate the container so SSRF cannot reach
+    internal network resources.

@@ -1,0 +1,104 @@
+generated: '2026-08-27'
+method: searched
+source: https://github.com/mealie-recipes/mealie/releases
+docs: https://github.com/mealie-recipes/mealie/releases
+scheme: semver (application releases; the REST API itself is unversioned and moves with the app)
+current_version: v3.24.0
+current_version_date: '2026-08-24'
+cadence: roughly every 2-5 weeks, with patch releases in between
+channels:
+- name: stable
+  source: GitHub Releases + ghcr.io/mealie-recipes/mealie tags
+  url: https://github.com/mealie-recipes/mealie/releases
+- name: nightly
+  source: the mealie-next branch, published as :nightly and run on the public demo
+  url: https://nightly.mealie.io
+note: Release notes are auto-generated from merged PR titles, so they are complete but not curated — there
+  is no separate human-written changelog page and no "breaking changes" section by convention. Breaking
+  changes are announced inline in the release body and in the docs (e.g. the OIDC v2 migration note and
+  the v3.21.0 email_verified requirement).
+entries:
+- version: v3.24.0
+  date: '2026-08-24'
+  url: https://github.com/mealie-recipes/mealie/releases/tag/v3.24.0
+  breaking: false
+  additions:
+  - 'feat: improve meal planner editor @michael-genson'
+  - 'feat: remove share text @michael-genson'
+  - 'feat: Added support for disable services @Choromanski'
+  - 'feat: add optional linked ingredients to print view @BWagener'
+  fixes:
+  - 'fix: registration with seed data returns a 500 @justadityaraj'
+  - 'fix: return HTTP 200 for SPA fallback responses @roadhero'
+  - 'fix(deps): update dependency uvicorn to v0.52.3 @[renovate[bot]](https://github.com/apps/renovate)'
+- version: v3.23.1
+  date: '2026-08-18'
+  url: https://github.com/mealie-recipes/mealie/releases/tag/v3.23.1
+  breaking: false
+  fixes:
+  - 'fix: update outdated hints/docs @michael-genson'
+- version: v3.23.0
+  date: '2026-08-18'
+  url: https://github.com/mealie-recipes/mealie/releases/tag/v3.23.0
+  breaking: false
+  additions:
+  - 'feat: add re-roll button to meal planner entries @smashngrabb'
+  - 'feat: add native OIDC endpoints for mobile/desktop clients @DmitriiSer'
+  - 'feat: Unified AI recipe page @michael-genson'
+  - 'feat: skip expiring share link for fully-public groups/households @bferd'
+  fixes:
+  - 'fix: handle HowToSection missing itemListElement in clean_instructions @ishirbhan'
+  - 'fix: typo in en-US food seed data @sevmonster'
+  - 'fix: recipe image lost after using "Get" (fetch by URL) then saving @bferd'
+- version: v3.22.0
+  date: '2026-07-28'
+  url: https://github.com/mealie-recipes/mealie/releases/tag/v3.22.0
+  breaking: true
+  additions:
+  - 'feat: Improve scraper resiliency and add both proxy and FlareSolverr support @michael-genson'
+  - 'feat: Add feedback for bad JSON in HTML-JSON page @michael-genson'
+  - 'feat: Announce OIDC email change and announce new scraper capabilities @michael-genson'
+  fixes:
+  - 'fix: Clear InputLabelType item-id as null instead of empty string @lehnerpat'
+  - 'fix(deps): update dependency pillow-heif to v1.5.0 @[renovate[bot]](https://github.com/apps/renovate)'
+  - 'fix(deps): update dependency openai to v2.47.0 @[renovate[bot]](https://github.com/apps/renovate)'
+- version: v3.21.0
+  date: '2026-07-23'
+  url: https://github.com/mealie-recipes/mealie/releases/tag/v3.21.0
+  breaking: false
+  additions:
+  - 'feat: Added sitewide statistics @Choromanski'
+  - 'feat: ui fixes & backup link on onboarding screen @p0lycarpio'
+  - 'feat: floating save button when editing recipe @DeepReef11'
+  fixes:
+  - 'fix: Manually implement nltk.downloader using cURL @michael-genson'
+  - 'fix: clear cached recipe actions on logout to prevent cross-user leak @shved270189'
+  - 'fix: shopping list UI improvements @p0lycarpio'
+- version: v3.20.1
+  date: '2026-06-26'
+  url: https://github.com/mealie-recipes/mealie/releases/tag/v3.20.1
+  breaking: false
+  fixes:
+  - 'fix: Invisible quantities @michael-genson'
+  - 'fix(deps): update dependency pydantic-settings to v2.14.2 [security] @[renovate[bot]](https://github.com/apps/renovate)'
+  - 'fix(deps): update dependency fastapi to v0.138.0 @[renovate[bot]](https://github.com/apps/renovate)'
+- version: v3.20.0
+  date: '2026-06-24'
+  url: https://github.com/mealie-recipes/mealie/releases/tag/v3.20.0
+  breaking: false
+  additions:
+  - 'feat: Enhanced PR Lint/Validation @Choromanski'
+  - 'feat: warn when deleting foods used in recipes @ZacharySchaffter'
+  - 'feat: Added version info to backup file @Choromanski'
+  fixes:
+  - 'fix: add missing dependencies in package.json @p0lycarpio'
+  - 'fix: support CSV/TXT upload and add validation for Plan to Eat import (#6360) @hay-kot'
+  - 'fix: harden recipe content against stored XSS (chips, instructions, asset media) @hay-kot'
+- version: v3.19.2
+  date: '2026-05-29'
+  url: https://github.com/mealie-recipes/mealie/releases/tag/v3.19.2
+  breaking: false
+  fixes:
+  - 'fix: Ensure secret key is not empty @michael-genson'
+  - 'fix(deps): update dependency fastapi to v0.136.3 @[renovate[bot]](https://github.com/apps/renovate)'
+  - 'fix(deps): update dependency uvicorn to v0.48.0 @[renovate[bot]](https://github.com/apps/renovate)'

@@ -1,0 +1,58 @@
+generated: '2026-08-27'
+method: searched
+source: https://github.com/mealie-recipes/mealie/releases
+versioning:
+  api_versioned: false
+  scheme: >-
+    The REST API carries no version segment and no version header — it moves with the
+    application. Application releases are semver-tagged (v3.24.0, 2026-08-24) and the
+    demo instance reports info.version "nightly", which means the harvested contract
+    describes the mealie-next branch rather than a numbered release.
+  release_notes: https://github.com/mealie-recipes/mealie/releases
+  see: changelog/mealie-changelog.yml
+deprecation:
+  policy_published: false
+  sunset_header: false
+  deprecation_header: false
+  rfc8594: false
+  deprecated_operations:
+  - operationId: add_single_recipe_ingredients_to_list_api_households_shopping_lists__item_id__recipe__recipe_id__post
+    path: POST /api/households/shopping/lists/{item_id}/recipe/{recipe_id}
+    marked_in_spec: true
+    replacement: add_recipe_ingredients_to_list_api_households_shopping_lists__item_id__recipe_post
+    sunset_date: null
+  note: >-
+    Mealie publishes no deprecation policy and emits no Sunset/Deprecation headers.
+    Exactly one operation carries `deprecated: true` in the contract. Breaking
+    changes are communicated in release notes and version-flagged docs callouts (the
+    OIDC v2 migration guide, the v3.21.0 email_verified requirement) rather than
+    through a deprecation lifecycle.
+support:
+  policy: latest version only
+  security_patches: >-
+    "Security patches are only available for the latest version and not back-ported
+    to older versions."
+  source: https://github.com/mealie-recipes/mealie/blob/mealie-next/SECURITY.md
+  note: >-
+    Stated in the project's SECURITY.md. There is no LTS branch and no supported-
+    version matrix beyond "latest".
+sla:
+  published: false
+  note: >-
+    Not applicable in the usual sense. Mealie is self-hosted software under AGPL-3.0,
+    not a hosted service, so availability is the operator's responsibility. The
+    project runs a public demo instance as a convenience, with no uptime commitment.
+status_page:
+  present: false
+  url: null
+  note: >-
+    No status page exists, and none would be meaningful — there is no vendor-operated
+    production service to report on. demo.mealie.io and nightly.mealie.io are
+    demonstration instances.
+distribution:
+  container_registries:
+  - ghcr.io/mealie-recipes/mealie
+  - docker.io/hkotel/mealie (legacy namespace, 15.8M pulls, still updated)
+  license: AGPL-3.0
+  install_docs: https://docs.mealie.io/documentation/getting-started/installation/installation-checklist/
+  upgrade_docs: https://docs.mealie.io/documentation/getting-started/updating/

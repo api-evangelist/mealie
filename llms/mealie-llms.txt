@@ -1,0 +1,110 @@
+# Mealie
+
+> Mealie is an open-source (AGPL-3.0), self-hosted recipe manager, meal planner and
+> shopping-list application. Every instance serves its own REST API — 264 operations
+> across 180 paths — plus an OpenAPI 3.1 document at /openapi.json and interactive
+> Swagger UI at /docs. There is no vendor-hosted service and no paid plan: the host
+> is whichever machine the operator runs Mealie on.
+
+Generated: 2026-08-27
+Method: generated (Mealie publishes no /llms.txt; probed 404 on mealie.io and
+docs.mealie.io, and demo.mealie.io answers every path with its SPA shell)
+Source: apis.yml + the artifacts in this repository
+
+## What you need to know before calling it
+
+- **Base URL is not knowable from the contract.** Mealie is self-hosted. Every
+  operation is mounted under `/api` on the operator's own host. The project's public
+  demo instance is `https://demo.mealie.io`, which runs the nightly build.
+- **Auth is a long-lived bearer token.** A user mints one in the UI at
+  `/user/profile/api-tokens` and sends `Authorization: Bearer <token>`. There are no
+  scopes — a token carries the full permission set of the user who created it.
+- **No rate limiting exists.** Mealie states this in its own security docs and pushes
+  the concern to the operator's reverse proxy. Any 429 you see comes from that proxy.
+- **No idempotency.** There is no Idempotency-Key header. Retrying a POST create makes
+  a duplicate; reconcile by slug or name first.
+- **Only 422 is declared.** The spec declares one error shape (FastAPI's
+  HTTPValidationError). 401, 403, 404, 409 and 500 all occur at runtime but are absent
+  from the contract.
+- **Deletes are permanent.** No trash, no restore, no undo. The only recovery is an
+  admin restore of the whole database from a backup.
+
+## Specifications
+
+- [OpenAPI 3.1 (harvested)](openapi/mealie-openapi.json): 180 paths, 264 operations,
+  248 component schemas. Harvested from https://demo.mealie.io/openapi.json.
+- [Overlay of our enhancements](overlays/mealie-openapi-overlay.yaml): adds the
+  missing servers[] block, the bearer-token security scheme, the undeclared error
+  statuses, and caution markers on the destructive and SSRF-prone operations.
+
+## Core surfaces
+
+- **Recipes** — CRUD by id or slug, plus import-by-URL scraping, HTML/schema.org JSON
+  import, AI-assisted creation, bulk tag/categorize/delete/export, images and assets,
+  comments, timeline events and share tokens.
+- **Meal plans** — entries by date, today's meals, random generation driven by
+  household plan rules.
+- **Shopping lists** — lists and items, add or remove a whole recipe's ingredients,
+  label settings, and free-form `extras` for syncing with external list managers.
+- **Cookbooks, categories, tags, tools, foods, units, labels** — the organizer layer,
+  group-scoped and shared across households.
+- **Households, groups, users** — three-level tenancy with per-user permission flags.
+- **Explore** — `/api/explore/groups/{group_slug}/...` serves public recipes,
+  cookbooks and organizers with NO authentication, when the group, household and
+  recipe are all set to public.
+- **Webhooks and event notifications** — a scheduled daily meal-plan webhook, and 27
+  toggleable Apprise-delivered notification triggers.
+- **Admin** — users, households, groups, backups, maintenance, email and AI providers.
+
+## Conventions
+
+- Pagination: `page` and `perPage` request params (camelCase); response envelope is
+  `page`, `per_page`, `total`, `total_pages`, `items`, `next`, `previous` (snake_case).
+  `perPage=-1` returns everything; `page=-1` fetches the last page. `next`/`previous`
+  are relative paths WITHOUT the base URL.
+- Filtering: a `queryFilter` string with a SQL-like grammar — `=`, `<>`, `LIKE`, `IN`,
+  `IS NULL`, `CONTAINS ALL`, `AND`/`OR`, parentheses, dotted paths across relationships
+  (`user.username = "chef"`), and a `$NOW` placeholder with `+`/`-` offsets
+  (`lastMade <= "$NOW-30d"`).
+- Ordering: `orderBy` (comma-separated for multi-sort), `orderDirection`,
+  `orderByNullPosition`.
+- `extras`: a free-form JSON key/value map on recipes, shopping lists, list items and
+  foods — Mealie's documented integration escape hatch.
+
+## Repository artifacts
+
+- [Conventions and reversibility](conventions/mealie-conventions.yml)
+- [Authentication](authentication/mealie-authentication.yml)
+- [OIDC relying-party scopes](scopes/mealie-scopes.yml)
+- [Error catalog](errors/mealie-problem-types.yml)
+- [Data model](data-model/mealie-data-model.yml)
+- [Event and webhook catalog](asyncapi/mealie-events.yml)
+- [Conformance, including the schema.org Recipe signature](conformance/mealie-conformance.yml)
+- [Lifecycle and versioning](lifecycle/mealie-lifecycle.yml)
+- [Changelog](changelog/mealie-changelog.yml)
+- [Packages](packages/mealie-packages.yml)
+- [MCP candidate tools](mcp/mealie-mcp.yml)
+- [Rate limits](rate-limits/mealie-rate-limits.yml)
+- [Plans and pricing](plans/mealie-plans-pricing.yml)
+- [Sandbox and demo instances](sandbox/mealie-sandbox.yml)
+- [Well-known probe results](well-known/mealie-well-known.yml)
+- [Agent skills](skills/_index.yml)
+
+## Provider links
+
+- [Home](https://mealie.io)
+- [Documentation](https://docs.mealie.io)
+- [API usage guide](https://docs.mealie.io/documentation/getting-started/api-usage/)
+- [Interactive API reference (demo instance)](https://demo.mealie.io/docs)
+- [Getting started](https://docs.mealie.io/documentation/getting-started/introduction/)
+- [Source](https://github.com/mealie-recipes/mealie)
+- [Releases](https://github.com/mealie-recipes/mealie/releases)
+- [Security policy](https://github.com/mealie-recipes/mealie/security/policy)
+- [Discussions](https://github.com/mealie-recipes/mealie/discussions)
+
+## Not published by Mealie
+
+- No llms.txt, no /.well-known documents, no A2A agent card.
+- No official SDK in any package registry, and no official MCP server.
+- No status page, no SLA, no deprecation policy, no pricing.
+- No AsyncAPI, no RFC 9457 problem+json, no compliance certifications.

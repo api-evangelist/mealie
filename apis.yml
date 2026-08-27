@@ -1,18 +1,83 @@
 aid: mealie
 name: Mealie
-description: 'Mealie is a company surfaced via the API Evangelist harvest backlog (source: health-device-stack)
-  and added to the network as a stub for full-pipeline profiling.'
+description: 'Mealie is an open-source (AGPL-3.0), self-hosted recipe manager, meal planner and shopping-list
+  application built on a FastAPI REST backend and a Vue frontend. Every feature in the UI is driven
+  by the same public REST API: recipe CRUD and import-by-URL scraping, AI-assisted recipe creation,
+  cookbooks, meal plans and mealplan rules, shopping lists and list items with cross-application
+  "extras" key/value pairs, households and groups with multi-purpose labels, food/unit/tool organizers,
+  a public "Explore" surface for unauthenticated browsing of shared content, scheduled webhooks,
+  Apprise-backed event notifications, and admin backup/maintenance operations. The instance publishes
+  its own OpenAPI 3.1 document and interactive Swagger UI at /openapi.json and /docs, authenticates
+  with long-lived bearer API tokens (plus OIDC and LDAP for user login), and shares a uniform pagination,
+  filtering and ordering grammar across nearly every collection endpoint.'
+image: https://avatars.githubusercontent.com/u/92342333?v=4
 url: https://raw.githubusercontent.com/api-evangelist/mealie/refs/heads/main/apis.yml
 x-type: company
 x-source: harvest:health-device-stack
-x-tier: stub
-x-tier-reason: harvest
 specificationVersion: '0.20'
 created: '2026-08-27'
 modified: '2026-08-27'
 tags:
 - Company
-apis: []
+- Recipes
+- Food
+- Meal Planning
+- Shopping Lists
+- Self-Hosted
+- Open Source
+- Household
+- Nutrition
+- Home Automation
+apis:
+- name: Mealie API
+  description: The Mealie REST API — 264 operations across 180 paths covering recipes, cookbooks,
+    meal plans, shopping lists, households, groups, organizers, users, webhooks, event notifications
+    and admin maintenance. Served by every Mealie instance from its own host; the project operates
+    a public demo instance whose OpenAPI document is the harvested contract here.
+  humanURL: https://docs.mealie.io/documentation/getting-started/api-usage/
+  baseURL: https://demo.mealie.io/api
+  tags:
+  - Recipes
+  - Meal Planning
+  - Shopping Lists
+  - Households
+  properties:
+  - type: OpenAPI
+    url: openapi/mealie-openapi.json
+  - type: Documentation
+    url: https://docs.mealie.io/documentation/getting-started/api-usage/
+  - type: APIReference
+    url: https://demo.mealie.io/docs
+  - type: Overlay
+    url: overlays/mealie-openapi-overlay.yaml
+  - type: Authentication
+    url: authentication/mealie-authentication.yml
+  - type: OAuthScopes
+    url: scopes/mealie-scopes.yml
+  - type: ErrorCatalog
+    url: errors/mealie-problem-types.yml
+  - type: DataModel
+    url: data-model/mealie-data-model.yml
+  - type: Conventions
+    url: conventions/mealie-conventions.yml
+  - type: RateLimits
+    url: rate-limits/mealie-rate-limits.yml
+  - type: Webhooks
+    url: asyncapi/mealie-events.yml
+  - type: Conformance
+    url: conformance/mealie-conformance.yml
+  - type: Lifecycle
+    url: lifecycle/mealie-lifecycle.yml
+  - type: Sandbox
+    url: sandbox/mealie-sandbox.yml
+  x-base-url-note: 'repair-api-bases.py returns `no-usable-base` for Mealie and it is right to flag
+    it: demo.mealie.io is a demonstration host, not production. There IS no production host. Mealie
+    is AGPL-3.0 self-hosted software, so the real base is templated — the docs say http(s)://<your-mealie-site>/api
+    — and the only host the project itself operates and points integrators at is the public demo
+    ("see the example at the Demo Site", https://docs.mealie.io/documentation/getting-started/api-usage/).
+    baseURL is therefore recorded as https://demo.mealie.io/api: a real, reachable, provider-operated
+    host that serves the harvested contract. The templated form https://{host}/api is carried in
+    overlays/mealie-openapi-overlay.yaml, because the harvested spec declares no servers[] at all.'
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
@@ -21,3 +86,46 @@ maintainers:
 common:
 - type: Website
   url: https://mealie.io
+- type: DeveloperPortal
+  url: https://docs.mealie.io
+- type: Documentation
+  url: https://docs.mealie.io
+- type: APIReference
+  url: https://demo.mealie.io/docs
+- type: GettingStarted
+  url: https://docs.mealie.io/documentation/getting-started/introduction/
+- type: Support
+  url: https://github.com/mealie-recipes/mealie/discussions
+- type: GitHubOrganization
+  url: https://github.com/mealie-recipes
+- type: SourceCode
+  url: https://github.com/mealie-recipes/mealie
+- type: Roadmap
+  url: https://docs.mealie.io/documentation/getting-started/roadmap/
+- type: Sandbox
+  url: https://demo.mealie.io
+- type: ChangeLog
+  url: changelog/mealie-changelog.yml
+- type: Releases
+  url: https://github.com/mealie-recipes/mealie/releases
+- type: Security
+  url: security/mealie-vulnerability-disclosure.yml
+- type: VulnerabilityDisclosure
+  url: security/mealie-vulnerability-disclosure.yml
+- type: DomainSecurity
+  url: security/mealie-domain-security.yml
+- type: Packages
+  url: packages/mealie-packages.yml
+- type: Plans
+  url: plans/mealie-plans-pricing.yml
+- type: LLMsTxt
+  url: llms/mealie-llms.txt
+- type: AgentSkill
+  url: skills/_index.yml
+- type: License
+  url: https://github.com/mealie-recipes/mealie/blob/mealie-next/LICENSE
+x-enrichment:
+  date: '2026-08-27'
+  status: enriched
+  artifacts_added: 24
+  pass: local-v1

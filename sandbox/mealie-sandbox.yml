@@ -1,0 +1,56 @@
+generated: '2026-08-27'
+method: probed
+source: https://demo.mealie.io
+docs: https://docs.mealie.io/documentation/getting-started/api-usage/
+summary: >-
+  Mealie operates a public demo instance that anyone can call without registering, and
+  a nightly instance running the mealie-next branch. There is no test-vs-live key
+  concept — Mealie is self-hosted, so the operator's own instance IS the sandbox, and
+  the project's demo is simply another instance with the data reset periodically.
+environments:
+- name: demo
+  url: https://demo.mealie.io
+  interactive_docs: https://demo.mealie.io/docs
+  openapi: https://demo.mealie.io/openapi.json
+  version_reported: nightly
+  http_status_probed: 200
+  reset: Data is periodically reset by the project.
+  note: >-
+    Linked from mealie.io as "Live demo" and from the OpenAPI info.description as the
+    Demo. Credentials for the demo UI are shown on its own login screen; this profile
+    does not reproduce them because they are rotated by the project rather than
+    published as fixed documentation values.
+- name: nightly
+  url: https://nightly.mealie.io
+  version_reported: mealie-next branch build
+  note: Pre-release instance; behaviour may differ from the latest tagged release.
+- name: self-hosted
+  url: null
+  note: >-
+    The documented path for developers is to run a local instance and use its own
+    interactive docs at http(s)://<your-mealie-site>/docs.
+  docs: https://docs.mealie.io/contributors/developers-guide/starting-dev-server/
+dry_run_operations:
+- operationId: test_parse_recipe_url_api_recipes_test_scrape_url_post
+  path: POST /api/recipes/test-scrape-url
+  note: Scrape and return a recipe from a URL without persisting it.
+- operationId: test_one_api_households_webhooks__item_id__test_post
+  path: POST /api/households/webhooks/{item_id}/test
+  note: Fire a configured webhook once against its real destination.
+- operationId: test_notification_api_households_events_notifications__item_id__test_post
+  path: POST /api/households/events/notifications/{item_id}/test
+  note: Send a test event notification through the configured Apprise URL.
+test_credentials: []
+test_data:
+  seeders:
+    note: >-
+      Mealie ships seed data (foods, units, labels) that an instance can load through
+      the Groups: Seeders endpoints, which is the closest thing to a fixture library.
+  operations:
+  - seed_foods_api_groups_seeders_foods_post
+  - seed_labels_api_groups_seeders_labels_post
+  - seed_units_api_groups_seeders_units_post
+not_applicable:
+  test_cards: Mealie handles no payments.
+  test_clocks: No time simulation surface.
+  key_prefixes: Mealie tokens carry no live/test prefix.

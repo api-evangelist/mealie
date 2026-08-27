@@ -1,0 +1,39 @@
+generated: '2026-08-27'
+method: searched
+source: https://docs.mealie.io/documentation/getting-started/authentication/oidc-v2/
+docs: https://docs.mealie.io/documentation/getting-started/authentication/oidc-v2/
+spec_source: openapi/mealie-openapi.json
+summary:
+  spec_declared_scopes: 0
+  note: >-
+    The OpenAPI document declares one OAuth2 password flow with an EMPTY scopes
+    object — Mealie does not issue scoped access tokens, and an API token carries
+    the full permission set of the user who minted it. The scopes recorded below are
+    the scopes Mealie requests FROM an external identity provider when it is
+    configured as an OIDC relying party; they govern login and group mapping, not
+    API authorization. Authorization inside the API is by per-user permission flags
+    (see authentication/mealie-authentication.yml).
+schemes:
+- name: OAuth2PasswordBearer
+  source: openapi/mealie-openapi.json
+  flows:
+  - flow: password
+    tokenUrl: /api/auth/token
+scopes: []
+oidc_relying_party_scopes:
+- scope: openid
+  required: true
+  description: Required by OIDC; identifies the authentication request.
+- scope: profile
+  required: true
+  description: Supplies the display name / username claims used to provision the Mealie user.
+- scope: email
+  required: true
+  description: >-
+    Supplies the email claim used to link the IdP identity to a Mealie account, and
+    the email_verified claim Mealie requires from v3.21.0 onward.
+- scope: groups
+  required: false
+  description: >-
+    Only when group-based access is configured; the actual scope name is whatever
+    the OIDC_GROUPS_CLAIM environment variable names.

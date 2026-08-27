@@ -1,0 +1,199 @@
+generated: '2026-08-27'
+method: derived
+source: openapi/mealie-openapi.json
+summary:
+  schemas_in_spec: 248
+  schemas_with_an_id: 78
+  entity_families: 46
+  id_format: uuid4 (except Recipe, Category, Tag and Tool, which are also addressable by a URL slug)
+  note: >-
+    Derived by walking $ref edges and `<name>Id` reference fields in the Mealie
+    OpenAPI document. Mealie has no id-prefix scheme (no `re_`/`cus_` style
+    prefixes) — every identifier is a bare UUIDv4, so an id alone does not tell an
+    agent what kind of object it points at. Tenancy is three levels deep: Group ->
+    Household -> User, and almost every object carries groupId and householdId.
+tenancy:
+  levels:
+  - Group
+  - Household
+  - User
+  note: >-
+    A Group is the outer tenant. Households partition a group (v2+); most
+    user-facing objects — shopping lists, meal plans, cookbooks, webhooks, event
+    notifiers — belong to a household inside a group. Organizer data (categories,
+    tags, tools, foods, units, labels) is group-scoped and shared across households.
+entities:
+- name: Group
+  schemas: [GroupSummary, GroupInDB, GroupBase]
+  addressable_by: [id, slug]
+  relationships:
+  - has_many: Household
+    via: households
+  - has_many: User
+    via: users
+  - has_many: Category
+    via: categories
+  - has_many: Webhook
+    via: webhooks
+  - has_one: GroupPreferences
+    via: preferences
+- name: Household
+  schemas: [HouseholdSummary, HouseholdInDB, HouseholdCreate]
+  addressable_by: [id, slug]
+  relationships:
+  - belongs_to: Group
+    via: groupId
+  - has_many: User
+    via: users
+  - has_many: Webhook
+    via: webhooks
+  - has_one: HouseholdPreferences
+    via: preferences
+- name: User
+  schemas: [UserOut, UserIn, UserSummary]
+  relationships:
+  - belongs_to: Group
+    via: groupId
+  - belongs_to: Household
+    via: householdId
+  - has_many: LongLiveTokenOut
+    via: tokens
+  - has_many: UserRatingOut
+    via: ratings
+- name: Recipe
+  schemas: [Recipe, RecipeSummary]
+  addressable_by: [id, slug]
+  relationships:
+  - belongs_to: Group
+    via: groupId
+  - belongs_to: Household
+    via: householdId
+  - belongs_to: User
+    via: userId
+  - has_many: RecipeCategory
+    via: recipeCategory
+  - has_many: RecipeTag
+    via: tags
+  - has_many: RecipeTool
+    via: tools
+  - has_many: RecipeIngredient
+    via: recipeIngredient
+  - has_many: RecipeStep
+    via: recipeInstructions
+  - has_one: Nutrition
+    via: nutrition
+  - has_one: RecipeSettings
+    via: settings
+  - has_many: RecipeAsset
+    via: assets
+  - has_many: RecipeCommentOut
+    via: comments
+  extras:
+    field: extras
+    shape: free-form JSON key/value map
+    purpose: >-
+      Documented cross-application escape hatch — third-party integrations store
+      their own identifiers here (e.g. {"trello_list_id": "..."}) and read them back
+      from webhook payloads.
+    docs: https://docs.mealie.io/documentation/getting-started/api-usage/
+- name: RecipeIngredient
+  relationships:
+  - has_one: IngredientFood
+    via: food
+  - has_one: IngredientUnit
+    via: unit
+- name: IngredientFood
+  relationships:
+  - belongs_to: MultiPurposeLabel
+    via: labelId
+  extras:
+    field: extras
+    purpose: 'Per-food integration flags (e.g. {"trello_exclude_food": "true"}).'
+- name: IngredientUnit
+  relationships: []
+- name: MultiPurposeLabel
+  relationships:
+  - belongs_to: Group
+    via: groupId
+- name: ShoppingListOut
+  addressable_by: [id]
+  relationships:
+  - belongs_to: Group
+    via: groupId
+  - belongs_to: Household
+    via: householdId
+  - has_many: ShoppingListItemOut
+    via: listItems
+  - has_many: ShoppingListRecipeRefOut
+    via: recipeReferences
+  extras:
+    field: extras
+    purpose: Integration state for external list managers (Todoist, Trello, ...).
+- name: ShoppingListItemOut
+  relationships:
+  - belongs_to: ShoppingListOut
+    via: shoppingListId
+  - belongs_to: IngredientFood
+    via: foodId
+  - belongs_to: IngredientUnit
+    via: unitId
+  - belongs_to: MultiPurposeLabel
+    via: labelId
+- name: PlanEntry
+  description: A single meal-plan entry (one recipe or note on one date).
+  relationships:
+  - belongs_to: Group
+    via: groupId
+  - belongs_to: Household
+    via: householdId
+  - belongs_to: User
+    via: userId
+  - belongs_to: Recipe
+    via: recipeId
+- name: PlanRules
+  description: Rules that drive random meal-plan generation.
+  relationships:
+  - belongs_to: Group
+    via: groupId
+  - belongs_to: Household
+    via: householdId
+- name: ReadCookBook
+  relationships:
+  - belongs_to: Group
+    via: groupId
+  - belongs_to: Household
+    via: householdId
+  - has_many: RecipeSummary
+    via: recipes
+- name: ReadWebhook
+  relationships:
+  - belongs_to: Group
+    via: groupId
+  - belongs_to: Household
+    via: householdId
+  fields:
+    webhookType: enum [mealplan]
+    scheduledTime: time
+    enabled: boolean
+- name: GroupEventNotifierOut
+  description: Apprise-backed event notifier.
+  relationships:
+  - belongs_to: Group
+    via: groupId
+  - belongs_to: Household
+    via: householdId
+  - has_one: GroupEventNotifierOptionsOut
+    via: options
+- name: RecipeTimelineEventOut
+  relationships:
+  - belongs_to: Recipe
+    via: recipeId
+  - belongs_to: User
+    via: userId
+- name: GroupRecipeActionOut
+  description: User-defined link/post action rendered on a recipe page.
+  relationships:
+  - belongs_to: Group
+    via: groupId
+  - belongs_to: Household
+    via: householdId

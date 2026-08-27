@@ -1,0 +1,195 @@
+generated: '2026-08-27'
+method: searched
+source: https://docs.mealie.io/documentation/getting-started/api-usage/
+docs: https://docs.mealie.io/documentation/getting-started/api-usage/
+spec_source: openapi/mealie-openapi.json
+authentication:
+  style: bearer token
+  header: 'Authorization: Bearer <token>'
+  token_source: long-lived API token minted at /user/profile/api-tokens
+  scopes: none — a token carries the full permission set of the user who minted it
+  see: authentication/mealie-authentication.yml
+base_path:
+  prefix: /api
+  note: >-
+    Every operation is mounted under /api on the instance host. Mealie is
+    self-hosted, so the host is whatever the operator runs; the project's public
+    demo instance is https://demo.mealie.io.
+pagination:
+  style: page-number
+  request_params:
+  - name: page
+    type: integer
+    default: 1
+    note: 'page = -1 fetches the last page.'
+  - name: perPage
+    type: integer
+    default: 50
+    note: 'perPage = -1 disables pagination and returns all results.'
+  response_fields:
+  - page
+  - per_page
+  - total
+  - total_pages
+  - items
+  - next
+  - previous
+  note: >-
+    `next` and `previous` are relative paths WITHOUT the base URL (e.g.
+    "/recipes?page=3&per_page=5&order_by=name&order_direction=asc") — a client must
+    prepend its own base URL before following them.
+  case_inconsistency: >-
+    Request parameters are camelCase (perPage, orderBy) while the response envelope
+    is snake_case (per_page, total_pages). This is a real trap for generated clients.
+filtering:
+  param: queryFilter
+  grammar: SQL-like expression string
+  operators: ['=', '<>', '>', '>=', '<', '<=', LIKE, NOT LIKE, IN, NOT IN, IS NULL, IS NOT NULL, CONTAINS ALL, AND, OR]
+  grouping: parentheses
+  literals: string/date/datetime literals should be double-quoted
+  nested_properties: 'dotted paths across relationships (e.g. user.username = "chef", recipe.createdAt >= "2023-02-25")'
+  placeholders:
+  - token: $NOW
+    offsets: '+ and - with intervals y (years), m (months), d (days), H (hours), M (minutes), S (seconds); case sensitive'
+    example: 'lastMade <= "$NOW-30d"'
+  date_parsing: Python dateutil parser — accepts many date/datetime formats.
+  examples:
+  - 'name = "Pasta Fagioli"'
+  - 'createdAt >= "2021-02-22"'
+  - 'foodId IS NULL'
+  - 'name NOT LIKE "Test%"'
+  - 'slug IN ["pasta-fagioli", "delicious-ramen"]'
+  - 'tags.name CONTAINS ALL ["Easy", "Cajun"]'
+  - '(updatedAt > "2022-07-17T15:47:00Z" AND updatedAt < "2022-07-17T15:50:00Z") AND name <> "Pasta Fagioli"'
+ordering:
+  params:
+  - orderBy
+  - orderDirection
+  - orderByNullPosition
+  multi_sort: 'comma-separated attribute list, applied sequentially (e.g. "lastMade, createdAt")'
+field_expansion:
+  supported: false
+  note: >-
+    No sparse-fieldset or expand parameter. Collection endpoints return a summary
+    projection (e.g. RecipeSummary) and the single-object endpoint returns the full
+    object; that is the only granularity control.
+metadata:
+  mechanism: extras
+  applies_to: [Recipe, ShoppingList, ShoppingListItem, IngredientFood]
+  shape: free-form JSON key/value map
+  purpose: >-
+    Mealie's documented integration escape hatch. Third-party systems store their own
+    identifiers on Mealie objects and read them back — the docs' worked example keeps
+    a Trello list in sync via {"trello_list_id": "..."} on the shopping list and
+    {"trello_card_id": "..."} on items.
+  docs: https://docs.mealie.io/documentation/getting-started/api-usage/
+request_id_tracing:
+  supported: false
+  note: No request-id/correlation-id header is documented or present in the contract.
+versioning:
+  api_version_in_path: false
+  scheme: >-
+    The API is unversioned; it moves with the application release. Application
+    releases are semver-tagged on GitHub (v3.24.0 at time of writing) and the demo
+    instance reports info.version "nightly".
+  see: lifecycle/mealie-lifecycle.yml
+error_envelope:
+  see: errors/mealie-problem-types.yml
+  declared_codes: ['422']
+  rfc9457: false
+rate_limit_signaling:
+  headers: []
+  status_on_exhaustion: null
+  note: >-
+    Mealie ships no rate limiting and returns no rate-limit headers. The security
+    docs state this explicitly and tell operators to add limits at a reverse proxy,
+    which means the runtime signal an agent sees is whatever that proxy emits, not
+    something Mealie defines.
+  see: rate-limits/mealie-rate-limits.yml
+idempotency:
+  supported: false
+  header: null
+  note: >-
+    No Idempotency-Key header, no idempotency semantics anywhere in the contract or
+    the docs. Retrying POST /api/recipes or POST /api/households/shopping/lists
+    creates a duplicate. PUT and PATCH operations are naturally idempotent because
+    they address a specific id or slug; POST creates are not. An agent should treat
+    every POST create as at-most-once and reconcile by slug/name before retrying.
+dry_run_mode:
+  supported: partial
+  operations:
+  - operationId: test_parse_recipe_url_api_recipes_test_scrape_url_post
+    path: POST /api/recipes/test-scrape-url
+    note: Parses a URL and returns the scraped recipe WITHOUT persisting it.
+  - operationId: test_one_api_households_webhooks__item_id__test_post
+    path: POST /api/households/webhooks/{item_id}/test
+    note: Fires a configured webhook once so the operator can verify the destination.
+  - operationId: test_notification_api_households_events_notifications__item_id__test_post
+    path: POST /api/households/events/notifications/{item_id}/test
+    note: Sends a test notification through the configured Apprise URL.
+  general_dry_run: false
+reversibility:
+  grade: documented
+  read_only: false
+  note: >-
+    Mealie is a full write surface, and it has real reversal paths — but the project
+    documents no time window on any of them, so this grades `documented` rather than
+    `verified`. Nothing below asserts a window, because the docs state none.
+  surfaces:
+  - write_operation: create_one_api_recipes_post
+    action: Create a recipe
+    reversal: delete_one_api_recipes__slug__delete
+    reversal_kind: delete
+    window: null
+    window_source: null
+    note: >-
+      Deletion is immediate and permanent — there is no trash, soft-delete or
+      restore endpoint for recipes. The only recovery path is an admin backup.
+  - write_operation: bulk_delete_recipes_api_recipes_bulk_actions_delete_post
+    action: Bulk delete recipes
+    reversal: null
+    reversal_kind: none
+    window: null
+    note: >-
+      No undo. This is the single most destructive operation in the API and an agent
+      should treat it as irreversible outside of a restore from backup.
+  - write_operation: any destructive operation
+    action: Whole-instance state change
+    reversal: import_one_api_admin_backups__file_name__restore_post
+    reversal_kind: restore-from-backup
+    window: >-
+      Bounded by the operator's backup retention, which Mealie does not define — it
+      is an instance setting, not a service guarantee.
+    window_source: https://docs.mealie.io/documentation/getting-started/usage/backups-and-restoring/
+    note: >-
+      Admin-only, and it restores the ENTIRE database, not one object. Reversing one
+      mistaken delete this way also reverts every other change made since the backup.
+  - write_operation: update_one_api_recipes__slug__put
+    action: Update a recipe
+    reversal: null
+    reversal_kind: none
+    window: null
+    note: >-
+      No version history or revert endpoint for recipe content. The recipe timeline
+      (RecipeTimelineEventOut) records that a change happened but does not store the
+      prior document, so it cannot be replayed backwards.
+  - write_operation: add_recipe_ingredients_to_list_api_households_shopping_lists__item_id__recipe_post
+    action: Add a recipe's ingredients to a shopping list
+    reversal: remove_recipe_ingredients_from_list_api_households_shopping_lists__item_id__recipe__recipe_id__delete_post
+    reversal_kind: reverse
+    window: null
+    note: >-
+      A genuine paired reverse operation — the cleanest reversibility story in the
+      API. No stated window.
+  - write_operation: create_api_token_api_users_api_tokens_post
+    action: Mint a long-lived API token
+    reversal: delete_api_token_api_users_api_tokens__token_id__delete
+    reversal_kind: revoke
+    window: null
+    note: Revocation is immediate.
+cross_links:
+  errors: errors/mealie-problem-types.yml
+  lifecycle: lifecycle/mealie-lifecycle.yml
+  authentication: authentication/mealie-authentication.yml
+  rate_limits: rate-limits/mealie-rate-limits.yml
+  data_model: data-model/mealie-data-model.yml

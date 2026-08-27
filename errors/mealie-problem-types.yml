@@ -1,0 +1,96 @@
+generated: '2026-08-27'
+method: derived
+source: openapi/mealie-openapi.json
+docs: https://docs.mealie.io/documentation/getting-started/api-usage/
+format: fastapi-detail
+rfc9457: false
+summary:
+  declared_error_responses: 256
+  declared_error_status_codes:
+  - '422'
+  note: >-
+    Mealie's OpenAPI document declares exactly one error response shape and one
+    error status code: 422 Unprocessable Entity carrying FastAPI's
+    HTTPValidationError. Every other failure mode the API can return — 401, 403,
+    404, 409, 500 — is raised at runtime by FastAPI/Starlette and is NOT declared in
+    the contract, so an agent reading the spec alone cannot anticipate them. The
+    entries below marked `declared: false` are documented behaviour of the framework
+    Mealie runs on and of Mealie's own error helper, not invented codes; they are
+    recorded so a client knows to handle them, and flagged as an undeclared gap.
+envelope:
+  content_type: application/json
+  declared_shape:
+    detail:
+    - loc: [array of string|integer]
+      msg: string
+      type: string
+      input: any
+      ctx: object
+  runtime_shape:
+    detail: 'string, or an object of the form {message, error, exception}'
+  note: >-
+    The 422 body nests an array under `detail`. Non-validation errors raised through
+    Mealie's ErrorResponse helper put an object under `detail` with `message`,
+    `error` and `exception` keys, so `detail` is polymorphic — clients must type-check
+    it before indexing.
+problem_types:
+- code: '422'
+  title: Validation Error
+  declared: true
+  schema: HTTPValidationError
+  occurrences: 256
+  meaning: Request body, query or path parameters failed Pydantic validation.
+  remediation: >-
+    Read detail[].loc to find the offending field path and detail[].msg for the
+    reason. Do not retry unchanged.
+  retryable: false
+- code: '401'
+  title: Not authenticated
+  declared: false
+  meaning: Missing, malformed or expired bearer token.
+  remediation: >-
+    Mint a new long-lived token at /user/profile/api-tokens, or refresh via
+    POST /api/auth/refresh.
+  retryable: false
+- code: '403'
+  title: Forbidden
+  declared: false
+  meaning: >-
+    Authenticated but the user lacks the required permission flag (Administrator,
+    Manage group, Organize group data, Invite) or the object belongs to another
+    group/household.
+  remediation: Have an administrator grant the permission, or act as a user in the owning household.
+  retryable: false
+- code: '404'
+  title: Not found
+  declared: false
+  meaning: >-
+    No object with that id or slug is visible to the caller. Mealie also returns 404
+    rather than 403 for private group/household/recipe content reached without
+    access.
+  remediation: Confirm the id/slug and the caller's group and household scope.
+  retryable: false
+- code: '409'
+  title: Conflict
+  declared: false
+  meaning: Uniqueness violation — most commonly a duplicate recipe name/slug within a group.
+  remediation: Change the name, or fetch the existing object by slug instead of creating it.
+  retryable: false
+- code: '500'
+  title: Internal server error
+  declared: false
+  meaning: >-
+    Unhandled failure. On the scraping endpoints (/api/recipes/create/url,
+    /api/recipes/create/ai, /api/recipes/{slug}/image) this frequently means the
+    remote site could not be fetched or parsed rather than a Mealie fault.
+  remediation: Retry with backoff; check the instance logs.
+  retryable: true
+gaps:
+- >-
+  No RFC 9457 application/problem+json media type anywhere in the contract.
+- >-
+  No stable machine-readable error code vocabulary — errors are identified only by
+  HTTP status plus a human-readable message string.
+- >-
+  Only 422 is declared in the OpenAPI document; 401/403/404/409/500 are undeclared,
+  so generated clients have no typed handling for them.

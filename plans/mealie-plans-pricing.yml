@@ -1,0 +1,27 @@
+generated: '2026-08-27'
+method: searched
+source: https://github.com/mealie-recipes/mealie
+docs: https://docs.mealie.io/documentation/getting-started/introduction/
+plan_count: 0
+plans: []
+model: open-source, self-hosted, no commercial plans
+license: AGPL-3.0
+note: >-
+  Mealie publishes no pricing page and sells no plans — there is nothing gated. It is
+  AGPL-3.0 licensed software the user runs on their own hardware, distributed as a
+  container image from ghcr.io/mealie-recipes/mealie. mealie.io/pricing, /terms and
+  /privacy all return 404; mealie.io itself is a marketing page carrying an "under
+  construction" banner. There is no hosted tier, no API key sold by the project, and
+  therefore no quota, overage or per-tier limit to record. Funding is via GitHub
+  Sponsors to the original maintainer (.github/FUNDING.yml names hay-kot). This is a
+  genuine plan_count: 0 for a company that has no commercial offering, not a gap in
+  our search.
+evidence:
+- url: https://mealie.io/pricing
+  status: 404
+- url: https://mealie.io/terms
+  status: 404
+- url: https://mealie.io/privacy
+  status: 404
+- url: https://raw.githubusercontent.com/mealie-recipes/mealie/mealie-next/.github/FUNDING.yml
+  status: 200

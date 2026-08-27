@@ -1,0 +1,134 @@
+generated: '2026-08-27'
+method: probed
+source: live HTTP probes 2026-08-27
+summary:
+  documents_found: 0
+  note: >-
+    No /.well-known document is served by any Mealie host. mealie.io and
+    docs.mealie.io return a real 404 for every path probed. demo.mealie.io returns
+    HTTP 200 with the Vue single-page-application shell for every /.well-known/*
+    path — that is an SPA catch-all, not a document, and it is confirmed as
+    deliberate by the project's own release notes ("fix: return HTTP 200 for SPA
+    fallback responses", v3.24.0, 2026-08-24). Every 200 below is therefore recorded
+    as a miss. No WellKnown or SecurityTxt pointer is emitted from this probe.
+hosts:
+- host: mealie.io
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+    file: null
+  - path: /.well-known/openid-configuration
+    status: 404
+    file: null
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+    file: null
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+    file: null
+  - path: /.well-known/api-catalog
+    status: 404
+    file: null
+  - path: /.well-known/ai-plugin.json
+    status: 404
+    file: null
+  - path: /.well-known/agent-card.json
+    status: 404
+    file: null
+  - path: /.well-known/agent.json
+    status: 404
+    file: null
+  - path: /llms.txt
+    status: 404
+    file: null
+- host: docs.mealie.io
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+    file: null
+  - path: /.well-known/openid-configuration
+    status: 404
+    file: null
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+    file: null
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+    file: null
+  - path: /.well-known/api-catalog
+    status: 404
+    file: null
+  - path: /.well-known/ai-plugin.json
+    status: 404
+    file: null
+  - path: /.well-known/agent-card.json
+    status: 404
+    file: null
+  - path: /.well-known/agent.json
+    status: 404
+    file: null
+  - path: /llms.txt
+    status: 404
+    file: null
+- host: demo.mealie.io
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    file: null
+    result: miss
+    note: HTML SPA shell (text/html, 15202 bytes) — not a document.
+  - path: /.well-known/openid-configuration
+    status: 200
+    file: null
+    result: miss
+    note: HTML SPA shell — not a document.
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    file: null
+    result: miss
+    note: HTML SPA shell — not a document.
+  - path: /.well-known/oauth-protected-resource
+    status: 200
+    file: null
+    result: miss
+    note: HTML SPA shell — not a document.
+  - path: /.well-known/api-catalog
+    status: 200
+    file: null
+    result: miss
+    note: HTML SPA shell — not a document.
+  - path: /.well-known/ai-plugin.json
+    status: 200
+    file: null
+    result: miss
+    note: HTML SPA shell — not a document.
+  - path: /.well-known/agent-card.json
+    status: 200
+    file: null
+    result: miss
+    note: HTML SPA shell — not a document. No A2A agent card exists.
+  - path: /.well-known/agent.json
+    status: 200
+    file: null
+    result: miss
+    note: HTML SPA shell — not a document.
+  - path: /llms.txt
+    status: 200
+    file: null
+    result: miss
+    note: HTML SPA shell — not a document.
+related_signals:
+- path: /robots.txt
+  hosts: [mealie.io, docs.mealie.io]
+  status: 200
+  finding: >-
+    Both marketing hosts serve the Cloudflare Content Signals Policy preamble
+    verbatim (the search / ai-input / ai-train vocabulary with the EU DSM Article 4
+    reservation-of-rights notice), but declare NO content-signal values of their own.
+    Under the policy's own rule (c), that neither grants nor restricts anything —
+    the boilerplate is present without an actual signal, so it carries no consent
+    information for an agent.
+- path: /robots.txt
+  hosts: [demo.mealie.io]
+  status: 200
+  finding: 'Bare "User-agent: * / Disallow:" — everything allowed.'

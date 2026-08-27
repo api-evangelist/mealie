@@ -1,0 +1,124 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for the Mealie OpenAPI
+  version: 1.0.0
+x-provenance:
+  generated: '2026-08-27'
+  method: generated
+  source: openapi/mealie-openapi.json
+  extends: openapi/mealie-openapi.json
+  note: >-
+    Non-destructive Overlay 1.0.0 capturing this profile's enhancements to the Mealie
+    contract. It adds a servers[] block the original omits, records the undeclared
+    error responses, flags the three endpoints the project's own security docs single
+    out, and marks the destructive operations. The original spec is never mutated.
+actions:
+- target: $
+  description: >-
+    The harvested document declares no servers[]. Mealie is self-hosted, so the host
+    is a variable the operator supplies; the project's public demo instance is the
+    default here.
+  update:
+    servers:
+    - url: https://{host}/api
+      description: A Mealie instance. Mealie is self-hosted — substitute your own host.
+      variables:
+        host:
+          default: demo.mealie.io
+          description: >-
+            The hostname of the Mealie instance. demo.mealie.io is the project's
+            public demonstration instance running the nightly build.
+- target: $.info
+  description: Record the origin of this contract and the fact that it tracks the nightly branch.
+  update:
+    x-harvested-from: https://demo.mealie.io/openapi.json
+    x-harvested-on: '2026-08-27'
+    x-version-channel: nightly
+    x-application-release: v3.24.0
+    x-license: AGPL-3.0
+    x-source-repository: https://github.com/mealie-recipes/mealie
+- target: $.components.securitySchemes
+  description: >-
+    Document the long-lived bearer API token the docs tell integrators to use. It is
+    accepted by the same handler as the password-flow token but is not declared as a
+    scheme in the original document.
+  update:
+    ApiTokenBearer:
+      type: http
+      scheme: bearer
+      description: >-
+        Long-lived API token minted by a user at /user/profile/api-tokens and sent as
+        `Authorization: Bearer <token>`. Carries the full permission set of the user
+        who created it; there are no scopes.
+      x-minted-at: /user/profile/api-tokens
+      x-docs: https://docs.mealie.io/documentation/getting-started/api-usage/
+- target: $.info
+  description: >-
+    Record cross-cutting runtime semantics an agent needs and the contract does not
+    state.
+  update:
+    x-conventions:
+      pagination:
+        request: {page: integer, perPage: 'integer (-1 returns all)'}
+        response: [page, per_page, total, total_pages, items, next, previous]
+        warning: >-
+          Request params are camelCase, the response envelope is snake_case, and
+          next/previous are relative paths without the base URL.
+      filtering:
+        param: queryFilter
+        grammar: SQL-like expression string with AND/OR, parentheses, IN, LIKE, IS NULL, CONTAINS ALL and a $NOW placeholder
+        docs: https://docs.mealie.io/documentation/getting-started/api-usage/
+      idempotency:
+        supported: false
+        warning: No Idempotency-Key. Retrying a POST create produces a duplicate.
+      rate_limiting:
+        supported: false
+        docs: https://docs.mealie.io/documentation/getting-started/installation/security/
+      undeclared_error_statuses: ['401', '403', '404', '409', '500']
+- target: $.paths['/api/recipes/create/url'].post
+  description: The project's own security documentation flags this endpoint for SSRF and DoS.
+  update:
+    x-agent-caution:
+      classes: [ssrf, denial-of-service]
+      consequence: external-fetch
+      source: https://docs.mealie.io/documentation/getting-started/installation/security/
+      note: >-
+        Fetches an arbitrary caller-supplied URL from the server. Mealie recommends
+        strict reverse-proxy rate limits on this path.
+- target: $.paths['/api/recipes/create/ai'].post
+  description: The project's own security documentation flags this endpoint for SSRF, DoS and AI spend.
+  update:
+    x-agent-caution:
+      classes: [ssrf, denial-of-service, cost]
+      consequence: external-fetch-and-billable
+      source: https://docs.mealie.io/documentation/getting-started/installation/security/
+- target: $.paths['/api/recipes/{slug}/image'].post
+  description: The project's own security documentation flags this endpoint for SSRF and DoS.
+  update:
+    x-agent-caution:
+      classes: [ssrf, denial-of-service]
+      consequence: external-fetch
+      source: https://docs.mealie.io/documentation/getting-started/installation/security/
+- target: $.paths['/api/recipes/bulk-actions/delete'].post
+  description: Mark the most destructive operation in the API as irreversible.
+  update:
+    x-agent-caution:
+      classes: [destructive]
+      consequence: irreversible-bulk-delete
+      reversal: none
+      note: >-
+        No undo and no trash. The only recovery is an admin restore of the entire
+        database from a backup, which also reverts every other change since.
+- target: $.paths['/api/recipes/{slug}'].delete
+  description: Mark recipe deletion as irreversible.
+  update:
+    x-agent-caution:
+      classes: [destructive]
+      consequence: irreversible-delete
+      reversal: none
+- target: $.paths['/api/households/shopping/lists/{item_id}/recipe'].post
+  description: Record the paired reverse operation.
+  update:
+    x-reversal:
+      operationId: remove_recipe_ingredients_from_list_api_households_shopping_lists__item_id__recipe__recipe_id__delete_post
+      window: null

@@ -1,0 +1,141 @@
+generated: '2026-08-27'
+method: derived
+source: openapi/mealie-openapi.json
+docs: https://docs.mealie.io/documentation/getting-started/api-usage/
+asyncapi_published: false
+asyncapi_note: Mealie publishes NO AsyncAPI document. Nothing was fabricated here — this file is a catalog
+  of the two real event surfaces the REST contract manages, derived from the OpenAPI document.
+surfaces:
+- name: Scheduled meal-plan webhooks
+  kind: outbound-http-webhook
+  trigger: time-based, not event-based
+  description: 'A webhook is configured with a scheduledTime (a time of day) and Mealie POSTs that day''s
+    meal plan to the configured URL at that time. WebhookType is an enum with exactly ONE member: "mealplan".
+    This is a scheduled digest, not a change-notification stream — there is no signature, no delivery-retry
+    policy, no event id and no replay in the contract.'
+  management_operations:
+  - get_all_api_households_webhooks_get
+  - create_one_api_households_webhooks_post
+  - get_one_api_households_webhooks__item_id__get
+  - update_one_api_households_webhooks__item_id__put
+  - delete_one_api_households_webhooks__item_id__delete
+  - rerun_webhooks_api_households_webhooks_rerun_post
+  - test_one_api_households_webhooks__item_id__test_post
+  config_schema: CreateWebhook / ReadWebhook — {enabled, name, url, webhookType, scheduledTime, groupId,
+    householdId, id}
+  payload: The household's meal plan for the day. Recipe `extras` key/value pairs travel with the payload,
+    which is the documented mechanism for triggering downstream automation.
+  replay: rerun_webhooks_api_households_webhooks_rerun_post re-fires today's scheduled webhooks on demand.
+  security:
+    signing: false
+    shared_secret: false
+    note: No HMAC signature header, no shared secret and no mTLS in the contract. A receiver cannot verify
+      that a POST came from Mealie.
+- name: Event notifications (Apprise)
+  kind: outbound-notification
+  trigger: event-based
+  description: 'Twenty-seven individually toggleable notification triggers per notifier — 25 named domain events across recipes, meal plans, shopping lists, cookbooks, tags, categories, labels, user signup and data import/export/migration, plus a testMessage diagnostic and a webhookTask toggle. Delivery is
+    NOT a raw webhook — it is handed to Apprise, which fans out to 80+ notification backends (Discord,
+    Slack, Matrix, ntfy, email, Home Assistant and so on) via an appriseUrl. That makes it a notification
+    channel rather than an integration event bus: the payload shape is Apprise''s, and a machine consumer
+    receives a formatted message, not a typed domain object.'
+  management_operations:
+  - get_all_api_households_events_notifications_get
+  - create_one_api_households_events_notifications_post
+  - get_one_api_households_events_notifications__item_id__get
+  - update_one_api_households_events_notifications__item_id__put
+  - delete_one_api_households_events_notifications__item_id__delete
+  - test_notification_api_households_events_notifications__item_id__test_post
+  config_schema: GroupEventNotifierCreate {name, appriseUrl} + GroupEventNotifierOptions (26 booleans)
+  event_count: 27
+  events:
+  - name: testMessage
+    category: Diagnostics
+    default_enabled: false
+  - name: webhookTask
+    category: Webhook
+    default_enabled: false
+  - name: recipeCreated
+    category: Recipe
+    default_enabled: false
+  - name: recipeUpdated
+    category: Recipe
+    default_enabled: false
+  - name: recipeDeleted
+    category: Recipe
+    default_enabled: false
+  - name: userSignup
+    category: User
+    default_enabled: false
+  - name: dataMigrations
+    category: Data management
+    default_enabled: false
+  - name: dataExport
+    category: Data management
+    default_enabled: false
+  - name: dataImport
+    category: Data management
+    default_enabled: false
+  - name: mealplanEntryCreated
+    category: Meal plan
+    default_enabled: false
+  - name: mealplanEntryUpdated
+    category: Meal plan
+    default_enabled: false
+  - name: mealplanEntryDeleted
+    category: Meal plan
+    default_enabled: false
+  - name: shoppingListCreated
+    category: Shopping list
+    default_enabled: false
+  - name: shoppingListUpdated
+    category: Shopping list
+    default_enabled: false
+  - name: shoppingListDeleted
+    category: Shopping list
+    default_enabled: false
+  - name: cookbookCreated
+    category: Cookbook
+    default_enabled: false
+  - name: cookbookUpdated
+    category: Cookbook
+    default_enabled: false
+  - name: cookbookDeleted
+    category: Cookbook
+    default_enabled: false
+  - name: tagCreated
+    category: Tag
+    default_enabled: false
+  - name: tagUpdated
+    category: Tag
+    default_enabled: false
+  - name: tagDeleted
+    category: Tag
+    default_enabled: false
+  - name: categoryCreated
+    category: Category
+    default_enabled: false
+  - name: categoryUpdated
+    category: Category
+    default_enabled: false
+  - name: categoryDeleted
+    category: Category
+    default_enabled: false
+  - name: labelCreated
+    category: Label
+    default_enabled: false
+  - name: labelUpdated
+    category: Label
+    default_enabled: false
+  - name: labelDeleted
+    category: Label
+    default_enabled: false
+gaps:
+- No AsyncAPI document, so the event catalog is only discoverable by reading a boolean options schema
+  inside the REST contract.
+- No webhook signature or shared secret — receivers cannot authenticate Mealie.
+- No delivery guarantees, retry policy, event ids or dead-letter surface documented.
+- The event notifications go to Apprise destinations, not to arbitrary HTTP endpoints with a typed
+  JSON body, so they are hard to consume programmatically.
+- WebhookType has exactly one member (mealplan) — the webhook surface cannot notify on recipe or shopping-list
+  change even though the notification surface can.
