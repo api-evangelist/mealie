@@ -10,6 +10,17 @@ description: 'Mealie is an open-source (AGPL-3.0), self-hosted recipe manager, m
   its own OpenAPI 3.1 document and interactive Swagger UI at /openapi.json and /docs, authenticates
   with long-lived bearer API tokens (plus OIDC and LDAP for user login), and shares a uniform pagination,
   filtering and ordering grammar across nearly every collection endpoint.'
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: false
+  label: Hosted service · you call their endpoint
+  confidence: medium
+  source:
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 image: https://avatars.githubusercontent.com/u/92342333?v=4
 url: https://raw.githubusercontent.com/api-evangelist/mealie/refs/heads/main/apis.yml
 x-type: company
@@ -1986,6 +1997,9 @@ maintainers:
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: CapabilityMap
+  url: capabilities/mealie-capability-edges.yml
+  name: Mealie Business Capability Map
 - type: Overlay
   url: overlays/mealie-openapi-overlay.yaml
 - type: Website
