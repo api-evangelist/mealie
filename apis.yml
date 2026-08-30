@@ -35,6 +35,17 @@ tags:
 - Meal Planning
 - Shopping Lists
 - Self-Hosted
+- Open-Source
+- Household
+- Nutrition
+- Home Automation
+tags_raw:
+- Company
+- Recipes
+- Food
+- Meal Planning
+- Shopping Lists
+- Self-Hosted
 - Open Source
 - Household
 - Nutrition
@@ -216,6 +227,8 @@ apis:
   humanURL: https://docs.mealie.io/documentation/getting-started/api-usage/
   baseURL: https://demo.mealie.io/api
   tags:
+  - Admin - Maintenance
+  tags_raw:
   - 'Admin: Maintenance'
   properties:
   - type: OpenAPI
@@ -1725,6 +1738,8 @@ apis:
   humanURL: https://docs.mealie.io/documentation/getting-started/api-usage/
   baseURL: https://demo.mealie.io/api
   tags:
+  - Users.authentication
+  tags_raw:
   - 'Users: Authentication'
   properties:
   - type: OpenAPI
