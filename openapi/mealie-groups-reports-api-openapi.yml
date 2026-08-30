@@ -1,0 +1,308 @@
+openapi: 3.2.0
+info:
+  title: 'Mealie Groups: Reports API'
+  description: '
+
+    Mealie is a web application for managing your recipes, meal plans, and shopping lists. This is the Restful
+
+    API interactive documentation that can be used to explore the API. If you''re justing getting started with
+
+    the API and want to get started quickly, you can use the
+
+    [API Usage | Mealie Docs](https://docs.mealie.io/documentation/getting-started/api-usage/)
+
+    as a reference for how to get started.
+
+
+
+    If you have any questions or comments about mealie, please use the discord server to talk to the developers or other
+
+    community members. If you''d like to file an issue, please use the
+
+    [GitHub Issue Tracker | Mealie](https://github.com/mealie-recipes/mealie/issues/new/choose)
+
+
+
+    ## Helpful Links
+
+    - [Home Page](https://mealie.io)
+
+    - [Documentation](https://docs.mealie.io)
+
+    - [Discord](https://discord.gg/QuStdQGSGK)
+
+    - [Demo](https://demo.mealie.io)
+
+    '
+  version: nightly
+tags:
+- name: 'Groups: Reports'
+paths:
+  /api/groups/reports:
+    get:
+      tags:
+      - 'Groups: Reports'
+      summary: Get All
+      operationId: get_all_api_groups_reports_get
+      security:
+      - OAuth2PasswordBearer: []
+      parameters:
+      - name: report_type
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - $ref: '#/components/schemas/ReportCategory'
+          - type: 'null'
+          title: Report Type
+      - name: accept-language
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accept-Language
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ReportSummary'
+                title: Response Get All Api Groups Reports Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/groups/reports/{item_id}:
+    get:
+      tags:
+      - 'Groups: Reports'
+      summary: Get One
+      operationId: get_one_api_groups_reports__item_id__get
+      security:
+      - OAuth2PasswordBearer: []
+      parameters:
+      - name: item_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid4
+          title: Item Id
+      - name: accept-language
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accept-Language
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReportOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - 'Groups: Reports'
+      summary: Delete One
+      operationId: delete_one_api_groups_reports__item_id__delete
+      security:
+      - OAuth2PasswordBearer: []
+      parameters:
+      - name: item_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid4
+          title: Item Id
+      - name: accept-language
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accept-Language
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    ReportSummaryStatus:
+      type: string
+      enum:
+      - in-progress
+      - success
+      - failure
+      - partial
+      title: ReportSummaryStatus
+    ReportCategory:
+      type: string
+      enum:
+      - backup
+      - restore
+      - migration
+      - bulk_import
+      title: ReportCategory
+    ReportEntryOut:
+      properties:
+        reportId:
+          type: string
+          format: uuid4
+          title: Reportid
+        timestamp:
+          type: string
+          format: date-time
+          title: Timestamp
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          type: string
+          title: Message
+        exception:
+          type: string
+          title: Exception
+          default: ''
+        id:
+          type: string
+          format: uuid4
+          title: Id
+      type: object
+      required:
+      - reportId
+      - message
+      - id
+      title: ReportEntryOut
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    ReportSummary:
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+          title: Timestamp
+        category:
+          $ref: '#/components/schemas/ReportCategory'
+        groupId:
+          type: string
+          format: uuid4
+          title: Groupid
+        name:
+          type: string
+          title: Name
+        status:
+          $ref: '#/components/schemas/ReportSummaryStatus'
+          default: in-progress
+        id:
+          type: string
+          format: uuid4
+          title: Id
+      type: object
+      required:
+      - category
+      - groupId
+      - name
+      - id
+      title: ReportSummary
+    ReportOut:
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+          title: Timestamp
+        category:
+          $ref: '#/components/schemas/ReportCategory'
+        groupId:
+          type: string
+          format: uuid4
+          title: Groupid
+        name:
+          type: string
+          title: Name
+        status:
+          $ref: '#/components/schemas/ReportSummaryStatus'
+          default: in-progress
+        id:
+          type: string
+          format: uuid4
+          title: Id
+        entries:
+          items:
+            $ref: '#/components/schemas/ReportEntryOut'
+          type: array
+          title: Entries
+          default: []
+      type: object
+      required:
+      - category
+      - groupId
+      - name
+      - id
+      title: ReportOut
+  securitySchemes:
+    OAuth2PasswordBearer:
+      type: oauth2
+      flows:
+        password:
+          scopes: {}
+          tokenUrl: /api/auth/token

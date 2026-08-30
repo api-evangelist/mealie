@@ -1,0 +1,324 @@
+openapi: 3.2.0
+info:
+  title: 'Mealie Explore: Tags API'
+  description: '
+
+    Mealie is a web application for managing your recipes, meal plans, and shopping lists. This is the Restful
+
+    API interactive documentation that can be used to explore the API. If you''re justing getting started with
+
+    the API and want to get started quickly, you can use the
+
+    [API Usage | Mealie Docs](https://docs.mealie.io/documentation/getting-started/api-usage/)
+
+    as a reference for how to get started.
+
+
+
+    If you have any questions or comments about mealie, please use the discord server to talk to the developers or other
+
+    community members. If you''d like to file an issue, please use the
+
+    [GitHub Issue Tracker | Mealie](https://github.com/mealie-recipes/mealie/issues/new/choose)
+
+
+
+    ## Helpful Links
+
+    - [Home Page](https://mealie.io)
+
+    - [Documentation](https://docs.mealie.io)
+
+    - [Discord](https://discord.gg/QuStdQGSGK)
+
+    - [Demo](https://demo.mealie.io)
+
+    '
+  version: nightly
+tags:
+- name: 'Explore: Tags'
+paths:
+  /api/explore/groups/{group_slug}/organizers/tags:
+    get:
+      tags:
+      - 'Explore: Tags'
+      summary: Get All
+      operationId: get_all_api_explore_groups__group_slug__organizers_tags_get
+      parameters:
+      - name: group_slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Group Slug
+      - name: search
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Search
+      - name: orderBy
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Orderby
+      - name: orderByNullPosition
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - $ref: '#/components/schemas/OrderByNullPosition'
+          - type: 'null'
+          title: Orderbynullposition
+      - name: orderDirection
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/OrderDirection'
+          default: desc
+      - name: queryFilter
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Queryfilter
+      - name: paginationSeed
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Paginationseed
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 1
+          title: Page
+      - name: perPage
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 50
+          title: Perpage
+      - name: accept-language
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accept-Language
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginationBase_RecipeTag_'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/explore/groups/{group_slug}/organizers/tags/{item_id}:
+    get:
+      tags:
+      - 'Explore: Tags'
+      summary: Get One
+      operationId: get_one_api_explore_groups__group_slug__organizers_tags__item_id__get
+      parameters:
+      - name: item_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid4
+          title: Item Id
+      - name: group_slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Group Slug
+      - name: accept-language
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accept-Language
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TagOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    TagOut:
+      properties:
+        name:
+          type: string
+          title: Name
+        groupId:
+          type: string
+          format: uuid4
+          title: Groupid
+        id:
+          type: string
+          format: uuid4
+          title: Id
+        slug:
+          type: string
+          title: Slug
+        recipeCount:
+          type: integer
+          title: Recipecount
+          default: 0
+      type: object
+      required:
+      - name
+      - groupId
+      - id
+      - slug
+      title: TagOut
+    PaginationBase_RecipeTag_:
+      properties:
+        page:
+          type: integer
+          title: Page
+          default: 1
+        per_page:
+          type: integer
+          title: Per Page
+          default: 10
+        total:
+          type: integer
+          title: Total
+          default: 0
+        total_pages:
+          type: integer
+          title: Total Pages
+          default: 0
+        items:
+          items:
+            $ref: '#/components/schemas/RecipeTag'
+          type: array
+          title: Items
+        next:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Next
+        previous:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Previous
+      type: object
+      required:
+      - items
+      title: PaginationBase[RecipeTag]
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    OrderDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: OrderDirection
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    RecipeTag:
+      properties:
+        id:
+          anyOf:
+          - type: string
+            format: uuid4
+          - type: 'null'
+          title: Id
+        groupId:
+          anyOf:
+          - type: string
+            format: uuid4
+          - type: 'null'
+          title: Groupid
+        name:
+          type: string
+          title: Name
+        slug:
+          type: string
+          title: Slug
+        recipeCount:
+          type: integer
+          title: Recipecount
+          default: 0
+      type: object
+      required:
+      - name
+      - slug
+      title: RecipeTag
+    OrderByNullPosition:
+      type: string
+      enum:
+      - first
+      - last
+      title: OrderByNullPosition
+  securitySchemes:
+    OAuth2PasswordBearer:
+      type: oauth2
+      flows:
+        password:
+          scopes: {}
+          tokenUrl: /api/auth/token

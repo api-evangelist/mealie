@@ -1,0 +1,331 @@
+openapi: 3.2.0
+info:
+  title: 'Mealie Admin: About API'
+  description: '
+
+    Mealie is a web application for managing your recipes, meal plans, and shopping lists. This is the Restful
+
+    API interactive documentation that can be used to explore the API. If you''re justing getting started with
+
+    the API and want to get started quickly, you can use the
+
+    [API Usage | Mealie Docs](https://docs.mealie.io/documentation/getting-started/api-usage/)
+
+    as a reference for how to get started.
+
+
+
+    If you have any questions or comments about mealie, please use the discord server to talk to the developers or other
+
+    community members. If you''d like to file an issue, please use the
+
+    [GitHub Issue Tracker | Mealie](https://github.com/mealie-recipes/mealie/issues/new/choose)
+
+
+
+    ## Helpful Links
+
+    - [Home Page](https://mealie.io)
+
+    - [Documentation](https://docs.mealie.io)
+
+    - [Discord](https://discord.gg/QuStdQGSGK)
+
+    - [Demo](https://demo.mealie.io)
+
+    '
+  version: nightly
+tags:
+- name: 'Admin: About'
+paths:
+  /api/admin/about:
+    get:
+      tags:
+      - 'Admin: About'
+      summary: Get App Info
+      description: Get general application information
+      operationId: get_app_info_api_admin_about_get
+      security:
+      - OAuth2PasswordBearer: []
+      parameters:
+      - name: accept-language
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accept-Language
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminAboutInfo'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/admin/about/statistics:
+    get:
+      tags:
+      - 'Admin: About'
+      summary: Get App Statistics
+      operationId: get_app_statistics_api_admin_about_statistics_get
+      security:
+      - OAuth2PasswordBearer: []
+      parameters:
+      - name: accept-language
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accept-Language
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppStatistics'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/admin/about/check:
+    get:
+      tags:
+      - 'Admin: About'
+      summary: Check App Config
+      operationId: check_app_config_api_admin_about_check_get
+      security:
+      - OAuth2PasswordBearer: []
+      parameters:
+      - name: accept-language
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accept-Language
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CheckAppConfig'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    AdminAboutInfo:
+      properties:
+        production:
+          type: boolean
+          title: Production
+        version:
+          type: string
+          title: Version
+        demoStatus:
+          type: boolean
+          title: Demostatus
+        allowSignup:
+          type: boolean
+          title: Allowsignup
+        allowPasswordLogin:
+          type: boolean
+          title: Allowpasswordlogin
+        defaultGroupSlug:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Defaultgroupslug
+        defaultHouseholdSlug:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Defaulthouseholdslug
+        enableOidc:
+          type: boolean
+          title: Enableoidc
+        oidcRedirect:
+          type: boolean
+          title: Oidcredirect
+        oidcProviderName:
+          type: string
+          title: Oidcprovidername
+        tokenTime:
+          type: integer
+          title: Tokentime
+        allowedIframeHosts:
+          items:
+            type: string
+          type: array
+          title: Allowediframehosts
+          default: []
+        versionLatest:
+          type: string
+          title: Versionlatest
+        apiPort:
+          type: integer
+          title: Apiport
+        apiDocs:
+          type: boolean
+          title: Apidocs
+        dbType:
+          type: string
+          title: Dbtype
+        dbUrl:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Dburl
+        defaultGroup:
+          type: string
+          title: Defaultgroup
+        defaultHousehold:
+          type: string
+          title: Defaulthousehold
+        buildId:
+          type: string
+          title: Buildid
+        recipeScraperVersion:
+          type: string
+          title: Recipescraperversion
+      type: object
+      required:
+      - production
+      - version
+      - demoStatus
+      - allowSignup
+      - allowPasswordLogin
+      - enableOidc
+      - oidcRedirect
+      - oidcProviderName
+      - tokenTime
+      - versionLatest
+      - apiPort
+      - apiDocs
+      - dbType
+      - defaultGroup
+      - defaultHousehold
+      - buildId
+      - recipeScraperVersion
+      title: AdminAboutInfo
+    CheckAppConfig:
+      properties:
+        emailReady:
+          type: boolean
+          title: Emailready
+        ldapReady:
+          type: boolean
+          title: Ldapready
+        ldapDisabled:
+          type: boolean
+          title: Ldapdisabled
+        oidcReady:
+          type: boolean
+          title: Oidcready
+        oidcDisabled:
+          type: boolean
+          title: Oidcdisabled
+        baseUrlSet:
+          type: boolean
+          title: Baseurlset
+        isUpToDate:
+          type: boolean
+          title: Isuptodate
+      type: object
+      required:
+      - emailReady
+      - ldapReady
+      - ldapDisabled
+      - oidcReady
+      - oidcDisabled
+      - baseUrlSet
+      - isUpToDate
+      title: CheckAppConfig
+    AppStatistics:
+      properties:
+        totalRecipes:
+          type: integer
+          title: Totalrecipes
+        totalUsers:
+          type: integer
+          title: Totalusers
+        totalHouseholds:
+          type: integer
+          title: Totalhouseholds
+        totalGroups:
+          type: integer
+          title: Totalgroups
+        uncategorizedRecipes:
+          type: integer
+          title: Uncategorizedrecipes
+        untaggedRecipes:
+          type: integer
+          title: Untaggedrecipes
+      type: object
+      required:
+      - totalRecipes
+      - totalUsers
+      - totalHouseholds
+      - totalGroups
+      - uncategorizedRecipes
+      - untaggedRecipes
+      title: AppStatistics
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+  securitySchemes:
+    OAuth2PasswordBearer:
+      type: oauth2
+      flows:
+        password:
+          scopes: {}
+          tokenUrl: /api/auth/token

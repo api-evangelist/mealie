@@ -1,0 +1,283 @@
+openapi: 3.2.0
+info:
+  title: 'Mealie Users: Authentication API'
+  description: '
+
+    Mealie is a web application for managing your recipes, meal plans, and shopping lists. This is the Restful
+
+    API interactive documentation that can be used to explore the API. If you''re justing getting started with
+
+    the API and want to get started quickly, you can use the
+
+    [API Usage | Mealie Docs](https://docs.mealie.io/documentation/getting-started/api-usage/)
+
+    as a reference for how to get started.
+
+
+
+    If you have any questions or comments about mealie, please use the discord server to talk to the developers or other
+
+    community members. If you''d like to file an issue, please use the
+
+    [GitHub Issue Tracker | Mealie](https://github.com/mealie-recipes/mealie/issues/new/choose)
+
+
+
+    ## Helpful Links
+
+    - [Home Page](https://mealie.io)
+
+    - [Documentation](https://docs.mealie.io)
+
+    - [Discord](https://discord.gg/QuStdQGSGK)
+
+    - [Demo](https://demo.mealie.io)
+
+    '
+  version: nightly
+tags:
+- name: 'Users: Authentication'
+paths:
+  /api/auth/token:
+    post:
+      tags:
+      - 'Users: Authentication'
+      summary: Get Token
+      operationId: get_token_api_auth_token_post
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Body_get_token_api_auth_token_post'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/auth/oauth:
+    get:
+      tags:
+      - 'Users: Authentication'
+      summary: Oauth Login
+      operationId: oauth_login_api_auth_oauth_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /api/auth/oauth/callback:
+    get:
+      tags:
+      - 'Users: Authentication'
+      summary: Oauth Callback
+      operationId: oauth_callback_api_auth_oauth_callback_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /api/auth/oauth/native/config:
+    get:
+      tags:
+      - 'Users: Authentication'
+      summary: Oauth Native Config
+      description: Return the parameters a native client needs to build its own OIDC authorization request.
+      operationId: oauth_native_config_api_auth_oauth_native_config_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OIDCNativeConfig'
+  /api/auth/oauth/native/token:
+    post:
+      tags:
+      - 'Users: Authentication'
+      summary: Oauth Native Token
+      description: 'Exchange a native client''s authorization code for a Mealie token.
+
+
+        The native client owns PKCE and state, so the exchange happens server-side without a browser
+
+        session cookie. This lets passkey-capable system-browser logins (e.g. Pocket ID) work, which
+
+        the cookie-coupled web callback cannot support.'
+      operationId: oauth_native_token_api_auth_oauth_native_token_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NativeOIDCTokenRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/auth/refresh:
+    post:
+      tags:
+      - 'Users: Authentication'
+      summary: Refresh Token
+      description: 'Exchange a valid session token for a fresh one.
+
+
+        The new token carries over the remember-me choice recorded on the old one, so refreshing doesn''t
+
+        downgrade a remembered session to one that dies with the browser.'
+      operationId: refresh_token_api_auth_refresh_post
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+      security:
+      - OAuth2PasswordBearer: []
+  /api/auth/logout:
+    post:
+      tags:
+      - 'Users: Authentication'
+      summary: Logout
+      operationId: logout_api_auth_logout_post
+      security:
+      - OAuth2PasswordBearer: []
+      parameters:
+      - name: accept-language
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accept-Language
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    Body_get_token_api_auth_token_post:
+      properties:
+        username:
+          type: string
+          title: Username
+          default: ''
+        password:
+          type: string
+          title: Password
+          default: ''
+        remember_me:
+          type: boolean
+          title: Remember Me
+          default: false
+      type: object
+      title: Body_get_token_api_auth_token_post
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    NativeOIDCTokenRequest:
+      properties:
+        code:
+          type: string
+          title: Code
+        code_verifier:
+          type: string
+          title: Code Verifier
+        redirect_uri:
+          type: string
+          title: Redirect Uri
+        nonce:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Nonce
+      type: object
+      required:
+      - code
+      - code_verifier
+      - redirect_uri
+      title: NativeOIDCTokenRequest
+      description: An authorization code captured by a native client, for server-side exchange.
+    OIDCNativeConfig:
+      properties:
+        authorization_endpoint:
+          type: string
+          title: Authorization Endpoint
+        client_id:
+          type: string
+          title: Client Id
+        scope:
+          type: string
+          title: Scope
+      type: object
+      required:
+      - authorization_endpoint
+      - client_id
+      - scope
+      title: OIDCNativeConfig
+      description: Parameters a native client needs to start an OIDC authorization request itself.
+  securitySchemes:
+    OAuth2PasswordBearer:
+      type: oauth2
+      flows:
+        password:
+          scopes: {}
+          tokenUrl: /api/auth/token

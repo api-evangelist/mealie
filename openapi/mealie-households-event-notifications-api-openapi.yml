@@ -1,0 +1,735 @@
+openapi: 3.2.0
+info:
+  title: 'Mealie Households: Event Notifications API'
+  description: '
+
+    Mealie is a web application for managing your recipes, meal plans, and shopping lists. This is the Restful
+
+    API interactive documentation that can be used to explore the API. If you''re justing getting started with
+
+    the API and want to get started quickly, you can use the
+
+    [API Usage | Mealie Docs](https://docs.mealie.io/documentation/getting-started/api-usage/)
+
+    as a reference for how to get started.
+
+
+
+    If you have any questions or comments about mealie, please use the discord server to talk to the developers or other
+
+    community members. If you''d like to file an issue, please use the
+
+    [GitHub Issue Tracker | Mealie](https://github.com/mealie-recipes/mealie/issues/new/choose)
+
+
+
+    ## Helpful Links
+
+    - [Home Page](https://mealie.io)
+
+    - [Documentation](https://docs.mealie.io)
+
+    - [Discord](https://discord.gg/QuStdQGSGK)
+
+    - [Demo](https://demo.mealie.io)
+
+    '
+  version: nightly
+tags:
+- name: 'Households: Event Notifications'
+paths:
+  /api/households/events/notifications:
+    get:
+      tags:
+      - 'Households: Event Notifications'
+      summary: Get All
+      operationId: get_all_api_households_events_notifications_get
+      security:
+      - OAuth2PasswordBearer: []
+      parameters:
+      - name: orderBy
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Orderby
+      - name: orderByNullPosition
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - $ref: '#/components/schemas/OrderByNullPosition'
+          - type: 'null'
+          title: Orderbynullposition
+      - name: orderDirection
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/OrderDirection'
+          default: desc
+      - name: queryFilter
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Queryfilter
+      - name: paginationSeed
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Paginationseed
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 1
+          title: Page
+      - name: perPage
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 50
+          title: Perpage
+      - name: accept-language
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accept-Language
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupEventPagination'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    post:
+      tags:
+      - 'Households: Event Notifications'
+      summary: Create One
+      operationId: create_one_api_households_events_notifications_post
+      security:
+      - OAuth2PasswordBearer: []
+      parameters:
+      - name: accept-language
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accept-Language
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GroupEventNotifierCreate'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupEventNotifierOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/households/events/notifications/{item_id}:
+    get:
+      tags:
+      - 'Households: Event Notifications'
+      summary: Get One
+      operationId: get_one_api_households_events_notifications__item_id__get
+      security:
+      - OAuth2PasswordBearer: []
+      parameters:
+      - name: item_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid4
+          title: Item Id
+      - name: accept-language
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accept-Language
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupEventNotifierOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    put:
+      tags:
+      - 'Households: Event Notifications'
+      summary: Update One
+      operationId: update_one_api_households_events_notifications__item_id__put
+      security:
+      - OAuth2PasswordBearer: []
+      parameters:
+      - name: item_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid4
+          title: Item Id
+      - name: accept-language
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accept-Language
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GroupEventNotifierUpdate'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupEventNotifierOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - 'Households: Event Notifications'
+      summary: Delete One
+      operationId: delete_one_api_households_events_notifications__item_id__delete
+      security:
+      - OAuth2PasswordBearer: []
+      parameters:
+      - name: item_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid4
+          title: Item Id
+      - name: accept-language
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accept-Language
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/households/events/notifications/{item_id}/test:
+    post:
+      tags:
+      - 'Households: Event Notifications'
+      summary: Test Notification
+      operationId: test_notification_api_households_events_notifications__item_id__test_post
+      security:
+      - OAuth2PasswordBearer: []
+      parameters:
+      - name: item_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid4
+          title: Item Id
+      - name: accept-language
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accept-Language
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    GroupEventPagination:
+      properties:
+        page:
+          type: integer
+          title: Page
+          default: 1
+        per_page:
+          type: integer
+          title: Per Page
+          default: 10
+        total:
+          type: integer
+          title: Total
+          default: 0
+        total_pages:
+          type: integer
+          title: Total Pages
+          default: 0
+        items:
+          items:
+            $ref: '#/components/schemas/GroupEventNotifierOut'
+          type: array
+          title: Items
+        next:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Next
+        previous:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Previous
+      type: object
+      required:
+      - items
+      title: GroupEventPagination
+    GroupEventNotifierOptionsOut:
+      properties:
+        testMessage:
+          type: boolean
+          title: Testmessage
+          default: false
+        webhookTask:
+          type: boolean
+          title: Webhooktask
+          default: false
+        recipeCreated:
+          type: boolean
+          title: Recipecreated
+          default: false
+        recipeUpdated:
+          type: boolean
+          title: Recipeupdated
+          default: false
+        recipeDeleted:
+          type: boolean
+          title: Recipedeleted
+          default: false
+        userSignup:
+          type: boolean
+          title: Usersignup
+          default: false
+        dataMigrations:
+          type: boolean
+          title: Datamigrations
+          default: false
+        dataExport:
+          type: boolean
+          title: Dataexport
+          default: false
+        dataImport:
+          type: boolean
+          title: Dataimport
+          default: false
+        mealplanEntryCreated:
+          type: boolean
+          title: Mealplanentrycreated
+          default: false
+        mealplanEntryUpdated:
+          type: boolean
+          title: Mealplanentryupdated
+          default: false
+        mealplanEntryDeleted:
+          type: boolean
+          title: Mealplanentrydeleted
+          default: false
+        shoppingListCreated:
+          type: boolean
+          title: Shoppinglistcreated
+          default: false
+        shoppingListUpdated:
+          type: boolean
+          title: Shoppinglistupdated
+          default: false
+        shoppingListDeleted:
+          type: boolean
+          title: Shoppinglistdeleted
+          default: false
+        cookbookCreated:
+          type: boolean
+          title: Cookbookcreated
+          default: false
+        cookbookUpdated:
+          type: boolean
+          title: Cookbookupdated
+          default: false
+        cookbookDeleted:
+          type: boolean
+          title: Cookbookdeleted
+          default: false
+        tagCreated:
+          type: boolean
+          title: Tagcreated
+          default: false
+        tagUpdated:
+          type: boolean
+          title: Tagupdated
+          default: false
+        tagDeleted:
+          type: boolean
+          title: Tagdeleted
+          default: false
+        categoryCreated:
+          type: boolean
+          title: Categorycreated
+          default: false
+        categoryUpdated:
+          type: boolean
+          title: Categoryupdated
+          default: false
+        categoryDeleted:
+          type: boolean
+          title: Categorydeleted
+          default: false
+        labelCreated:
+          type: boolean
+          title: Labelcreated
+          default: false
+        labelUpdated:
+          type: boolean
+          title: Labelupdated
+          default: false
+        labelDeleted:
+          type: boolean
+          title: Labeldeleted
+          default: false
+        id:
+          type: string
+          format: uuid4
+          title: Id
+      type: object
+      required:
+      - id
+      title: GroupEventNotifierOptionsOut
+    GroupEventNotifierOptions:
+      properties:
+        testMessage:
+          type: boolean
+          title: Testmessage
+          default: false
+        webhookTask:
+          type: boolean
+          title: Webhooktask
+          default: false
+        recipeCreated:
+          type: boolean
+          title: Recipecreated
+          default: false
+        recipeUpdated:
+          type: boolean
+          title: Recipeupdated
+          default: false
+        recipeDeleted:
+          type: boolean
+          title: Recipedeleted
+          default: false
+        userSignup:
+          type: boolean
+          title: Usersignup
+          default: false
+        dataMigrations:
+          type: boolean
+          title: Datamigrations
+          default: false
+        dataExport:
+          type: boolean
+          title: Dataexport
+          default: false
+        dataImport:
+          type: boolean
+          title: Dataimport
+          default: false
+        mealplanEntryCreated:
+          type: boolean
+          title: Mealplanentrycreated
+          default: false
+        mealplanEntryUpdated:
+          type: boolean
+          title: Mealplanentryupdated
+          default: false
+        mealplanEntryDeleted:
+          type: boolean
+          title: Mealplanentrydeleted
+          default: false
+        shoppingListCreated:
+          type: boolean
+          title: Shoppinglistcreated
+          default: false
+        shoppingListUpdated:
+          type: boolean
+          title: Shoppinglistupdated
+          default: false
+        shoppingListDeleted:
+          type: boolean
+          title: Shoppinglistdeleted
+          default: false
+        cookbookCreated:
+          type: boolean
+          title: Cookbookcreated
+          default: false
+        cookbookUpdated:
+          type: boolean
+          title: Cookbookupdated
+          default: false
+        cookbookDeleted:
+          type: boolean
+          title: Cookbookdeleted
+          default: false
+        tagCreated:
+          type: boolean
+          title: Tagcreated
+          default: false
+        tagUpdated:
+          type: boolean
+          title: Tagupdated
+          default: false
+        tagDeleted:
+          type: boolean
+          title: Tagdeleted
+          default: false
+        categoryCreated:
+          type: boolean
+          title: Categorycreated
+          default: false
+        categoryUpdated:
+          type: boolean
+          title: Categoryupdated
+          default: false
+        categoryDeleted:
+          type: boolean
+          title: Categorydeleted
+          default: false
+        labelCreated:
+          type: boolean
+          title: Labelcreated
+          default: false
+        labelUpdated:
+          type: boolean
+          title: Labelupdated
+          default: false
+        labelDeleted:
+          type: boolean
+          title: Labeldeleted
+          default: false
+      type: object
+      title: GroupEventNotifierOptions
+      description: 'These events are in-sync with the EventTypes found in the EventBusService.
+
+        If you modify this, make sure to update the EventBusService as well.'
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    OrderDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: OrderDirection
+    GroupEventNotifierOut:
+      properties:
+        id:
+          type: string
+          format: uuid4
+          title: Id
+        name:
+          type: string
+          title: Name
+        enabled:
+          type: boolean
+          title: Enabled
+        groupId:
+          type: string
+          format: uuid4
+          title: Groupid
+        householdId:
+          type: string
+          format: uuid4
+          title: Householdid
+        options:
+          $ref: '#/components/schemas/GroupEventNotifierOptionsOut'
+      type: object
+      required:
+      - id
+      - name
+      - enabled
+      - groupId
+      - householdId
+      - options
+      title: GroupEventNotifierOut
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    OrderByNullPosition:
+      type: string
+      enum:
+      - first
+      - last
+      title: OrderByNullPosition
+    GroupEventNotifierCreate:
+      properties:
+        name:
+          type: string
+          title: Name
+        appriseUrl:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Appriseurl
+      type: object
+      required:
+      - name
+      title: GroupEventNotifierCreate
+    GroupEventNotifierUpdate:
+      properties:
+        name:
+          type: string
+          title: Name
+        appriseUrl:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Appriseurl
+        enabled:
+          type: boolean
+          title: Enabled
+          default: true
+        groupId:
+          type: string
+          format: uuid4
+          title: Groupid
+        householdId:
+          type: string
+          format: uuid4
+          title: Householdid
+        options:
+          $ref: '#/components/schemas/GroupEventNotifierOptions'
+          default:
+            testMessage: false
+            webhookTask: false
+            recipeCreated: false
+            recipeUpdated: false
+            recipeDeleted: false
+            userSignup: false
+            dataMigrations: false
+            dataExport: false
+            dataImport: false
+            mealplanEntryCreated: false
+            mealplanEntryUpdated: false
+            mealplanEntryDeleted: false
+            shoppingListCreated: false
+            shoppingListUpdated: false
+            shoppingListDeleted: false
+            cookbookCreated: false
+            cookbookUpdated: false
+            cookbookDeleted: false
+            tagCreated: false
+            tagUpdated: false
+            tagDeleted: false
+            categoryCreated: false
+            categoryUpdated: false
+            categoryDeleted: false
+            labelCreated: false
+            labelUpdated: false
+            labelDeleted: false
+        id:
+          type: string
+          format: uuid4
+          title: Id
+      type: object
+      required:
+      - name
+      - groupId
+      - householdId
+      - id
+      title: GroupEventNotifierUpdate
+  securitySchemes:
+    OAuth2PasswordBearer:
+      type: oauth2
+      flows:
+        password:
+          scopes: {}
+          tokenUrl: /api/auth/token

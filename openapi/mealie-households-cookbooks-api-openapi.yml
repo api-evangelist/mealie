@@ -1,0 +1,620 @@
+openapi: 3.2.0
+info:
+  title: 'Mealie Households: Cookbooks API'
+  description: '
+
+    Mealie is a web application for managing your recipes, meal plans, and shopping lists. This is the Restful
+
+    API interactive documentation that can be used to explore the API. If you''re justing getting started with
+
+    the API and want to get started quickly, you can use the
+
+    [API Usage | Mealie Docs](https://docs.mealie.io/documentation/getting-started/api-usage/)
+
+    as a reference for how to get started.
+
+
+
+    If you have any questions or comments about mealie, please use the discord server to talk to the developers or other
+
+    community members. If you''d like to file an issue, please use the
+
+    [GitHub Issue Tracker | Mealie](https://github.com/mealie-recipes/mealie/issues/new/choose)
+
+
+
+    ## Helpful Links
+
+    - [Home Page](https://mealie.io)
+
+    - [Documentation](https://docs.mealie.io)
+
+    - [Discord](https://discord.gg/QuStdQGSGK)
+
+    - [Demo](https://demo.mealie.io)
+
+    '
+  version: nightly
+tags:
+- name: 'Households: Cookbooks'
+paths:
+  /api/households/cookbooks:
+    get:
+      tags:
+      - 'Households: Cookbooks'
+      summary: Get All
+      operationId: get_all_api_households_cookbooks_get
+      security:
+      - OAuth2PasswordBearer: []
+      parameters:
+      - name: orderBy
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Orderby
+      - name: orderByNullPosition
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - $ref: '#/components/schemas/OrderByNullPosition'
+          - type: 'null'
+          title: Orderbynullposition
+      - name: orderDirection
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/OrderDirection'
+          default: desc
+      - name: queryFilter
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Queryfilter
+      - name: paginationSeed
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Paginationseed
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 1
+          title: Page
+      - name: perPage
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 50
+          title: Perpage
+      - name: accept-language
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accept-Language
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CookBookPagination'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    post:
+      tags:
+      - 'Households: Cookbooks'
+      summary: Create One
+      operationId: create_one_api_households_cookbooks_post
+      security:
+      - OAuth2PasswordBearer: []
+      parameters:
+      - name: accept-language
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accept-Language
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCookBook'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReadCookBook'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    put:
+      tags:
+      - 'Households: Cookbooks'
+      summary: Update Many
+      operationId: update_many_api_households_cookbooks_put
+      security:
+      - OAuth2PasswordBearer: []
+      parameters:
+      - name: accept-language
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accept-Language
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/UpdateCookBook'
+              title: Data
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ReadCookBook'
+                title: Response Update Many Api Households Cookbooks Put
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/households/cookbooks/{item_id}:
+    get:
+      tags:
+      - 'Households: Cookbooks'
+      summary: Get One
+      operationId: get_one_api_households_cookbooks__item_id__get
+      security:
+      - OAuth2PasswordBearer: []
+      parameters:
+      - name: item_id
+        in: path
+        required: true
+        schema:
+          anyOf:
+          - type: string
+            format: uuid4
+          - type: string
+          title: Item Id
+      - name: accept-language
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accept-Language
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReadCookBook'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    put:
+      tags:
+      - 'Households: Cookbooks'
+      summary: Update One
+      operationId: update_one_api_households_cookbooks__item_id__put
+      security:
+      - OAuth2PasswordBearer: []
+      parameters:
+      - name: item_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Item Id
+      - name: accept-language
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accept-Language
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCookBook'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReadCookBook'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - 'Households: Cookbooks'
+      summary: Delete One
+      operationId: delete_one_api_households_cookbooks__item_id__delete
+      security:
+      - OAuth2PasswordBearer: []
+      parameters:
+      - name: item_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Item Id
+      - name: accept-language
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accept-Language
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReadCookBook'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    QueryFilterJSON:
+      properties:
+        parts:
+          items:
+            $ref: '#/components/schemas/QueryFilterJSONPart'
+          type: array
+          title: Parts
+          default: []
+      type: object
+      title: QueryFilterJSON
+    CookBookPagination:
+      properties:
+        page:
+          type: integer
+          title: Page
+          default: 1
+        per_page:
+          type: integer
+          title: Per Page
+          default: 10
+        total:
+          type: integer
+          title: Total
+          default: 0
+        total_pages:
+          type: integer
+          title: Total Pages
+          default: 0
+        items:
+          items:
+            $ref: '#/components/schemas/ReadCookBook'
+          type: array
+          title: Items
+        next:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Next
+        previous:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Previous
+      type: object
+      required:
+      - items
+      title: CookBookPagination
+    CookbookHousehold:
+      properties:
+        id:
+          type: string
+          format: uuid4
+          title: Id
+        name:
+          type: string
+          title: Name
+      type: object
+      required:
+      - id
+      - name
+      title: CookbookHousehold
+    RelationalOperator:
+      type: string
+      enum:
+      - '='
+      - <>
+      - '>'
+      - <
+      - '>='
+      - <=
+      title: RelationalOperator
+    QueryFilterJSONPart:
+      properties:
+        leftParenthesis:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Leftparenthesis
+        rightParenthesis:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Rightparenthesis
+        logicalOperator:
+          anyOf:
+          - $ref: '#/components/schemas/LogicalOperator'
+          - type: 'null'
+        attributeName:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Attributename
+        relationalOperator:
+          anyOf:
+          - $ref: '#/components/schemas/RelationalKeyword'
+          - $ref: '#/components/schemas/RelationalOperator'
+          - type: 'null'
+          title: Relationaloperator
+        value:
+          anyOf:
+          - type: string
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Value
+      type: object
+      title: QueryFilterJSONPart
+    ReadCookBook:
+      properties:
+        name:
+          type: string
+          title: Name
+        description:
+          type: string
+          title: Description
+          default: ''
+        slug:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Slug
+        position:
+          type: integer
+          title: Position
+          default: 1
+        public:
+          type: boolean
+          title: Public
+          default: false
+        queryFilterString:
+          type: string
+          title: Queryfilterstring
+          default: ''
+        groupId:
+          type: string
+          format: uuid4
+          title: Groupid
+        householdId:
+          type: string
+          format: uuid4
+          title: Householdid
+        id:
+          type: string
+          format: uuid4
+          title: Id
+        queryFilter:
+          $ref: '#/components/schemas/QueryFilterJSON'
+        household:
+          anyOf:
+          - $ref: '#/components/schemas/CookbookHousehold'
+          - type: 'null'
+      type: object
+      required:
+      - name
+      - groupId
+      - householdId
+      - id
+      title: ReadCookBook
+    UpdateCookBook:
+      properties:
+        name:
+          type: string
+          title: Name
+        description:
+          type: string
+          title: Description
+          default: ''
+        slug:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Slug
+        position:
+          type: integer
+          title: Position
+          default: 1
+        public:
+          type: boolean
+          title: Public
+          default: false
+        queryFilterString:
+          type: string
+          title: Queryfilterstring
+          default: ''
+        groupId:
+          type: string
+          format: uuid4
+          title: Groupid
+        householdId:
+          type: string
+          format: uuid4
+          title: Householdid
+        id:
+          type: string
+          format: uuid4
+          title: Id
+      type: object
+      required:
+      - name
+      - groupId
+      - householdId
+      - id
+      title: UpdateCookBook
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    RelationalKeyword:
+      type: string
+      enum:
+      - IS
+      - IS NOT
+      - IN
+      - NOT IN
+      - CONTAINS ALL
+      - LIKE
+      - NOT LIKE
+      title: RelationalKeyword
+    CreateCookBook:
+      properties:
+        name:
+          type: string
+          title: Name
+        description:
+          type: string
+          title: Description
+          default: ''
+        slug:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Slug
+        position:
+          type: integer
+          title: Position
+          default: 1
+        public:
+          type: boolean
+          title: Public
+          default: false
+        queryFilterString:
+          type: string
+          title: Queryfilterstring
+          default: ''
+      type: object
+      required:
+      - name
+      title: CreateCookBook
+    OrderDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: OrderDirection
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    OrderByNullPosition:
+      type: string
+      enum:
+      - first
+      - last
+      title: OrderByNullPosition
+    LogicalOperator:
+      type: string
+      enum:
+      - AND
+      - OR
+      title: LogicalOperator
+  securitySchemes:
+    OAuth2PasswordBearer:
+      type: oauth2
+      flows:
+        password:
+          scopes: {}
+          tokenUrl: /api/auth/token

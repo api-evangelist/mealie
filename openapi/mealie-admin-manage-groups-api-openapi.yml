@@ -1,0 +1,684 @@
+openapi: 3.2.0
+info:
+  title: 'Mealie Admin: Manage Groups API'
+  description: '
+
+    Mealie is a web application for managing your recipes, meal plans, and shopping lists. This is the Restful
+
+    API interactive documentation that can be used to explore the API. If you''re justing getting started with
+
+    the API and want to get started quickly, you can use the
+
+    [API Usage | Mealie Docs](https://docs.mealie.io/documentation/getting-started/api-usage/)
+
+    as a reference for how to get started.
+
+
+
+    If you have any questions or comments about mealie, please use the discord server to talk to the developers or other
+
+    community members. If you''d like to file an issue, please use the
+
+    [GitHub Issue Tracker | Mealie](https://github.com/mealie-recipes/mealie/issues/new/choose)
+
+
+
+    ## Helpful Links
+
+    - [Home Page](https://mealie.io)
+
+    - [Documentation](https://docs.mealie.io)
+
+    - [Discord](https://discord.gg/QuStdQGSGK)
+
+    - [Demo](https://demo.mealie.io)
+
+    '
+  version: nightly
+tags:
+- name: 'Admin: Manage Groups'
+paths:
+  /api/admin/groups:
+    get:
+      tags:
+      - 'Admin: Manage Groups'
+      summary: Get All
+      operationId: get_all_api_admin_groups_get
+      security:
+      - OAuth2PasswordBearer: []
+      parameters:
+      - name: orderBy
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Orderby
+      - name: orderByNullPosition
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - $ref: '#/components/schemas/OrderByNullPosition'
+          - type: 'null'
+          title: Orderbynullposition
+      - name: orderDirection
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/OrderDirection'
+          default: desc
+      - name: queryFilter
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Queryfilter
+      - name: paginationSeed
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Paginationseed
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 1
+          title: Page
+      - name: perPage
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 50
+          title: Perpage
+      - name: accept-language
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accept-Language
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupPagination'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    post:
+      tags:
+      - 'Admin: Manage Groups'
+      summary: Create One
+      operationId: create_one_api_admin_groups_post
+      security:
+      - OAuth2PasswordBearer: []
+      parameters:
+      - name: accept-language
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accept-Language
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GroupBase'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupInDB'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/admin/groups/{item_id}:
+    get:
+      tags:
+      - 'Admin: Manage Groups'
+      summary: Get One
+      operationId: get_one_api_admin_groups__item_id__get
+      security:
+      - OAuth2PasswordBearer: []
+      parameters:
+      - name: item_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid4
+          title: Item Id
+      - name: accept-language
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accept-Language
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupInDB'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    put:
+      tags:
+      - 'Admin: Manage Groups'
+      summary: Update One
+      operationId: update_one_api_admin_groups__item_id__put
+      security:
+      - OAuth2PasswordBearer: []
+      parameters:
+      - name: item_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid4
+          title: Item Id
+      - name: accept-language
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accept-Language
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GroupAdminUpdate'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupInDB'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - 'Admin: Manage Groups'
+      summary: Delete One
+      operationId: delete_one_api_admin_groups__item_id__delete
+      security:
+      - OAuth2PasswordBearer: []
+      parameters:
+      - name: item_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid4
+          title: Item Id
+      - name: accept-language
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accept-Language
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupInDB'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    AIProviderSummary:
+      properties:
+        id:
+          type: string
+          format: uuid4
+          title: Id
+        name:
+          type: string
+          title: Name
+      type: object
+      required:
+      - id
+      - name
+      title: AIProviderSummary
+    GroupHouseholdSummary:
+      properties:
+        id:
+          type: string
+          format: uuid4
+          title: Id
+        name:
+          type: string
+          title: Name
+      type: object
+      required:
+      - id
+      - name
+      title: GroupHouseholdSummary
+    ReadWebhook:
+      properties:
+        enabled:
+          type: boolean
+          title: Enabled
+          default: true
+        name:
+          type: string
+          title: Name
+          default: ''
+        url:
+          type: string
+          title: Url
+          default: ''
+        webhookType:
+          $ref: '#/components/schemas/WebhookType'
+          default: mealplan
+        scheduledTime:
+          type: string
+          format: time
+          title: Scheduledtime
+        groupId:
+          type: string
+          format: uuid4
+          title: Groupid
+        householdId:
+          type: string
+          format: uuid4
+          title: Householdid
+        id:
+          type: string
+          format: uuid4
+          title: Id
+      type: object
+      required:
+      - scheduledTime
+      - groupId
+      - householdId
+      - id
+      title: ReadWebhook
+    UserSummary:
+      properties:
+        id:
+          type: string
+          format: uuid4
+          title: Id
+        groupId:
+          type: string
+          format: uuid4
+          title: Groupid
+        householdId:
+          type: string
+          format: uuid4
+          title: Householdid
+        username:
+          type: string
+          title: Username
+        fullName:
+          type: string
+          title: Fullname
+      type: object
+      required:
+      - id
+      - groupId
+      - householdId
+      - username
+      - fullName
+      title: UserSummary
+    UpdateGroupPreferences:
+      properties:
+        privateGroup:
+          type: boolean
+          title: Privategroup
+          default: true
+        showAnnouncements:
+          type: boolean
+          title: Showannouncements
+          default: true
+      type: object
+      title: UpdateGroupPreferences
+    GroupPagination:
+      properties:
+        page:
+          type: integer
+          title: Page
+          default: 1
+        per_page:
+          type: integer
+          title: Per Page
+          default: 10
+        total:
+          type: integer
+          title: Total
+          default: 0
+        total_pages:
+          type: integer
+          title: Total Pages
+          default: 0
+        items:
+          items:
+            $ref: '#/components/schemas/GroupInDB'
+          type: array
+          title: Items
+        next:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Next
+        previous:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Previous
+      type: object
+      required:
+      - items
+      title: GroupPagination
+    GroupInDB:
+      properties:
+        name:
+          type: string
+          title: Name
+        id:
+          type: string
+          format: uuid4
+          title: Id
+        slug:
+          type: string
+          title: Slug
+        categories:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/CategoryBase'
+            type: array
+          - type: 'null'
+          title: Categories
+          default: []
+        webhooks:
+          items:
+            $ref: '#/components/schemas/ReadWebhook'
+          type: array
+          title: Webhooks
+          default: []
+        households:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/GroupHouseholdSummary'
+            type: array
+          - type: 'null'
+          title: Households
+        users:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/UserSummary'
+            type: array
+          - type: 'null'
+          title: Users
+        preferences:
+          anyOf:
+          - $ref: '#/components/schemas/ReadGroupPreferences'
+          - type: 'null'
+        aiProviderSettings:
+          anyOf:
+          - $ref: '#/components/schemas/AIProviderSettingsOut'
+          - type: 'null'
+      type: object
+      required:
+      - name
+      - id
+      - slug
+      title: GroupInDB
+    GroupBase:
+      properties:
+        name:
+          type: string
+          minLength: 1
+          title: Name
+      type: object
+      required:
+      - name
+      title: GroupBase
+    AIProviderSettingsUpdate:
+      properties:
+        defaultProviderId:
+          anyOf:
+          - type: string
+            format: uuid4
+          - type: 'null'
+          title: Defaultproviderid
+        audioProviderId:
+          anyOf:
+          - type: string
+            format: uuid4
+          - type: 'null'
+          title: Audioproviderid
+        imageProviderId:
+          anyOf:
+          - type: string
+            format: uuid4
+          - type: 'null'
+          title: Imageproviderid
+      type: object
+      required:
+      - defaultProviderId
+      - audioProviderId
+      - imageProviderId
+      title: AIProviderSettingsUpdate
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    AIProviderSettingsOut:
+      properties:
+        defaultProviderId:
+          anyOf:
+          - type: string
+            format: uuid4
+          - type: 'null'
+          title: Defaultproviderid
+        audioProviderId:
+          anyOf:
+          - type: string
+            format: uuid4
+          - type: 'null'
+          title: Audioproviderid
+        imageProviderId:
+          anyOf:
+          - type: string
+            format: uuid4
+          - type: 'null'
+          title: Imageproviderid
+        providers:
+          items:
+            $ref: '#/components/schemas/AIProviderSummary'
+          type: array
+          title: Providers
+        aiEnabled:
+          type: boolean
+          title: Aienabled
+          readOnly: true
+        audioProviderEnabled:
+          type: boolean
+          title: Audioproviderenabled
+          readOnly: true
+        imageProviderEnabled:
+          type: boolean
+          title: Imageproviderenabled
+          readOnly: true
+      type: object
+      required:
+      - defaultProviderId
+      - audioProviderId
+      - imageProviderId
+      - providers
+      - aiEnabled
+      - audioProviderEnabled
+      - imageProviderEnabled
+      title: AIProviderSettingsOut
+    OrderDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: OrderDirection
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    ReadGroupPreferences:
+      properties:
+        privateGroup:
+          type: boolean
+          title: Privategroup
+          default: true
+        showAnnouncements:
+          type: boolean
+          title: Showannouncements
+          default: true
+        groupId:
+          type: string
+          format: uuid
+          title: Groupid
+        id:
+          type: string
+          format: uuid4
+          title: Id
+      type: object
+      required:
+      - groupId
+      - id
+      title: ReadGroupPreferences
+    GroupAdminUpdate:
+      properties:
+        id:
+          type: string
+          format: uuid4
+          title: Id
+        name:
+          type: string
+          title: Name
+        preferences:
+          anyOf:
+          - $ref: '#/components/schemas/UpdateGroupPreferences'
+          - type: 'null'
+        aiProviderSettings:
+          anyOf:
+          - $ref: '#/components/schemas/AIProviderSettingsUpdate'
+          - type: 'null'
+      type: object
+      required:
+      - id
+      - name
+      title: GroupAdminUpdate
+    CategoryBase:
+      properties:
+        name:
+          type: string
+          title: Name
+        id:
+          type: string
+          format: uuid4
+          title: Id
+        groupId:
+          anyOf:
+          - type: string
+            format: uuid4
+          - type: 'null'
+          title: Groupid
+        slug:
+          type: string
+          title: Slug
+      type: object
+      required:
+      - name
+      - id
+      - slug
+      title: CategoryBase
+    OrderByNullPosition:
+      type: string
+      enum:
+      - first
+      - last
+      title: OrderByNullPosition
+    WebhookType:
+      type: string
+      enum:
+      - mealplan
+      title: WebhookType
+  securitySchemes:
+    OAuth2PasswordBearer:
+      type: oauth2
+      flows:
+        password:
+          scopes: {}
+          tokenUrl: /api/auth/token

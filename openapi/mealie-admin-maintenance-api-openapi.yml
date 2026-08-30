@@ -1,0 +1,292 @@
+openapi: 3.2.0
+info:
+  title: 'Mealie Admin: Maintenance API'
+  description: '
+
+    Mealie is a web application for managing your recipes, meal plans, and shopping lists. This is the Restful
+
+    API interactive documentation that can be used to explore the API. If you''re justing getting started with
+
+    the API and want to get started quickly, you can use the
+
+    [API Usage | Mealie Docs](https://docs.mealie.io/documentation/getting-started/api-usage/)
+
+    as a reference for how to get started.
+
+
+
+    If you have any questions or comments about mealie, please use the discord server to talk to the developers or other
+
+    community members. If you''d like to file an issue, please use the
+
+    [GitHub Issue Tracker | Mealie](https://github.com/mealie-recipes/mealie/issues/new/choose)
+
+
+
+    ## Helpful Links
+
+    - [Home Page](https://mealie.io)
+
+    - [Documentation](https://docs.mealie.io)
+
+    - [Discord](https://discord.gg/QuStdQGSGK)
+
+    - [Demo](https://demo.mealie.io)
+
+    '
+  version: nightly
+tags:
+- name: 'Admin: Maintenance'
+paths:
+  /api/admin/maintenance:
+    get:
+      tags:
+      - 'Admin: Maintenance'
+      summary: Get Maintenance Summary
+      description: Get the maintenance summary
+      operationId: get_maintenance_summary_api_admin_maintenance_get
+      security:
+      - OAuth2PasswordBearer: []
+      parameters:
+      - name: accept-language
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accept-Language
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MaintenanceSummary'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/admin/maintenance/storage:
+    get:
+      tags:
+      - 'Admin: Maintenance'
+      summary: Get Storage Details
+      operationId: get_storage_details_api_admin_maintenance_storage_get
+      security:
+      - OAuth2PasswordBearer: []
+      parameters:
+      - name: accept-language
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accept-Language
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MaintenanceStorageDetails'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/admin/maintenance/clean/images:
+    post:
+      tags:
+      - 'Admin: Maintenance'
+      summary: Clean Images
+      description: Purges all the images from the filesystem that aren't .webp
+      operationId: clean_images_api_admin_maintenance_clean_images_post
+      security:
+      - OAuth2PasswordBearer: []
+      parameters:
+      - name: accept-language
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accept-Language
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/admin/maintenance/clean/temp:
+    post:
+      tags:
+      - 'Admin: Maintenance'
+      summary: Clean Temp
+      operationId: clean_temp_api_admin_maintenance_clean_temp_post
+      security:
+      - OAuth2PasswordBearer: []
+      parameters:
+      - name: accept-language
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accept-Language
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/admin/maintenance/clean/recipe-folders:
+    post:
+      tags:
+      - 'Admin: Maintenance'
+      summary: Clean Recipe Folders
+      description: Deletes all the recipe folders that don't have names that are valid UUIDs
+      operationId: clean_recipe_folders_api_admin_maintenance_clean_recipe_folders_post
+      security:
+      - OAuth2PasswordBearer: []
+      parameters:
+      - name: accept-language
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accept-Language
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    MaintenanceSummary:
+      properties:
+        dataDirSize:
+          type: string
+          title: Datadirsize
+        cleanableImages:
+          type: integer
+          title: Cleanableimages
+        cleanableDirs:
+          type: integer
+          title: Cleanabledirs
+      type: object
+      required:
+      - dataDirSize
+      - cleanableImages
+      - cleanableDirs
+      title: MaintenanceSummary
+    MaintenanceStorageDetails:
+      properties:
+        tempDirSize:
+          type: string
+          title: Tempdirsize
+        backupsDirSize:
+          type: string
+          title: Backupsdirsize
+        groupsDirSize:
+          type: string
+          title: Groupsdirsize
+        recipesDirSize:
+          type: string
+          title: Recipesdirsize
+        userDirSize:
+          type: string
+          title: Userdirsize
+      type: object
+      required:
+      - tempDirSize
+      - backupsDirSize
+      - groupsDirSize
+      - recipesDirSize
+      - userDirSize
+      title: MaintenanceStorageDetails
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    SuccessResponse:
+      properties:
+        message:
+          type: string
+          title: Message
+        error:
+          type: boolean
+          title: Error
+          default: false
+      type: object
+      required:
+      - message
+      title: SuccessResponse
+  securitySchemes:
+    OAuth2PasswordBearer:
+      type: oauth2
+      flows:
+        password:
+          scopes: {}
+          tokenUrl: /api/auth/token

@@ -1,0 +1,562 @@
+openapi: 3.2.0
+info:
+  title: 'Mealie Recipe: Timeline API'
+  description: '
+
+    Mealie is a web application for managing your recipes, meal plans, and shopping lists. This is the Restful
+
+    API interactive documentation that can be used to explore the API. If you''re justing getting started with
+
+    the API and want to get started quickly, you can use the
+
+    [API Usage | Mealie Docs](https://docs.mealie.io/documentation/getting-started/api-usage/)
+
+    as a reference for how to get started.
+
+
+
+    If you have any questions or comments about mealie, please use the discord server to talk to the developers or other
+
+    community members. If you''d like to file an issue, please use the
+
+    [GitHub Issue Tracker | Mealie](https://github.com/mealie-recipes/mealie/issues/new/choose)
+
+
+
+    ## Helpful Links
+
+    - [Home Page](https://mealie.io)
+
+    - [Documentation](https://docs.mealie.io)
+
+    - [Discord](https://discord.gg/QuStdQGSGK)
+
+    - [Demo](https://demo.mealie.io)
+
+    '
+  version: nightly
+tags:
+- name: 'Recipe: Timeline'
+paths:
+  /api/recipes/timeline/events:
+    get:
+      tags:
+      - 'Recipe: Timeline'
+      summary: Get All
+      operationId: get_all_api_recipes_timeline_events_get
+      security:
+      - OAuth2PasswordBearer: []
+      parameters:
+      - name: orderBy
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Orderby
+      - name: orderByNullPosition
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - $ref: '#/components/schemas/OrderByNullPosition'
+          - type: 'null'
+          title: Orderbynullposition
+      - name: orderDirection
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/OrderDirection'
+          default: desc
+      - name: queryFilter
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Queryfilter
+      - name: paginationSeed
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Paginationseed
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 1
+          title: Page
+      - name: perPage
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 50
+          title: Perpage
+      - name: accept-language
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accept-Language
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecipeTimelineEventPagination'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    post:
+      tags:
+      - 'Recipe: Timeline'
+      summary: Create One
+      operationId: create_one_api_recipes_timeline_events_post
+      security:
+      - OAuth2PasswordBearer: []
+      parameters:
+      - name: accept-language
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accept-Language
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RecipeTimelineEventIn'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecipeTimelineEventOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/recipes/timeline/events/{item_id}:
+    get:
+      tags:
+      - 'Recipe: Timeline'
+      summary: Get One
+      operationId: get_one_api_recipes_timeline_events__item_id__get
+      security:
+      - OAuth2PasswordBearer: []
+      parameters:
+      - name: item_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid4
+          title: Item Id
+      - name: accept-language
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accept-Language
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecipeTimelineEventOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    put:
+      tags:
+      - 'Recipe: Timeline'
+      summary: Update One
+      operationId: update_one_api_recipes_timeline_events__item_id__put
+      security:
+      - OAuth2PasswordBearer: []
+      parameters:
+      - name: item_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid4
+          title: Item Id
+      - name: accept-language
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accept-Language
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RecipeTimelineEventUpdate'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecipeTimelineEventOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - 'Recipe: Timeline'
+      summary: Delete One
+      operationId: delete_one_api_recipes_timeline_events__item_id__delete
+      security:
+      - OAuth2PasswordBearer: []
+      parameters:
+      - name: item_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid4
+          title: Item Id
+      - name: accept-language
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accept-Language
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecipeTimelineEventOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/recipes/timeline/events/{item_id}/image:
+    put:
+      tags:
+      - 'Recipe: Timeline'
+      summary: Update Event Image
+      operationId: update_event_image_api_recipes_timeline_events__item_id__image_put
+      security:
+      - OAuth2PasswordBearer: []
+      parameters:
+      - name: item_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid4
+          title: Item Id
+      - name: accept-language
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accept-Language
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Body_update_event_image_api_recipes_timeline_events__item_id__image_put'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateImageResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    RecipeTimelineEventUpdate:
+      properties:
+        subject:
+          type: string
+          title: Subject
+        eventMessage:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Eventmessage
+        image:
+          anyOf:
+          - $ref: '#/components/schemas/TimelineEventImage'
+          - type: 'null'
+      type: object
+      required:
+      - subject
+      title: RecipeTimelineEventUpdate
+    RecipeTimelineEventPagination:
+      properties:
+        page:
+          type: integer
+          title: Page
+          default: 1
+        per_page:
+          type: integer
+          title: Per Page
+          default: 10
+        total:
+          type: integer
+          title: Total
+          default: 0
+        total_pages:
+          type: integer
+          title: Total Pages
+          default: 0
+        items:
+          items:
+            $ref: '#/components/schemas/RecipeTimelineEventOut'
+          type: array
+          title: Items
+        next:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Next
+        previous:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Previous
+      type: object
+      required:
+      - items
+      title: RecipeTimelineEventPagination
+    TimelineEventType:
+      type: string
+      enum:
+      - system
+      - info
+      - comment
+      title: TimelineEventType
+    RecipeTimelineEventOut:
+      properties:
+        recipeId:
+          type: string
+          format: uuid4
+          title: Recipeid
+        userId:
+          type: string
+          format: uuid4
+          title: Userid
+        subject:
+          type: string
+          title: Subject
+        eventType:
+          $ref: '#/components/schemas/TimelineEventType'
+        eventMessage:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Eventmessage
+        image:
+          anyOf:
+          - $ref: '#/components/schemas/TimelineEventImage'
+          - type: 'null'
+          default: does not have image
+        timestamp:
+          type: string
+          format: date-time
+          title: Timestamp
+          default: '2026-08-27T04:00:49.596550Z'
+        id:
+          type: string
+          format: uuid4
+          title: Id
+        groupId:
+          type: string
+          format: uuid4
+          title: Groupid
+        householdId:
+          type: string
+          format: uuid4
+          title: Householdid
+        createdAt:
+          type: string
+          format: date-time
+          title: Createdat
+        updatedAt:
+          type: string
+          format: date-time
+          title: Updatedat
+      type: object
+      required:
+      - recipeId
+      - userId
+      - subject
+      - eventType
+      - id
+      - groupId
+      - householdId
+      - createdAt
+      - updatedAt
+      title: RecipeTimelineEventOut
+    UpdateImageResponse:
+      properties:
+        image:
+          type: string
+          title: Image
+      type: object
+      required:
+      - image
+      title: UpdateImageResponse
+    TimelineEventImage:
+      type: string
+      enum:
+      - has image
+      - does not have image
+      title: TimelineEventImage
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    RecipeTimelineEventIn:
+      properties:
+        recipeId:
+          type: string
+          format: uuid4
+          title: Recipeid
+        userId:
+          anyOf:
+          - type: string
+            format: uuid4
+          - type: 'null'
+          title: Userid
+        subject:
+          type: string
+          title: Subject
+        eventType:
+          $ref: '#/components/schemas/TimelineEventType'
+        eventMessage:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Eventmessage
+        image:
+          anyOf:
+          - $ref: '#/components/schemas/TimelineEventImage'
+          - type: 'null'
+          default: does not have image
+        timestamp:
+          type: string
+          format: date-time
+          title: Timestamp
+          default: '2026-08-27T04:00:49.596550Z'
+      type: object
+      required:
+      - recipeId
+      - subject
+      - eventType
+      title: RecipeTimelineEventIn
+    OrderDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: OrderDirection
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    Body_update_event_image_api_recipes_timeline_events__item_id__image_put:
+      properties:
+        image:
+          type: string
+          contentMediaType: application/octet-stream
+          title: Image
+        extension:
+          type: string
+          title: Extension
+      type: object
+      required:
+      - image
+      - extension
+      title: Body_update_event_image_api_recipes_timeline_events__item_id__image_put
+    OrderByNullPosition:
+      type: string
+      enum:
+      - first
+      - last
+      title: OrderByNullPosition
+  securitySchemes:
+    OAuth2PasswordBearer:
+      type: oauth2
+      flows:
+        password:
+          scopes: {}
+          tokenUrl: /api/auth/token

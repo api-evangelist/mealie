@@ -1,0 +1,240 @@
+openapi: 3.2.0
+info:
+  title: 'Mealie Recipe: Images and Assets API'
+  description: '
+
+    Mealie is a web application for managing your recipes, meal plans, and shopping lists. This is the Restful
+
+    API interactive documentation that can be used to explore the API. If you''re justing getting started with
+
+    the API and want to get started quickly, you can use the
+
+    [API Usage | Mealie Docs](https://docs.mealie.io/documentation/getting-started/api-usage/)
+
+    as a reference for how to get started.
+
+
+
+    If you have any questions or comments about mealie, please use the discord server to talk to the developers or other
+
+    community members. If you''d like to file an issue, please use the
+
+    [GitHub Issue Tracker | Mealie](https://github.com/mealie-recipes/mealie/issues/new/choose)
+
+
+
+    ## Helpful Links
+
+    - [Home Page](https://mealie.io)
+
+    - [Documentation](https://docs.mealie.io)
+
+    - [Discord](https://discord.gg/QuStdQGSGK)
+
+    - [Demo](https://demo.mealie.io)
+
+    '
+  version: nightly
+tags:
+- name: 'Recipe: Images and Assets'
+paths:
+  /api/media/recipes/{recipe_id}/images/{file_name}:
+    get:
+      tags:
+      - 'Recipe: Images and Assets'
+      summary: Get Recipe Img
+      description: 'Takes in a recipe id, returns the static image. This route is proxied in the docker image
+
+        and should not hit the API in production'
+      operationId: get_recipe_img_api_media_recipes__recipe_id__images__file_name__get
+      parameters:
+      - name: recipe_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid4
+          title: Recipe Id
+      - name: file_name
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/ImageType'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/media/recipes/{recipe_id}/images/timeline/{timeline_event_id}/{file_name}:
+    get:
+      tags:
+      - 'Recipe: Images and Assets'
+      summary: Get Recipe Timeline Event Img
+      description: 'Takes in a recipe id and event timeline id, returns the static image. This route is proxied in the docker image
+
+        and should not hit the API in production'
+      operationId: get_recipe_timeline_event_img_api_media_recipes__recipe_id__images_timeline__timeline_event_id___file_name__get
+      parameters:
+      - name: recipe_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid4
+          title: Recipe Id
+      - name: timeline_event_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid4
+          title: Timeline Event Id
+      - name: file_name
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/ImageType'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/media/recipes/{recipe_id}/assets/{file_name}:
+    get:
+      tags:
+      - 'Recipe: Images and Assets'
+      summary: Get Recipe Asset
+      description: Returns a recipe asset
+      operationId: get_recipe_asset_api_media_recipes__recipe_id__assets__file_name__get
+      parameters:
+      - name: recipe_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid4
+          title: Recipe Id
+      - name: file_name
+        in: path
+        required: true
+        schema:
+          type: string
+          title: File Name
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/media/users/{user_id}/{file_name}:
+    get:
+      tags:
+      - 'Recipe: Images and Assets'
+      summary: Get User Image
+      description: 'Takes in a recipe slug, returns the static image. This route is proxied in the docker image
+
+        and should not hit the API in production'
+      operationId: get_user_image_api_media_users__user_id___file_name__get
+      parameters:
+      - name: user_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid4
+          title: User Id
+      - name: file_name
+        in: path
+        required: true
+        schema:
+          type: string
+          title: File Name
+      responses:
+        '200':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/media/docker/validate.txt:
+    get:
+      tags:
+      - 'Recipe: Images and Assets'
+      summary: Get Validation Text
+      operationId: get_validation_text_api_media_docker_validate_txt_get
+      responses:
+        '200':
+          description: Successful Response
+components:
+  schemas:
+    ImageType:
+      type: string
+      enum:
+      - original.webp
+      - min-original.webp
+      - tiny-original.webp
+      title: ImageType
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+  securitySchemes:
+    OAuth2PasswordBearer:
+      type: oauth2
+      flows:
+        password:
+          scopes: {}
+          tokenUrl: /api/auth/token

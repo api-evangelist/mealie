@@ -1,0 +1,562 @@
+openapi: 3.2.0
+info:
+  title: 'Mealie Recipe: Bulk Actions API'
+  description: '
+
+    Mealie is a web application for managing your recipes, meal plans, and shopping lists. This is the Restful
+
+    API interactive documentation that can be used to explore the API. If you''re justing getting started with
+
+    the API and want to get started quickly, you can use the
+
+    [API Usage | Mealie Docs](https://docs.mealie.io/documentation/getting-started/api-usage/)
+
+    as a reference for how to get started.
+
+
+
+    If you have any questions or comments about mealie, please use the discord server to talk to the developers or other
+
+    community members. If you''d like to file an issue, please use the
+
+    [GitHub Issue Tracker | Mealie](https://github.com/mealie-recipes/mealie/issues/new/choose)
+
+
+
+    ## Helpful Links
+
+    - [Home Page](https://mealie.io)
+
+    - [Documentation](https://docs.mealie.io)
+
+    - [Discord](https://discord.gg/QuStdQGSGK)
+
+    - [Demo](https://demo.mealie.io)
+
+    '
+  version: nightly
+tags:
+- name: 'Recipe: Bulk Actions'
+paths:
+  /api/recipes/bulk-actions/tag:
+    post:
+      tags:
+      - 'Recipe: Bulk Actions'
+      summary: Bulk Tag Recipes
+      operationId: bulk_tag_recipes_api_recipes_bulk_actions_tag_post
+      security:
+      - OAuth2PasswordBearer: []
+      parameters:
+      - name: accept-language
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accept-Language
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssignTags'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/recipes/bulk-actions/settings:
+    post:
+      tags:
+      - 'Recipe: Bulk Actions'
+      summary: Bulk Settings Recipes
+      operationId: bulk_settings_recipes_api_recipes_bulk_actions_settings_post
+      security:
+      - OAuth2PasswordBearer: []
+      parameters:
+      - name: accept-language
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accept-Language
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssignSettings'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/recipes/bulk-actions/categorize:
+    post:
+      tags:
+      - 'Recipe: Bulk Actions'
+      summary: Bulk Categorize Recipes
+      operationId: bulk_categorize_recipes_api_recipes_bulk_actions_categorize_post
+      security:
+      - OAuth2PasswordBearer: []
+      parameters:
+      - name: accept-language
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accept-Language
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssignCategories'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/recipes/bulk-actions/delete:
+    post:
+      tags:
+      - 'Recipe: Bulk Actions'
+      summary: Bulk Delete Recipes
+      operationId: bulk_delete_recipes_api_recipes_bulk_actions_delete_post
+      security:
+      - OAuth2PasswordBearer: []
+      parameters:
+      - name: accept-language
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accept-Language
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeleteRecipes'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/recipes/bulk-actions/export:
+    post:
+      tags:
+      - 'Recipe: Bulk Actions'
+      summary: Bulk Export Recipes
+      operationId: bulk_export_recipes_api_recipes_bulk_actions_export_post
+      security:
+      - OAuth2PasswordBearer: []
+      parameters:
+      - name: accept-language
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accept-Language
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExportRecipes'
+      responses:
+        '202':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    get:
+      tags:
+      - 'Recipe: Bulk Actions'
+      summary: Get Exported Data
+      operationId: get_exported_data_api_recipes_bulk_actions_export_get
+      security:
+      - OAuth2PasswordBearer: []
+      parameters:
+      - name: accept-language
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accept-Language
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GroupDataExport'
+                title: Response Get Exported Data Api Recipes Bulk Actions Export Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/recipes/bulk-actions/export/{export_id}/download:
+    get:
+      tags:
+      - 'Recipe: Bulk Actions'
+      summary: Get Exported Data Token
+      description: Returns a token to download a file
+      operationId: get_exported_data_token_api_recipes_bulk_actions_export__export_id__download_get
+      security:
+      - OAuth2PasswordBearer: []
+      parameters:
+      - name: export_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid4
+          title: Export Id
+      - name: accept-language
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accept-Language
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/recipes/bulk-actions/export/purge:
+    delete:
+      tags:
+      - 'Recipe: Bulk Actions'
+      summary: Purge Export Data
+      description: Remove all exports data, including items on disk without database entry
+      operationId: purge_export_data_api_recipes_bulk_actions_export_purge_delete
+      security:
+      - OAuth2PasswordBearer: []
+      parameters:
+      - name: accept-language
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accept-Language
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    AssignCategories:
+      properties:
+        recipes:
+          items:
+            type: string
+          type: array
+          title: Recipes
+        categories:
+          items:
+            $ref: '#/components/schemas/CategoryBase'
+          type: array
+          title: Categories
+      type: object
+      required:
+      - recipes
+      - categories
+      title: AssignCategories
+    AssignSettings:
+      properties:
+        recipes:
+          items:
+            type: string
+          type: array
+          title: Recipes
+        settings:
+          $ref: '#/components/schemas/RecipeSettings'
+      type: object
+      required:
+      - recipes
+      - settings
+      title: AssignSettings
+    GroupDataExport:
+      properties:
+        id:
+          type: string
+          format: uuid4
+          title: Id
+        groupId:
+          type: string
+          format: uuid4
+          title: Groupid
+        name:
+          type: string
+          title: Name
+        filename:
+          type: string
+          title: Filename
+        path:
+          type: string
+          title: Path
+        size:
+          type: string
+          title: Size
+        expires:
+          type: string
+          format: date-time
+          title: Expires
+      type: object
+      required:
+      - id
+      - groupId
+      - name
+      - filename
+      - path
+      - size
+      - expires
+      title: GroupDataExport
+    DeleteRecipes:
+      properties:
+        recipes:
+          items:
+            type: string
+          type: array
+          title: Recipes
+      type: object
+      required:
+      - recipes
+      title: DeleteRecipes
+    RecipeSettings:
+      properties:
+        public:
+          type: boolean
+          title: Public
+          default: false
+        showNutrition:
+          type: boolean
+          title: Shownutrition
+          default: false
+        showAssets:
+          type: boolean
+          title: Showassets
+          default: false
+        landscapeView:
+          type: boolean
+          title: Landscapeview
+          default: false
+        disableComments:
+          type: boolean
+          title: Disablecomments
+          default: true
+        locked:
+          type: boolean
+          title: Locked
+          default: false
+      type: object
+      title: RecipeSettings
+    TagBase:
+      properties:
+        name:
+          type: string
+          title: Name
+        id:
+          type: string
+          format: uuid4
+          title: Id
+        groupId:
+          anyOf:
+          - type: string
+            format: uuid4
+          - type: 'null'
+          title: Groupid
+        slug:
+          type: string
+          title: Slug
+      type: object
+      required:
+      - name
+      - id
+      - slug
+      title: TagBase
+    CategoryBase:
+      properties:
+        name:
+          type: string
+          title: Name
+        id:
+          type: string
+          format: uuid4
+          title: Id
+        groupId:
+          anyOf:
+          - type: string
+            format: uuid4
+          - type: 'null'
+          title: Groupid
+        slug:
+          type: string
+          title: Slug
+      type: object
+      required:
+      - name
+      - id
+      - slug
+      title: CategoryBase
+    ExportTypes:
+      type: string
+      enum:
+      - json
+      title: ExportTypes
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ExportRecipes:
+      properties:
+        recipes:
+          items:
+            type: string
+          type: array
+          title: Recipes
+        exportType:
+          $ref: '#/components/schemas/ExportTypes'
+          default: json
+      type: object
+      required:
+      - recipes
+      title: ExportRecipes
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    AssignTags:
+      properties:
+        recipes:
+          items:
+            type: string
+          type: array
+          title: Recipes
+        tags:
+          items:
+            $ref: '#/components/schemas/TagBase'
+          type: array
+          title: Tags
+      type: object
+      required:
+      - recipes
+      - tags
+      title: AssignTags
+    SuccessResponse:
+      properties:
+        message:
+          type: string
+          title: Message
+        error:
+          type: boolean
+          title: Error
+          default: false
+      type: object
+      required:
+      - message
+      title: SuccessResponse
+  securitySchemes:
+    OAuth2PasswordBearer:
+      type: oauth2
+      flows:
+        password:
+          scopes: {}
+          tokenUrl: /api/auth/token

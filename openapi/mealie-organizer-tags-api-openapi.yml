@@ -1,0 +1,793 @@
+openapi: 3.2.0
+info:
+  title: 'Mealie Organizer: Tags API'
+  description: '
+
+    Mealie is a web application for managing your recipes, meal plans, and shopping lists. This is the Restful
+
+    API interactive documentation that can be used to explore the API. If you''re justing getting started with
+
+    the API and want to get started quickly, you can use the
+
+    [API Usage | Mealie Docs](https://docs.mealie.io/documentation/getting-started/api-usage/)
+
+    as a reference for how to get started.
+
+
+
+    If you have any questions or comments about mealie, please use the discord server to talk to the developers or other
+
+    community members. If you''d like to file an issue, please use the
+
+    [GitHub Issue Tracker | Mealie](https://github.com/mealie-recipes/mealie/issues/new/choose)
+
+
+
+    ## Helpful Links
+
+    - [Home Page](https://mealie.io)
+
+    - [Documentation](https://docs.mealie.io)
+
+    - [Discord](https://discord.gg/QuStdQGSGK)
+
+    - [Demo](https://demo.mealie.io)
+
+    '
+  version: nightly
+tags:
+- name: 'Organizer: Tags'
+paths:
+  /api/organizers/tags:
+    get:
+      tags:
+      - 'Organizer: Tags'
+      summary: Get All
+      description: Returns a list of available tags in the database
+      operationId: get_all_api_organizers_tags_get
+      security:
+      - OAuth2PasswordBearer: []
+      parameters:
+      - name: search
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Search
+      - name: orderBy
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Orderby
+      - name: orderByNullPosition
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - $ref: '#/components/schemas/OrderByNullPosition'
+          - type: 'null'
+          title: Orderbynullposition
+      - name: orderDirection
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/OrderDirection'
+          default: desc
+      - name: queryFilter
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Queryfilter
+      - name: paginationSeed
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Paginationseed
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 1
+          title: Page
+      - name: perPage
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 50
+          title: Perpage
+      - name: accept-language
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accept-Language
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecipeTagPagination'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    post:
+      tags:
+      - 'Organizer: Tags'
+      summary: Create One
+      description: Creates a Tag in the database
+      operationId: create_one_api_organizers_tags_post
+      security:
+      - OAuth2PasswordBearer: []
+      parameters:
+      - name: accept-language
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accept-Language
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TagIn'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/organizers/tags/empty:
+    get:
+      tags:
+      - 'Organizer: Tags'
+      summary: Get Empty Tags
+      description: Returns a list of tags that do not contain any recipes
+      operationId: get_empty_tags_api_organizers_tags_empty_get
+      security:
+      - OAuth2PasswordBearer: []
+      parameters:
+      - name: accept-language
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accept-Language
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/organizers/tags/merge:
+    post:
+      tags:
+      - 'Organizer: Tags'
+      summary: Merge Tags
+      description: Merges the from_id tag into the to_id tag, then deletes from_id.
+      operationId: merge_tags_api_organizers_tags_merge_post
+      security:
+      - OAuth2PasswordBearer: []
+      parameters:
+      - name: accept-language
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accept-Language
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TagMerge'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TagOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/organizers/tags/{item_id}:
+    get:
+      tags:
+      - 'Organizer: Tags'
+      summary: Get One
+      description: Returns a list of recipes associated with the provided tag.
+      operationId: get_one_api_organizers_tags__item_id__get
+      security:
+      - OAuth2PasswordBearer: []
+      parameters:
+      - name: item_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid4
+          title: Item Id
+      - name: accept-language
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accept-Language
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecipeTagResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    put:
+      tags:
+      - 'Organizer: Tags'
+      summary: Update One
+      description: Updates an existing Tag in the database
+      operationId: update_one_api_organizers_tags__item_id__put
+      security:
+      - OAuth2PasswordBearer: []
+      parameters:
+      - name: item_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid4
+          title: Item Id
+      - name: accept-language
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accept-Language
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TagIn'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecipeTagResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - 'Organizer: Tags'
+      summary: Delete Recipe Tag
+      description: 'Removes a recipe tag from the database. Deleting a
+
+        tag does not impact a recipe. The tag will be removed
+
+        from any recipes that contain it'
+      operationId: delete_recipe_tag_api_organizers_tags__item_id__delete
+      security:
+      - OAuth2PasswordBearer: []
+      parameters:
+      - name: item_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid4
+          title: Item Id
+      - name: accept-language
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accept-Language
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/organizers/tags/slug/{tag_slug}:
+    get:
+      tags:
+      - 'Organizer: Tags'
+      summary: Get One By Slug
+      operationId: get_one_by_slug_api_organizers_tags_slug__tag_slug__get
+      security:
+      - OAuth2PasswordBearer: []
+      parameters:
+      - name: tag_slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Tag Slug
+      - name: accept-language
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accept-Language
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecipeTagResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    TagOut:
+      properties:
+        name:
+          type: string
+          title: Name
+        groupId:
+          type: string
+          format: uuid4
+          title: Groupid
+        id:
+          type: string
+          format: uuid4
+          title: Id
+        slug:
+          type: string
+          title: Slug
+        recipeCount:
+          type: integer
+          title: Recipecount
+          default: 0
+      type: object
+      required:
+      - name
+      - groupId
+      - id
+      - slug
+      title: TagOut
+    RecipeTagPagination:
+      properties:
+        page:
+          type: integer
+          title: Page
+          default: 1
+        per_page:
+          type: integer
+          title: Per Page
+          default: 10
+        total:
+          type: integer
+          title: Total
+          default: 0
+        total_pages:
+          type: integer
+          title: Total Pages
+          default: 0
+        items:
+          items:
+            $ref: '#/components/schemas/RecipeTag'
+          type: array
+          title: Items
+        next:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Next
+        previous:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Previous
+      type: object
+      required:
+      - items
+      title: RecipeTagPagination
+    TagMerge:
+      properties:
+        fromId:
+          type: string
+          format: uuid4
+          title: Fromid
+        toId:
+          type: string
+          format: uuid4
+          title: Toid
+      type: object
+      required:
+      - fromId
+      - toId
+      title: TagMerge
+    RecipeSummary:
+      properties:
+        id:
+          anyOf:
+          - type: string
+            format: uuid4
+          - type: 'null'
+          title: Id
+        userId:
+          type: string
+          format: uuid4
+          title: Userid
+        householdId:
+          type: string
+          format: uuid4
+          title: Householdid
+        groupId:
+          type: string
+          format: uuid4
+          title: Groupid
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+        slug:
+          type: string
+          title: Slug
+          default: ''
+        image:
+          anyOf:
+          - {}
+          - type: 'null'
+          title: Image
+        recipeServings:
+          type: number
+          title: Recipeservings
+          default: 0
+        recipeYieldQuantity:
+          type: number
+          title: Recipeyieldquantity
+          default: 0
+        recipeYield:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Recipeyield
+        totalTime:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Totaltime
+        prepTime:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Preptime
+        cookTime:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Cooktime
+        performTime:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Performtime
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+          default: ''
+        recipeCategory:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/RecipeCategory'
+            type: array
+          - type: 'null'
+          title: Recipecategory
+          default: []
+        tags:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/RecipeTag'
+            type: array
+          - type: 'null'
+          title: Tags
+          default: []
+        tools:
+          items:
+            $ref: '#/components/schemas/RecipeTool'
+          type: array
+          title: Tools
+          default: []
+        rating:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Rating
+        orgURL:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Orgurl
+        dateAdded:
+          anyOf:
+          - type: string
+            format: date
+          - type: 'null'
+          title: Dateadded
+        dateUpdated:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Dateupdated
+        createdAt:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Createdat
+        updatedAt:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Updatedat
+        lastMade:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Lastmade
+      type: object
+      title: RecipeSummary
+    TagIn:
+      properties:
+        name:
+          type: string
+          title: Name
+      type: object
+      required:
+      - name
+      title: TagIn
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    RecipeTool:
+      properties:
+        id:
+          type: string
+          format: uuid4
+          title: Id
+        groupId:
+          anyOf:
+          - type: string
+            format: uuid4
+          - type: 'null'
+          title: Groupid
+        name:
+          type: string
+          title: Name
+        slug:
+          type: string
+          title: Slug
+        recipeCount:
+          type: integer
+          title: Recipecount
+          default: 0
+        householdsWithTool:
+          items:
+            type: string
+          type: array
+          title: Householdswithtool
+          default: []
+      type: object
+      required:
+      - id
+      - name
+      - slug
+      title: RecipeTool
+    RecipeCategory:
+      properties:
+        id:
+          anyOf:
+          - type: string
+            format: uuid4
+          - type: 'null'
+          title: Id
+        groupId:
+          anyOf:
+          - type: string
+            format: uuid4
+          - type: 'null'
+          title: Groupid
+        name:
+          type: string
+          title: Name
+        slug:
+          type: string
+          title: Slug
+        recipeCount:
+          type: integer
+          title: Recipecount
+          default: 0
+      type: object
+      required:
+      - name
+      - slug
+      title: RecipeCategory
+    RecipeTagResponse:
+      properties:
+        name:
+          type: string
+          title: Name
+        id:
+          type: string
+          format: uuid4
+          title: Id
+        groupId:
+          anyOf:
+          - type: string
+            format: uuid4
+          - type: 'null'
+          title: Groupid
+        slug:
+          type: string
+          title: Slug
+        recipes:
+          items:
+            $ref: '#/components/schemas/RecipeSummary'
+          type: array
+          title: Recipes
+          default: []
+      type: object
+      required:
+      - name
+      - id
+      - slug
+      title: RecipeTagResponse
+    RecipeTag:
+      properties:
+        id:
+          anyOf:
+          - type: string
+            format: uuid4
+          - type: 'null'
+          title: Id
+        groupId:
+          anyOf:
+          - type: string
+            format: uuid4
+          - type: 'null'
+          title: Groupid
+        name:
+          type: string
+          title: Name
+        slug:
+          type: string
+          title: Slug
+        recipeCount:
+          type: integer
+          title: Recipecount
+          default: 0
+      type: object
+      required:
+      - name
+      - slug
+      title: RecipeTag
+    OrderDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: OrderDirection
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    OrderByNullPosition:
+      type: string
+      enum:
+      - first
+      - last
+      title: OrderByNullPosition
+  securitySchemes:
+    OAuth2PasswordBearer:
+      type: oauth2
+      flows:
+        password:
+          scopes: {}
+          tokenUrl: /api/auth/token

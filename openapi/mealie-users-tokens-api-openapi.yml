@@ -1,0 +1,204 @@
+openapi: 3.2.0
+info:
+  title: 'Mealie Users: Tokens API'
+  description: '
+
+    Mealie is a web application for managing your recipes, meal plans, and shopping lists. This is the Restful
+
+    API interactive documentation that can be used to explore the API. If you''re justing getting started with
+
+    the API and want to get started quickly, you can use the
+
+    [API Usage | Mealie Docs](https://docs.mealie.io/documentation/getting-started/api-usage/)
+
+    as a reference for how to get started.
+
+
+
+    If you have any questions or comments about mealie, please use the discord server to talk to the developers or other
+
+    community members. If you''d like to file an issue, please use the
+
+    [GitHub Issue Tracker | Mealie](https://github.com/mealie-recipes/mealie/issues/new/choose)
+
+
+
+    ## Helpful Links
+
+    - [Home Page](https://mealie.io)
+
+    - [Documentation](https://docs.mealie.io)
+
+    - [Discord](https://discord.gg/QuStdQGSGK)
+
+    - [Demo](https://demo.mealie.io)
+
+    '
+  version: nightly
+tags:
+- name: 'Users: Tokens'
+paths:
+  /api/users/api-tokens:
+    post:
+      tags:
+      - 'Users: Tokens'
+      summary: Create Api Token
+      description: Create api_token in the Database
+      operationId: create_api_token_api_users_api_tokens_post
+      security:
+      - OAuth2PasswordBearer: []
+      parameters:
+      - name: accept-language
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accept-Language
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LongLiveTokenIn'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LongLiveTokenCreateResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/users/api-tokens/{token_id}:
+    delete:
+      tags:
+      - 'Users: Tokens'
+      summary: Delete Api Token
+      description: Delete api_token from the Database
+      operationId: delete_api_token_api_users_api_tokens__token_id__delete
+      security:
+      - OAuth2PasswordBearer: []
+      parameters:
+      - name: token_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Token Id
+      - name: accept-language
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accept-Language
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteTokenResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    LongLiveTokenCreateResponse:
+      properties:
+        name:
+          type: string
+          title: Name
+        id:
+          type: integer
+          title: Id
+        createdAt:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Createdat
+        token:
+          type: string
+          title: Token
+      type: object
+      required:
+      - name
+      - id
+      - token
+      title: LongLiveTokenCreateResponse
+      description: Should ONLY be used when creating a new token, as the token field is sensitive
+    LongLiveTokenIn:
+      properties:
+        name:
+          type: string
+          title: Name
+        integrationId:
+          type: string
+          title: Integrationid
+          default: generic
+      type: object
+      required:
+      - name
+      title: LongLiveTokenIn
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    DeleteTokenResponse:
+      properties:
+        tokenDelete:
+          type: string
+          title: Tokendelete
+      type: object
+      required:
+      - tokenDelete
+      title: DeleteTokenResponse
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+  securitySchemes:
+    OAuth2PasswordBearer:
+      type: oauth2
+      flows:
+        password:
+          scopes: {}
+          tokenUrl: /api/auth/token

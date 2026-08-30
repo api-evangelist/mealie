@@ -1,0 +1,221 @@
+openapi: 3.2.0
+info:
+  title: 'Mealie App: About API'
+  description: '
+
+    Mealie is a web application for managing your recipes, meal plans, and shopping lists. This is the Restful
+
+    API interactive documentation that can be used to explore the API. If you''re justing getting started with
+
+    the API and want to get started quickly, you can use the
+
+    [API Usage | Mealie Docs](https://docs.mealie.io/documentation/getting-started/api-usage/)
+
+    as a reference for how to get started.
+
+
+
+    If you have any questions or comments about mealie, please use the discord server to talk to the developers or other
+
+    community members. If you''d like to file an issue, please use the
+
+    [GitHub Issue Tracker | Mealie](https://github.com/mealie-recipes/mealie/issues/new/choose)
+
+
+
+    ## Helpful Links
+
+    - [Home Page](https://mealie.io)
+
+    - [Documentation](https://docs.mealie.io)
+
+    - [Discord](https://discord.gg/QuStdQGSGK)
+
+    - [Demo](https://demo.mealie.io)
+
+    '
+  version: nightly
+tags:
+- name: 'App: About'
+paths:
+  /api/app/about:
+    get:
+      tags:
+      - 'App: About'
+      summary: Get App Info
+      description: Get general application information
+      operationId: get_app_info_api_app_about_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppInfo'
+  /api/app/about/startup-info:
+    get:
+      tags:
+      - 'App: About'
+      summary: Get Startup Info
+      description: returns helpful startup information
+      operationId: get_startup_info_api_app_about_startup_info_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppStartupInfo'
+  /api/app/about/theme:
+    get:
+      tags:
+      - 'App: About'
+      summary: Get App Theme
+      description: Get's the current theme settings
+      operationId: get_app_theme_api_app_about_theme_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppTheme'
+components:
+  schemas:
+    AppInfo:
+      properties:
+        production:
+          type: boolean
+          title: Production
+        version:
+          type: string
+          title: Version
+        demoStatus:
+          type: boolean
+          title: Demostatus
+        allowSignup:
+          type: boolean
+          title: Allowsignup
+        allowPasswordLogin:
+          type: boolean
+          title: Allowpasswordlogin
+        defaultGroupSlug:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Defaultgroupslug
+        defaultHouseholdSlug:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Defaulthouseholdslug
+        enableOidc:
+          type: boolean
+          title: Enableoidc
+        oidcRedirect:
+          type: boolean
+          title: Oidcredirect
+        oidcProviderName:
+          type: string
+          title: Oidcprovidername
+        tokenTime:
+          type: integer
+          title: Tokentime
+        allowedIframeHosts:
+          items:
+            type: string
+          type: array
+          title: Allowediframehosts
+          default: []
+      type: object
+      required:
+      - production
+      - version
+      - demoStatus
+      - allowSignup
+      - allowPasswordLogin
+      - enableOidc
+      - oidcRedirect
+      - oidcProviderName
+      - tokenTime
+      title: AppInfo
+    AppStartupInfo:
+      properties:
+        isFirstLogin:
+          type: boolean
+          title: Isfirstlogin
+        isDemo:
+          type: boolean
+          title: Isdemo
+      type: object
+      required:
+      - isFirstLogin
+      - isDemo
+      title: AppStartupInfo
+    AppTheme:
+      properties:
+        lightPrimary:
+          type: string
+          title: Lightprimary
+          default: '#E58325'
+        lightAccent:
+          type: string
+          title: Lightaccent
+          default: '#007A99'
+        lightSecondary:
+          type: string
+          title: Lightsecondary
+          default: '#973542'
+        lightSuccess:
+          type: string
+          title: Lightsuccess
+          default: '#43A047'
+        lightInfo:
+          type: string
+          title: Lightinfo
+          default: '#1976D2'
+        lightWarning:
+          type: string
+          title: Lightwarning
+          default: '#FF6D00'
+        lightError:
+          type: string
+          title: Lighterror
+          default: '#EF5350'
+        darkPrimary:
+          type: string
+          title: Darkprimary
+          default: '#E58325'
+        darkAccent:
+          type: string
+          title: Darkaccent
+          default: '#007A99'
+        darkSecondary:
+          type: string
+          title: Darksecondary
+          default: '#973542'
+        darkSuccess:
+          type: string
+          title: Darksuccess
+          default: '#43A047'
+        darkInfo:
+          type: string
+          title: Darkinfo
+          default: '#1976D2'
+        darkWarning:
+          type: string
+          title: Darkwarning
+          default: '#FF6D00'
+        darkError:
+          type: string
+          title: Darkerror
+          default: '#EF5350'
+      type: object
+      title: AppTheme
+  securitySchemes:
+    OAuth2PasswordBearer:
+      type: oauth2
+      flows:
+        password:
+          scopes: {}
+          tokenUrl: /api/auth/token

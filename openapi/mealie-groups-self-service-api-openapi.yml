@@ -1,0 +1,553 @@
+openapi: 3.2.0
+info:
+  title: 'Mealie Groups: Self Service API'
+  description: '
+
+    Mealie is a web application for managing your recipes, meal plans, and shopping lists. This is the Restful
+
+    API interactive documentation that can be used to explore the API. If you''re justing getting started with
+
+    the API and want to get started quickly, you can use the
+
+    [API Usage | Mealie Docs](https://docs.mealie.io/documentation/getting-started/api-usage/)
+
+    as a reference for how to get started.
+
+
+
+    If you have any questions or comments about mealie, please use the discord server to talk to the developers or other
+
+    community members. If you''d like to file an issue, please use the
+
+    [GitHub Issue Tracker | Mealie](https://github.com/mealie-recipes/mealie/issues/new/choose)
+
+
+
+    ## Helpful Links
+
+    - [Home Page](https://mealie.io)
+
+    - [Documentation](https://docs.mealie.io)
+
+    - [Discord](https://discord.gg/QuStdQGSGK)
+
+    - [Demo](https://demo.mealie.io)
+
+    '
+  version: nightly
+tags:
+- name: 'Groups: Self Service'
+paths:
+  /api/groups/self:
+    get:
+      tags:
+      - 'Groups: Self Service'
+      summary: Get Logged In User Group
+      description: Returns the Group Data for the Current User
+      operationId: get_logged_in_user_group_api_groups_self_get
+      security:
+      - OAuth2PasswordBearer: []
+      parameters:
+      - name: accept-language
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accept-Language
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupSummary'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/groups/members:
+    get:
+      tags:
+      - 'Groups: Self Service'
+      summary: Get Group Members
+      description: Returns all users belonging to the current group
+      operationId: get_group_members_api_groups_members_get
+      security:
+      - OAuth2PasswordBearer: []
+      parameters:
+      - name: orderBy
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Orderby
+      - name: orderByNullPosition
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - $ref: '#/components/schemas/OrderByNullPosition'
+          - type: 'null'
+          title: Orderbynullposition
+      - name: orderDirection
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/OrderDirection'
+          default: desc
+      - name: queryFilter
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Queryfilter
+      - name: paginationSeed
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Paginationseed
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 1
+          title: Page
+      - name: perPage
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 50
+          title: Perpage
+      - name: accept-language
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accept-Language
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginationBase_UserSummary_'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/groups/members/{username_or_id}:
+    get:
+      tags:
+      - 'Groups: Self Service'
+      summary: Get Group Member
+      description: Returns a single user belonging to the current group
+      operationId: get_group_member_api_groups_members__username_or_id__get
+      security:
+      - OAuth2PasswordBearer: []
+      parameters:
+      - name: username_or_id
+        in: path
+        required: true
+        schema:
+          anyOf:
+          - type: string
+          - type: string
+            format: uuid4
+          title: Username Or Id
+      - name: accept-language
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accept-Language
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserSummary'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/groups/preferences:
+    get:
+      tags:
+      - 'Groups: Self Service'
+      summary: Get Group Preferences
+      operationId: get_group_preferences_api_groups_preferences_get
+      security:
+      - OAuth2PasswordBearer: []
+      parameters:
+      - name: accept-language
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accept-Language
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReadGroupPreferences'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    put:
+      tags:
+      - 'Groups: Self Service'
+      summary: Update Group Preferences
+      operationId: update_group_preferences_api_groups_preferences_put
+      security:
+      - OAuth2PasswordBearer: []
+      parameters:
+      - name: accept-language
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accept-Language
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateGroupPreferences'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReadGroupPreferences'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/groups/storage:
+    get:
+      tags:
+      - 'Groups: Self Service'
+      summary: Get Storage
+      operationId: get_storage_api_groups_storage_get
+      security:
+      - OAuth2PasswordBearer: []
+      parameters:
+      - name: accept-language
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accept-Language
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupStorage'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    AIProviderSummary:
+      properties:
+        id:
+          type: string
+          format: uuid4
+          title: Id
+        name:
+          type: string
+          title: Name
+      type: object
+      required:
+      - id
+      - name
+      title: AIProviderSummary
+    UserSummary:
+      properties:
+        id:
+          type: string
+          format: uuid4
+          title: Id
+        groupId:
+          type: string
+          format: uuid4
+          title: Groupid
+        householdId:
+          type: string
+          format: uuid4
+          title: Householdid
+        username:
+          type: string
+          title: Username
+        fullName:
+          type: string
+          title: Fullname
+      type: object
+      required:
+      - id
+      - groupId
+      - householdId
+      - username
+      - fullName
+      title: UserSummary
+    UpdateGroupPreferences:
+      properties:
+        privateGroup:
+          type: boolean
+          title: Privategroup
+          default: true
+        showAnnouncements:
+          type: boolean
+          title: Showannouncements
+          default: true
+      type: object
+      title: UpdateGroupPreferences
+    PaginationBase_UserSummary_:
+      properties:
+        page:
+          type: integer
+          title: Page
+          default: 1
+        per_page:
+          type: integer
+          title: Per Page
+          default: 10
+        total:
+          type: integer
+          title: Total
+          default: 0
+        total_pages:
+          type: integer
+          title: Total Pages
+          default: 0
+        items:
+          items:
+            $ref: '#/components/schemas/UserSummary'
+          type: array
+          title: Items
+        next:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Next
+        previous:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Previous
+      type: object
+      required:
+      - items
+      title: PaginationBase[UserSummary]
+    ReadGroupPreferences:
+      properties:
+        privateGroup:
+          type: boolean
+          title: Privategroup
+          default: true
+        showAnnouncements:
+          type: boolean
+          title: Showannouncements
+          default: true
+        groupId:
+          type: string
+          format: uuid
+          title: Groupid
+        id:
+          type: string
+          format: uuid4
+          title: Id
+      type: object
+      required:
+      - groupId
+      - id
+      title: ReadGroupPreferences
+    AIProviderSettingsOut:
+      properties:
+        defaultProviderId:
+          anyOf:
+          - type: string
+            format: uuid4
+          - type: 'null'
+          title: Defaultproviderid
+        audioProviderId:
+          anyOf:
+          - type: string
+            format: uuid4
+          - type: 'null'
+          title: Audioproviderid
+        imageProviderId:
+          anyOf:
+          - type: string
+            format: uuid4
+          - type: 'null'
+          title: Imageproviderid
+        providers:
+          items:
+            $ref: '#/components/schemas/AIProviderSummary'
+          type: array
+          title: Providers
+        aiEnabled:
+          type: boolean
+          title: Aienabled
+          readOnly: true
+        audioProviderEnabled:
+          type: boolean
+          title: Audioproviderenabled
+          readOnly: true
+        imageProviderEnabled:
+          type: boolean
+          title: Imageproviderenabled
+          readOnly: true
+      type: object
+      required:
+      - defaultProviderId
+      - audioProviderId
+      - imageProviderId
+      - providers
+      - aiEnabled
+      - audioProviderEnabled
+      - imageProviderEnabled
+      title: AIProviderSettingsOut
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    OrderDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: OrderDirection
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    GroupSummary:
+      properties:
+        name:
+          type: string
+          title: Name
+        id:
+          type: string
+          format: uuid4
+          title: Id
+        slug:
+          type: string
+          title: Slug
+        preferences:
+          anyOf:
+          - $ref: '#/components/schemas/ReadGroupPreferences'
+          - type: 'null'
+        aiProviderSettings:
+          anyOf:
+          - $ref: '#/components/schemas/AIProviderSettingsOut'
+          - type: 'null'
+      type: object
+      required:
+      - name
+      - id
+      - slug
+      title: GroupSummary
+    OrderByNullPosition:
+      type: string
+      enum:
+      - first
+      - last
+      title: OrderByNullPosition
+    GroupStorage:
+      properties:
+        usedStorageBytes:
+          type: integer
+          title: Usedstoragebytes
+        usedStorageStr:
+          type: string
+          title: Usedstoragestr
+        totalStorageBytes:
+          type: integer
+          title: Totalstoragebytes
+        totalStorageStr:
+          type: string
+          title: Totalstoragestr
+      type: object
+      required:
+      - usedStorageBytes
+      - usedStorageStr
+      - totalStorageBytes
+      - totalStorageStr
+      title: GroupStorage
+  securitySchemes:
+    OAuth2PasswordBearer:
+      type: oauth2
+      flows:
+        password:
+          scopes: {}
+          tokenUrl: /api/auth/token

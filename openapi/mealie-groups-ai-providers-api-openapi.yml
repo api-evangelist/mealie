@@ -1,0 +1,350 @@
+openapi: 3.2.0
+info:
+  title: 'Mealie Groups: AI Providers API'
+  description: '
+
+    Mealie is a web application for managing your recipes, meal plans, and shopping lists. This is the Restful
+
+    API interactive documentation that can be used to explore the API. If you''re justing getting started with
+
+    the API and want to get started quickly, you can use the
+
+    [API Usage | Mealie Docs](https://docs.mealie.io/documentation/getting-started/api-usage/)
+
+    as a reference for how to get started.
+
+
+
+    If you have any questions or comments about mealie, please use the discord server to talk to the developers or other
+
+    community members. If you''d like to file an issue, please use the
+
+    [GitHub Issue Tracker | Mealie](https://github.com/mealie-recipes/mealie/issues/new/choose)
+
+
+
+    ## Helpful Links
+
+    - [Home Page](https://mealie.io)
+
+    - [Documentation](https://docs.mealie.io)
+
+    - [Discord](https://discord.gg/QuStdQGSGK)
+
+    - [Demo](https://demo.mealie.io)
+
+    '
+  version: nightly
+tags:
+- name: 'Groups: AI Providers'
+paths:
+  /api/groups/ai-providers/providers:
+    post:
+      tags:
+      - 'Groups: AI Providers'
+      summary: Create Ai Provider
+      operationId: create_ai_provider_api_groups_ai_providers_providers_post
+      security:
+      - OAuth2PasswordBearer: []
+      parameters:
+      - name: accept-language
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accept-Language
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AIProviderCreate'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AIProviderOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/groups/ai-providers/providers/{provider_id}:
+    get:
+      tags:
+      - 'Groups: AI Providers'
+      summary: Get Ai Provider
+      operationId: get_ai_provider_api_groups_ai_providers_providers__provider_id__get
+      security:
+      - OAuth2PasswordBearer: []
+      parameters:
+      - name: provider_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid4
+          title: Provider Id
+      - name: accept-language
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accept-Language
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AIProviderOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    put:
+      tags:
+      - 'Groups: AI Providers'
+      summary: Update Ai Provider
+      operationId: update_ai_provider_api_groups_ai_providers_providers__provider_id__put
+      security:
+      - OAuth2PasswordBearer: []
+      parameters:
+      - name: provider_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid4
+          title: Provider Id
+      - name: accept-language
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accept-Language
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AIProviderUpdate'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AIProviderOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - 'Groups: AI Providers'
+      summary: Delete Ai Provider
+      operationId: delete_ai_provider_api_groups_ai_providers_providers__provider_id__delete
+      security:
+      - OAuth2PasswordBearer: []
+      parameters:
+      - name: provider_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid4
+          title: Provider Id
+      - name: accept-language
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accept-Language
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AIProviderOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    AIProviderOut:
+      properties:
+        name:
+          type: string
+          title: Name
+        baseUrl:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Baseurl
+        model:
+          type: string
+          title: Model
+        timeout:
+          type: integer
+          title: Timeout
+          default: 300
+        requestHeaders:
+          additionalProperties:
+            type: string
+          type: object
+          title: Requestheaders
+          default: {}
+        requestParams:
+          additionalProperties:
+            type: string
+          type: object
+          title: Requestparams
+          default: {}
+        id:
+          type: string
+          format: uuid4
+          title: Id
+      type: object
+      required:
+      - name
+      - model
+      - id
+      title: AIProviderOut
+    AIProviderUpdate:
+      properties:
+        name:
+          type: string
+          title: Name
+        baseUrl:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Baseurl
+        apiKey:
+          type: string
+          title: Apikey
+          default: ''
+        model:
+          type: string
+          title: Model
+        timeout:
+          type: integer
+          title: Timeout
+          default: 300
+        requestHeaders:
+          additionalProperties:
+            type: string
+          type: object
+          title: Requestheaders
+          default: {}
+        requestParams:
+          additionalProperties:
+            type: string
+          type: object
+          title: Requestparams
+          default: {}
+      type: object
+      required:
+      - name
+      - model
+      title: AIProviderUpdate
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    AIProviderCreate:
+      properties:
+        name:
+          type: string
+          title: Name
+        baseUrl:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Baseurl
+        apiKey:
+          type: string
+          title: Apikey
+          default: ''
+        model:
+          type: string
+          title: Model
+        timeout:
+          type: integer
+          title: Timeout
+          default: 300
+        requestHeaders:
+          additionalProperties:
+            type: string
+          type: object
+          title: Requestheaders
+          default: {}
+        requestParams:
+          additionalProperties:
+            type: string
+          type: object
+          title: Requestparams
+          default: {}
+      type: object
+      required:
+      - name
+      - model
+      title: AIProviderCreate
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+  securitySchemes:
+    OAuth2PasswordBearer:
+      type: oauth2
+      flows:
+        password:
+          scopes: {}
+          tokenUrl: /api/auth/token

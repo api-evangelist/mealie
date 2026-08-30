@@ -1,0 +1,176 @@
+openapi: 3.2.0
+info:
+  title: 'Mealie Recipe: Exports API'
+  description: '
+
+    Mealie is a web application for managing your recipes, meal plans, and shopping lists. This is the Restful
+
+    API interactive documentation that can be used to explore the API. If you''re justing getting started with
+
+    the API and want to get started quickly, you can use the
+
+    [API Usage | Mealie Docs](https://docs.mealie.io/documentation/getting-started/api-usage/)
+
+    as a reference for how to get started.
+
+
+
+    If you have any questions or comments about mealie, please use the discord server to talk to the developers or other
+
+    community members. If you''d like to file an issue, please use the
+
+    [GitHub Issue Tracker | Mealie](https://github.com/mealie-recipes/mealie/issues/new/choose)
+
+
+
+    ## Helpful Links
+
+    - [Home Page](https://mealie.io)
+
+    - [Documentation](https://docs.mealie.io)
+
+    - [Discord](https://discord.gg/QuStdQGSGK)
+
+    - [Demo](https://demo.mealie.io)
+
+    '
+  version: nightly
+tags:
+- name: 'Recipe: Exports'
+paths:
+  /api/recipes/exports:
+    get:
+      tags:
+      - 'Recipe: Exports'
+      summary: Get Recipe Formats And Templates
+      operationId: get_recipe_formats_and_templates_api_recipes_exports_get
+      security:
+      - OAuth2PasswordBearer: []
+      parameters:
+      - name: accept-language
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accept-Language
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FormatResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/recipes/{slug}/exports:
+    get:
+      tags:
+      - 'Recipe: Exports'
+      summary: Get Recipe As Format
+      description: '## Parameters
+
+        `template_name`: The name of the template to use to use in the exports listed. Template type will automatically
+
+        be set on the backend. Because of this, it''s important that your templates have unique names. See available
+
+        names and formats in the /api/recipes/exports endpoint.'
+      operationId: get_recipe_as_format_api_recipes__slug__exports_get
+      security:
+      - OAuth2PasswordBearer: []
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      - name: template_name
+        in: query
+        required: true
+        schema:
+          type: string
+          title: Template Name
+      - name: accept-language
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accept-Language
+      responses:
+        '200':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    FormatResponse:
+      properties:
+        json:
+          items:
+            type: string
+          type: array
+          title: Json
+        zip:
+          items:
+            type: string
+          type: array
+          title: Zip
+      type: object
+      required:
+      - json
+      - zip
+      title: FormatResponse
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+  securitySchemes:
+    OAuth2PasswordBearer:
+      type: oauth2
+      flows:
+        password:
+          scopes: {}
+          tokenUrl: /api/auth/token

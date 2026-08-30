@@ -1,0 +1,304 @@
+openapi: 3.2.0
+info:
+  title: 'Mealie Users: Registration API'
+  description: '
+
+    Mealie is a web application for managing your recipes, meal plans, and shopping lists. This is the Restful
+
+    API interactive documentation that can be used to explore the API. If you''re justing getting started with
+
+    the API and want to get started quickly, you can use the
+
+    [API Usage | Mealie Docs](https://docs.mealie.io/documentation/getting-started/api-usage/)
+
+    as a reference for how to get started.
+
+
+
+    If you have any questions or comments about mealie, please use the discord server to talk to the developers or other
+
+    community members. If you''d like to file an issue, please use the
+
+    [GitHub Issue Tracker | Mealie](https://github.com/mealie-recipes/mealie/issues/new/choose)
+
+
+
+    ## Helpful Links
+
+    - [Home Page](https://mealie.io)
+
+    - [Documentation](https://docs.mealie.io)
+
+    - [Discord](https://discord.gg/QuStdQGSGK)
+
+    - [Demo](https://demo.mealie.io)
+
+    '
+  version: nightly
+tags:
+- name: 'Users: Registration'
+paths:
+  /api/users/register:
+    post:
+      tags:
+      - 'Users: Registration'
+      summary: Register New User
+      operationId: register_new_user_api_users_register_post
+      parameters:
+      - name: accept-language
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accept-Language
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUserRegistration'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    LongLiveTokenOut:
+      properties:
+        name:
+          type: string
+          title: Name
+        id:
+          type: integer
+          title: Id
+        createdAt:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Createdat
+      type: object
+      required:
+      - name
+      - id
+      title: LongLiveTokenOut
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    CreateUserRegistration:
+      properties:
+        group:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Group
+        household:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Household
+        groupToken:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Grouptoken
+        email:
+          type: string
+          title: Email
+        username:
+          type: string
+          title: Username
+        fullName:
+          type: string
+          title: Fullname
+        password:
+          type: string
+          title: Password
+        passwordConfirm:
+          type: string
+          title: Passwordconfirm
+        advanced:
+          type: boolean
+          title: Advanced
+          default: false
+        private:
+          type: boolean
+          title: Private
+          default: false
+        seedData:
+          type: boolean
+          title: Seeddata
+          default: false
+        locale:
+          type: string
+          title: Locale
+          default: en-US
+      type: object
+      required:
+      - email
+      - username
+      - fullName
+      - password
+      - passwordConfirm
+      title: CreateUserRegistration
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    UserOut:
+      properties:
+        id:
+          type: string
+          format: uuid4
+          title: Id
+        username:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Username
+        fullName:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Fullname
+        email:
+          type: string
+          title: Email
+        authMethod:
+          $ref: '#/components/schemas/AuthMethod'
+          default: Mealie
+        admin:
+          type: boolean
+          title: Admin
+          default: false
+        group:
+          type: string
+          title: Group
+        household:
+          type: string
+          title: Household
+        advanced:
+          type: boolean
+          title: Advanced
+          default: false
+        showAnnouncements:
+          type: boolean
+          title: Showannouncements
+          default: true
+        lastReadAnnouncement:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Lastreadannouncement
+        canInvite:
+          type: boolean
+          title: Caninvite
+          default: false
+        canManage:
+          type: boolean
+          title: Canmanage
+          default: false
+        canManageHousehold:
+          type: boolean
+          title: Canmanagehousehold
+          default: false
+        canOrganize:
+          type: boolean
+          title: Canorganize
+          default: false
+        groupId:
+          type: string
+          format: uuid4
+          title: Groupid
+        groupSlug:
+          type: string
+          title: Groupslug
+        householdId:
+          type: string
+          format: uuid4
+          title: Householdid
+        householdSlug:
+          type: string
+          title: Householdslug
+        tokens:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/LongLiveTokenOut'
+            type: array
+          - type: 'null'
+          title: Tokens
+        cacheKey:
+          type: string
+          title: Cachekey
+      type: object
+      required:
+      - id
+      - email
+      - group
+      - household
+      - groupId
+      - groupSlug
+      - householdId
+      - householdSlug
+      - cacheKey
+      title: UserOut
+      example:
+        admin: 'false'
+        email: changeme@example.com
+        fullName: Change Me
+        group: home
+        household: Family
+        username: ChangeMe
+    AuthMethod:
+      type: string
+      enum:
+      - Mealie
+      - LDAP
+      - OIDC
+      title: AuthMethod
+  securitySchemes:
+    OAuth2PasswordBearer:
+      type: oauth2
+      flows:
+        password:
+          scopes: {}
+          tokenUrl: /api/auth/token

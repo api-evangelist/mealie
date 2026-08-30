@@ -1,0 +1,541 @@
+openapi: 3.2.0
+info:
+  title: 'Mealie Users: CRUD API'
+  description: '
+
+    Mealie is a web application for managing your recipes, meal plans, and shopping lists. This is the Restful
+
+    API interactive documentation that can be used to explore the API. If you''re justing getting started with
+
+    the API and want to get started quickly, you can use the
+
+    [API Usage | Mealie Docs](https://docs.mealie.io/documentation/getting-started/api-usage/)
+
+    as a reference for how to get started.
+
+
+
+    If you have any questions or comments about mealie, please use the discord server to talk to the developers or other
+
+    community members. If you''d like to file an issue, please use the
+
+    [GitHub Issue Tracker | Mealie](https://github.com/mealie-recipes/mealie/issues/new/choose)
+
+
+
+    ## Helpful Links
+
+    - [Home Page](https://mealie.io)
+
+    - [Documentation](https://docs.mealie.io)
+
+    - [Discord](https://discord.gg/QuStdQGSGK)
+
+    - [Demo](https://demo.mealie.io)
+
+    '
+  version: nightly
+tags:
+- name: 'Users: CRUD'
+paths:
+  /api/users/self:
+    get:
+      tags:
+      - 'Users: CRUD'
+      summary: Get Logged In User
+      operationId: get_logged_in_user_api_users_self_get
+      security:
+      - OAuth2PasswordBearer: []
+      parameters:
+      - name: accept-language
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accept-Language
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/users/self/ratings:
+    get:
+      tags:
+      - 'Users: CRUD'
+      summary: Get Logged In User Ratings
+      operationId: get_logged_in_user_ratings_api_users_self_ratings_get
+      security:
+      - OAuth2PasswordBearer: []
+      parameters:
+      - name: accept-language
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accept-Language
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserRatings_UserRatingSummary_'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/users/self/ratings/{recipe_id}:
+    get:
+      tags:
+      - 'Users: CRUD'
+      summary: Get Logged In User Rating For Recipe
+      operationId: get_logged_in_user_rating_for_recipe_api_users_self_ratings__recipe_id__get
+      security:
+      - OAuth2PasswordBearer: []
+      parameters:
+      - name: recipe_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid4
+          title: Recipe Id
+      - name: accept-language
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accept-Language
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserRatingSummary'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/users/self/favorites:
+    get:
+      tags:
+      - 'Users: CRUD'
+      summary: Get Logged In User Favorites
+      operationId: get_logged_in_user_favorites_api_users_self_favorites_get
+      security:
+      - OAuth2PasswordBearer: []
+      parameters:
+      - name: accept-language
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accept-Language
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserRatings_UserRatingSummary_'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/users/password:
+    put:
+      tags:
+      - 'Users: CRUD'
+      summary: Update Password
+      description: Resets the User Password
+      operationId: update_password_api_users_password_put
+      security:
+      - OAuth2PasswordBearer: []
+      parameters:
+      - name: accept-language
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accept-Language
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChangePassword'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/users/{item_id}:
+    put:
+      tags:
+      - 'Users: CRUD'
+      summary: Update User
+      operationId: update_user_api_users__item_id__put
+      security:
+      - OAuth2PasswordBearer: []
+      parameters:
+      - name: item_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid4
+          title: Item Id
+      - name: accept-language
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accept-Language
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mealie__schema__user__user__UserBase'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    LongLiveTokenOut:
+      properties:
+        name:
+          type: string
+          title: Name
+        id:
+          type: integer
+          title: Id
+        createdAt:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Createdat
+      type: object
+      required:
+      - name
+      - id
+      title: LongLiveTokenOut
+    mealie__schema__user__user__UserBase:
+      properties:
+        id:
+          anyOf:
+          - type: string
+            format: uuid4
+          - type: 'null'
+          title: Id
+        username:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Username
+        fullName:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Fullname
+        email:
+          type: string
+          title: Email
+        authMethod:
+          $ref: '#/components/schemas/AuthMethod'
+          default: Mealie
+        admin:
+          type: boolean
+          title: Admin
+          default: false
+        group:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Group
+        household:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Household
+        advanced:
+          type: boolean
+          title: Advanced
+          default: false
+        showAnnouncements:
+          type: boolean
+          title: Showannouncements
+          default: true
+        lastReadAnnouncement:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Lastreadannouncement
+        canInvite:
+          type: boolean
+          title: Caninvite
+          default: false
+        canManage:
+          type: boolean
+          title: Canmanage
+          default: false
+        canManageHousehold:
+          type: boolean
+          title: Canmanagehousehold
+          default: false
+        canOrganize:
+          type: boolean
+          title: Canorganize
+          default: false
+      type: object
+      required:
+      - email
+      title: UserBase
+      example:
+        admin: 'false'
+        email: changeme@example.com
+        fullName: Change Me
+        group: home
+        household: Family
+        username: ChangeMe
+    ChangePassword:
+      properties:
+        currentPassword:
+          type: string
+          title: Currentpassword
+          default: ''
+        newPassword:
+          type: string
+          minLength: 8
+          title: Newpassword
+      type: object
+      required:
+      - newPassword
+      title: ChangePassword
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    UserRatingSummary:
+      properties:
+        recipeId:
+          type: string
+          format: uuid4
+          title: Recipeid
+        rating:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Rating
+        isFavorite:
+          type: boolean
+          title: Isfavorite
+          default: false
+      type: object
+      required:
+      - recipeId
+      title: UserRatingSummary
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    UserOut:
+      properties:
+        id:
+          type: string
+          format: uuid4
+          title: Id
+        username:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Username
+        fullName:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Fullname
+        email:
+          type: string
+          title: Email
+        authMethod:
+          $ref: '#/components/schemas/AuthMethod'
+          default: Mealie
+        admin:
+          type: boolean
+          title: Admin
+          default: false
+        group:
+          type: string
+          title: Group
+        household:
+          type: string
+          title: Household
+        advanced:
+          type: boolean
+          title: Advanced
+          default: false
+        showAnnouncements:
+          type: boolean
+          title: Showannouncements
+          default: true
+        lastReadAnnouncement:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Lastreadannouncement
+        canInvite:
+          type: boolean
+          title: Caninvite
+          default: false
+        canManage:
+          type: boolean
+          title: Canmanage
+          default: false
+        canManageHousehold:
+          type: boolean
+          title: Canmanagehousehold
+          default: false
+        canOrganize:
+          type: boolean
+          title: Canorganize
+          default: false
+        groupId:
+          type: string
+          format: uuid4
+          title: Groupid
+        groupSlug:
+          type: string
+          title: Groupslug
+        householdId:
+          type: string
+          format: uuid4
+          title: Householdid
+        householdSlug:
+          type: string
+          title: Householdslug
+        tokens:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/LongLiveTokenOut'
+            type: array
+          - type: 'null'
+          title: Tokens
+        cacheKey:
+          type: string
+          title: Cachekey
+      type: object
+      required:
+      - id
+      - email
+      - group
+      - household
+      - groupId
+      - groupSlug
+      - householdId
+      - householdSlug
+      - cacheKey
+      title: UserOut
+      example:
+        admin: 'false'
+        email: changeme@example.com
+        fullName: Change Me
+        group: home
+        household: Family
+        username: ChangeMe
+    UserRatings_UserRatingSummary_:
+      properties:
+        ratings:
+          items:
+            $ref: '#/components/schemas/UserRatingSummary'
+          type: array
+          title: Ratings
+      type: object
+      required:
+      - ratings
+      title: UserRatings[UserRatingSummary]
+    AuthMethod:
+      type: string
+      enum:
+      - Mealie
+      - LDAP
+      - OIDC
+      title: AuthMethod
+  securitySchemes:
+    OAuth2PasswordBearer:
+      type: oauth2
+      flows:
+        password:
+          scopes: {}
+          tokenUrl: /api/auth/token

@@ -1,0 +1,259 @@
+openapi: 3.2.0
+info:
+  title: 'Mealie Households: Invitations API'
+  description: '
+
+    Mealie is a web application for managing your recipes, meal plans, and shopping lists. This is the Restful
+
+    API interactive documentation that can be used to explore the API. If you''re justing getting started with
+
+    the API and want to get started quickly, you can use the
+
+    [API Usage | Mealie Docs](https://docs.mealie.io/documentation/getting-started/api-usage/)
+
+    as a reference for how to get started.
+
+
+
+    If you have any questions or comments about mealie, please use the discord server to talk to the developers or other
+
+    community members. If you''d like to file an issue, please use the
+
+    [GitHub Issue Tracker | Mealie](https://github.com/mealie-recipes/mealie/issues/new/choose)
+
+
+
+    ## Helpful Links
+
+    - [Home Page](https://mealie.io)
+
+    - [Documentation](https://docs.mealie.io)
+
+    - [Discord](https://discord.gg/QuStdQGSGK)
+
+    - [Demo](https://demo.mealie.io)
+
+    '
+  version: nightly
+tags:
+- name: 'Households: Invitations'
+paths:
+  /api/households/invitations:
+    get:
+      tags:
+      - 'Households: Invitations'
+      summary: Get Invite Tokens
+      operationId: get_invite_tokens_api_households_invitations_get
+      security:
+      - OAuth2PasswordBearer: []
+      parameters:
+      - name: accept-language
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accept-Language
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ReadInviteToken'
+                title: Response Get Invite Tokens Api Households Invitations Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    post:
+      tags:
+      - 'Households: Invitations'
+      summary: Create Invite Token
+      operationId: create_invite_token_api_households_invitations_post
+      security:
+      - OAuth2PasswordBearer: []
+      parameters:
+      - name: accept-language
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accept-Language
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateInviteToken'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReadInviteToken'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/households/invitations/email:
+    post:
+      tags:
+      - 'Households: Invitations'
+      summary: Email Invitation
+      operationId: email_invitation_api_households_invitations_email_post
+      security:
+      - OAuth2PasswordBearer: []
+      parameters:
+      - name: accept-language
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accept-Language
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmailInvitation'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmailInitationResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    ReadInviteToken:
+      properties:
+        token:
+          type: string
+          title: Token
+        usesLeft:
+          type: integer
+          title: Usesleft
+        groupId:
+          type: string
+          format: uuid
+          title: Groupid
+        householdId:
+          type: string
+          format: uuid
+          title: Householdid
+      type: object
+      required:
+      - token
+      - usesLeft
+      - groupId
+      - householdId
+      title: ReadInviteToken
+    EmailInitationResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+        error:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Error
+      type: object
+      required:
+      - success
+      title: EmailInitationResponse
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    CreateInviteToken:
+      properties:
+        uses:
+          type: integer
+          title: Uses
+        groupId:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Groupid
+        householdId:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Householdid
+      type: object
+      required:
+      - uses
+      title: CreateInviteToken
+    EmailInvitation:
+      properties:
+        email:
+          type: string
+          title: Email
+        token:
+          type: string
+          title: Token
+      type: object
+      required:
+      - email
+      - token
+      title: EmailInvitation
+  securitySchemes:
+    OAuth2PasswordBearer:
+      type: oauth2
+      flows:
+        password:
+          scopes: {}
+          tokenUrl: /api/auth/token

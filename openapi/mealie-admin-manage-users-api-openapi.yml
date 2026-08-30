@@ -1,0 +1,675 @@
+openapi: 3.2.0
+info:
+  title: 'Mealie Admin: Manage Users API'
+  description: '
+
+    Mealie is a web application for managing your recipes, meal plans, and shopping lists. This is the Restful
+
+    API interactive documentation that can be used to explore the API. If you''re justing getting started with
+
+    the API and want to get started quickly, you can use the
+
+    [API Usage | Mealie Docs](https://docs.mealie.io/documentation/getting-started/api-usage/)
+
+    as a reference for how to get started.
+
+
+
+    If you have any questions or comments about mealie, please use the discord server to talk to the developers or other
+
+    community members. If you''d like to file an issue, please use the
+
+    [GitHub Issue Tracker | Mealie](https://github.com/mealie-recipes/mealie/issues/new/choose)
+
+
+
+    ## Helpful Links
+
+    - [Home Page](https://mealie.io)
+
+    - [Documentation](https://docs.mealie.io)
+
+    - [Discord](https://discord.gg/QuStdQGSGK)
+
+    - [Demo](https://demo.mealie.io)
+
+    '
+  version: nightly
+tags:
+- name: 'Admin: Manage Users'
+paths:
+  /api/admin/users:
+    get:
+      tags:
+      - 'Admin: Manage Users'
+      summary: Get All
+      operationId: get_all_api_admin_users_get
+      security:
+      - OAuth2PasswordBearer: []
+      parameters:
+      - name: orderBy
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Orderby
+      - name: orderByNullPosition
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - $ref: '#/components/schemas/OrderByNullPosition'
+          - type: 'null'
+          title: Orderbynullposition
+      - name: orderDirection
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/OrderDirection'
+          default: desc
+      - name: queryFilter
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Queryfilter
+      - name: paginationSeed
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Paginationseed
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 1
+          title: Page
+      - name: perPage
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 50
+          title: Perpage
+      - name: accept-language
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accept-Language
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserPagination'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    post:
+      tags:
+      - 'Admin: Manage Users'
+      summary: Create One
+      operationId: create_one_api_admin_users_post
+      security:
+      - OAuth2PasswordBearer: []
+      parameters:
+      - name: accept-language
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accept-Language
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserIn'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/admin/users/unlock:
+    post:
+      tags:
+      - 'Admin: Manage Users'
+      summary: Unlock Users
+      operationId: unlock_users_api_admin_users_unlock_post
+      security:
+      - OAuth2PasswordBearer: []
+      parameters:
+      - name: force
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+          title: Force
+      - name: accept-language
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accept-Language
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnlockResults'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/admin/users/{item_id}:
+    get:
+      tags:
+      - 'Admin: Manage Users'
+      summary: Get One
+      operationId: get_one_api_admin_users__item_id__get
+      security:
+      - OAuth2PasswordBearer: []
+      parameters:
+      - name: item_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid4
+          title: Item Id
+      - name: accept-language
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accept-Language
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    put:
+      tags:
+      - 'Admin: Manage Users'
+      summary: Update One
+      operationId: update_one_api_admin_users__item_id__put
+      security:
+      - OAuth2PasswordBearer: []
+      parameters:
+      - name: item_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid4
+          title: Item Id
+      - name: accept-language
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accept-Language
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserOut'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - 'Admin: Manage Users'
+      summary: Delete One
+      operationId: delete_one_api_admin_users__item_id__delete
+      security:
+      - OAuth2PasswordBearer: []
+      parameters:
+      - name: item_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid4
+          title: Item Id
+      - name: accept-language
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accept-Language
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/admin/users/password-reset-token:
+    post:
+      tags:
+      - 'Admin: Manage Users'
+      summary: Generate Token
+      description: Generates a reset token and returns it. This is an authenticated endpoint
+      operationId: generate_token_api_admin_users_password_reset_token_post
+      security:
+      - OAuth2PasswordBearer: []
+      parameters:
+      - name: accept-language
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accept-Language
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ForgotPassword'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PasswordResetToken'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    UserIn:
+      properties:
+        id:
+          anyOf:
+          - type: string
+            format: uuid4
+          - type: 'null'
+          title: Id
+        username:
+          type: string
+          title: Username
+        fullName:
+          type: string
+          title: Fullname
+        email:
+          type: string
+          title: Email
+        authMethod:
+          $ref: '#/components/schemas/AuthMethod'
+          default: Mealie
+        admin:
+          type: boolean
+          title: Admin
+          default: false
+        group:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Group
+        household:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Household
+        advanced:
+          type: boolean
+          title: Advanced
+          default: false
+        showAnnouncements:
+          type: boolean
+          title: Showannouncements
+          default: true
+        lastReadAnnouncement:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Lastreadannouncement
+        canInvite:
+          type: boolean
+          title: Caninvite
+          default: false
+        canManage:
+          type: boolean
+          title: Canmanage
+          default: false
+        canManageHousehold:
+          type: boolean
+          title: Canmanagehousehold
+          default: false
+        canOrganize:
+          type: boolean
+          title: Canorganize
+          default: false
+        password:
+          type: string
+          title: Password
+      type: object
+      required:
+      - username
+      - fullName
+      - email
+      - password
+      title: UserIn
+      example:
+        admin: 'false'
+        email: changeme@example.com
+        fullName: Change Me
+        group: home
+        household: Family
+        username: ChangeMe
+    LongLiveTokenOut:
+      properties:
+        name:
+          type: string
+          title: Name
+        id:
+          type: integer
+          title: Id
+        createdAt:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Createdat
+      type: object
+      required:
+      - name
+      - id
+      title: LongLiveTokenOut
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ForgotPassword:
+      properties:
+        email:
+          type: string
+          title: Email
+      type: object
+      required:
+      - email
+      title: ForgotPassword
+    UnlockResults:
+      properties:
+        unlocked:
+          type: integer
+          title: Unlocked
+          default: 0
+      type: object
+      title: UnlockResults
+    OrderDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: OrderDirection
+    UserPagination:
+      properties:
+        page:
+          type: integer
+          title: Page
+          default: 1
+        per_page:
+          type: integer
+          title: Per Page
+          default: 10
+        total:
+          type: integer
+          title: Total
+          default: 0
+        total_pages:
+          type: integer
+          title: Total Pages
+          default: 0
+        items:
+          items:
+            $ref: '#/components/schemas/UserOut'
+          type: array
+          title: Items
+        next:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Next
+        previous:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Previous
+      type: object
+      required:
+      - items
+      title: UserPagination
+    UserOut:
+      properties:
+        id:
+          type: string
+          format: uuid4
+          title: Id
+        username:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Username
+        fullName:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Fullname
+        email:
+          type: string
+          title: Email
+        authMethod:
+          $ref: '#/components/schemas/AuthMethod'
+          default: Mealie
+        admin:
+          type: boolean
+          title: Admin
+          default: false
+        group:
+          type: string
+          title: Group
+        household:
+          type: string
+          title: Household
+        advanced:
+          type: boolean
+          title: Advanced
+          default: false
+        showAnnouncements:
+          type: boolean
+          title: Showannouncements
+          default: true
+        lastReadAnnouncement:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Lastreadannouncement
+        canInvite:
+          type: boolean
+          title: Caninvite
+          default: false
+        canManage:
+          type: boolean
+          title: Canmanage
+          default: false
+        canManageHousehold:
+          type: boolean
+          title: Canmanagehousehold
+          default: false
+        canOrganize:
+          type: boolean
+          title: Canorganize
+          default: false
+        groupId:
+          type: string
+          format: uuid4
+          title: Groupid
+        groupSlug:
+          type: string
+          title: Groupslug
+        householdId:
+          type: string
+          format: uuid4
+          title: Householdid
+        householdSlug:
+          type: string
+          title: Householdslug
+        tokens:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/LongLiveTokenOut'
+            type: array
+          - type: 'null'
+          title: Tokens
+        cacheKey:
+          type: string
+          title: Cachekey
+      type: object
+      required:
+      - id
+      - email
+      - group
+      - household
+      - groupId
+      - groupSlug
+      - householdId
+      - householdSlug
+      - cacheKey
+      title: UserOut
+      example:
+        admin: 'false'
+        email: changeme@example.com
+        fullName: Change Me
+        group: home
+        household: Family
+        username: ChangeMe
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    OrderByNullPosition:
+      type: string
+      enum:
+      - first
+      - last
+      title: OrderByNullPosition
+    AuthMethod:
+      type: string
+      enum:
+      - Mealie
+      - LDAP
+      - OIDC
+      title: AuthMethod
+    PasswordResetToken:
+      properties:
+        token:
+          type: string
+          title: Token
+      type: object
+      required:
+      - token
+      title: PasswordResetToken
+  securitySchemes:
+    OAuth2PasswordBearer:
+      type: oauth2
+      flows:
+        password:
+          scopes: {}
+          tokenUrl: /api/auth/token
