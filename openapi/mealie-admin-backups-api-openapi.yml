@@ -1,39 +1,7 @@
 openapi: 3.2.0
 info:
   title: 'Mealie Admin: Backups API'
-  description: '
-
-    Mealie is a web application for managing your recipes, meal plans, and shopping lists. This is the Restful
-
-    API interactive documentation that can be used to explore the API. If you''re justing getting started with
-
-    the API and want to get started quickly, you can use the
-
-    [API Usage | Mealie Docs](https://docs.mealie.io/documentation/getting-started/api-usage/)
-
-    as a reference for how to get started.
-
-
-
-    If you have any questions or comments about mealie, please use the discord server to talk to the developers or other
-
-    community members. If you''d like to file an issue, please use the
-
-    [GitHub Issue Tracker | Mealie](https://github.com/mealie-recipes/mealie/issues/new/choose)
-
-
-
-    ## Helpful Links
-
-    - [Home Page](https://mealie.io)
-
-    - [Documentation](https://docs.mealie.io)
-
-    - [Discord](https://discord.gg/QuStdQGSGK)
-
-    - [Demo](https://demo.mealie.io)
-
-    '
+  description: Mealie is a web application for managing your recipes, meal plans, and shopping lists.
   version: nightly
 tags:
 - name: 'Admin: Backups'
@@ -244,6 +212,41 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    FileTokenResponse:
+      properties:
+        fileToken:
+          type: string
+          title: Filetoken
+      type: object
+      required:
+      - fileToken
+      title: FileTokenResponse
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    AllBackups:
+      properties:
+        imports:
+          items:
+            $ref: '#/components/schemas/BackupFile'
+          type: array
+          title: Imports
+        templates:
+          items:
+            type: string
+          type: array
+          title: Templates
+      type: object
+      required:
+      - imports
+      - templates
+      title: AllBackups
     Body_upload_one_api_admin_backups_upload_post:
       properties:
         archive:
@@ -254,15 +257,37 @@ components:
       required:
       - archive
       title: Body_upload_one_api_admin_backups_upload_post
-    HTTPValidationError:
+    SuccessResponse:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
+        message:
+          type: string
+          title: Message
+        error:
+          type: boolean
+          title: Error
+          default: false
       type: object
-      title: HTTPValidationError
+      required:
+      - message
+      title: SuccessResponse
+    BackupFile:
+      properties:
+        name:
+          type: string
+          title: Name
+        date:
+          type: string
+          format: date-time
+          title: Date
+        size:
+          type: string
+          title: Size
+      type: object
+      required:
+      - name
+      - date
+      - size
+      title: BackupFile
     ValidationError:
       properties:
         loc:
@@ -289,63 +314,6 @@ components:
       - msg
       - type
       title: ValidationError
-    FileTokenResponse:
-      properties:
-        fileToken:
-          type: string
-          title: Filetoken
-      type: object
-      required:
-      - fileToken
-      title: FileTokenResponse
-    SuccessResponse:
-      properties:
-        message:
-          type: string
-          title: Message
-        error:
-          type: boolean
-          title: Error
-          default: false
-      type: object
-      required:
-      - message
-      title: SuccessResponse
-    AllBackups:
-      properties:
-        imports:
-          items:
-            $ref: '#/components/schemas/BackupFile'
-          type: array
-          title: Imports
-        templates:
-          items:
-            type: string
-          type: array
-          title: Templates
-      type: object
-      required:
-      - imports
-      - templates
-      title: AllBackups
-    BackupFile:
-      properties:
-        name:
-          type: string
-          title: Name
-        date:
-          type: string
-          format: date-time
-          title: Date
-        size:
-          type: string
-          title: Size
-      type: object
-      required:
-      - name
-      - date
-      - size
-      title: BackupFile
   securitySchemes:
     OAuth2PasswordBearer:
       type: oauth2

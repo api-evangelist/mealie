@@ -1,39 +1,7 @@
 openapi: 3.2.0
 info:
   title: 'Mealie Groups: AI Provider Settings API'
-  description: '
-
-    Mealie is a web application for managing your recipes, meal plans, and shopping lists. This is the Restful
-
-    API interactive documentation that can be used to explore the API. If you''re justing getting started with
-
-    the API and want to get started quickly, you can use the
-
-    [API Usage | Mealie Docs](https://docs.mealie.io/documentation/getting-started/api-usage/)
-
-    as a reference for how to get started.
-
-
-
-    If you have any questions or comments about mealie, please use the discord server to talk to the developers or other
-
-    community members. If you''d like to file an issue, please use the
-
-    [GitHub Issue Tracker | Mealie](https://github.com/mealie-recipes/mealie/issues/new/choose)
-
-
-
-    ## Helpful Links
-
-    - [Home Page](https://mealie.io)
-
-    - [Documentation](https://docs.mealie.io)
-
-    - [Discord](https://discord.gg/QuStdQGSGK)
-
-    - [Demo](https://demo.mealie.io)
-
-    '
+  description: Mealie is a web application for managing your recipes, meal plans, and shopping lists.
   version: nightly
 tags:
 - name: 'Groups: AI Provider Settings'
@@ -105,20 +73,32 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    AIProviderSummary:
+    AIProviderSettingsUpdate:
       properties:
-        id:
-          type: string
-          format: uuid4
-          title: Id
-        name:
-          type: string
-          title: Name
+        defaultProviderId:
+          anyOf:
+          - type: string
+            format: uuid4
+          - type: 'null'
+          title: Defaultproviderid
+        audioProviderId:
+          anyOf:
+          - type: string
+            format: uuid4
+          - type: 'null'
+          title: Audioproviderid
+        imageProviderId:
+          anyOf:
+          - type: string
+            format: uuid4
+          - type: 'null'
+          title: Imageproviderid
       type: object
       required:
-      - id
-      - name
-      title: AIProviderSummary
+      - defaultProviderId
+      - audioProviderId
+      - imageProviderId
+      title: AIProviderSettingsUpdate
     HTTPValidationError:
       properties:
         detail:
@@ -175,32 +155,20 @@ components:
       - audioProviderEnabled
       - imageProviderEnabled
       title: AIProviderSettingsOut
-    AIProviderSettingsUpdate:
+    AIProviderSummary:
       properties:
-        defaultProviderId:
-          anyOf:
-          - type: string
-            format: uuid4
-          - type: 'null'
-          title: Defaultproviderid
-        audioProviderId:
-          anyOf:
-          - type: string
-            format: uuid4
-          - type: 'null'
-          title: Audioproviderid
-        imageProviderId:
-          anyOf:
-          - type: string
-            format: uuid4
-          - type: 'null'
-          title: Imageproviderid
+        id:
+          type: string
+          format: uuid4
+          title: Id
+        name:
+          type: string
+          title: Name
       type: object
       required:
-      - defaultProviderId
-      - audioProviderId
-      - imageProviderId
-      title: AIProviderSettingsUpdate
+      - id
+      - name
+      title: AIProviderSummary
     ValidationError:
       properties:
         loc:

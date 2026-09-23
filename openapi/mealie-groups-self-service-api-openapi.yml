@@ -1,39 +1,7 @@
 openapi: 3.2.0
 info:
   title: 'Mealie Groups: Self Service API'
-  description: '
-
-    Mealie is a web application for managing your recipes, meal plans, and shopping lists. This is the Restful
-
-    API interactive documentation that can be used to explore the API. If you''re justing getting started with
-
-    the API and want to get started quickly, you can use the
-
-    [API Usage | Mealie Docs](https://docs.mealie.io/documentation/getting-started/api-usage/)
-
-    as a reference for how to get started.
-
-
-
-    If you have any questions or comments about mealie, please use the discord server to talk to the developers or other
-
-    community members. If you''d like to file an issue, please use the
-
-    [GitHub Issue Tracker | Mealie](https://github.com/mealie-recipes/mealie/issues/new/choose)
-
-
-
-    ## Helpful Links
-
-    - [Home Page](https://mealie.io)
-
-    - [Documentation](https://docs.mealie.io)
-
-    - [Discord](https://discord.gg/QuStdQGSGK)
-
-    - [Demo](https://demo.mealie.io)
-
-    '
+  description: Mealie is a web application for managing your recipes, meal plans, and shopping lists.
   version: nightly
 tags:
 - name: 'Groups: Self Service'
@@ -289,60 +257,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    AIProviderSummary:
-      properties:
-        id:
-          type: string
-          format: uuid4
-          title: Id
-        name:
-          type: string
-          title: Name
-      type: object
-      required:
-      - id
-      - name
-      title: AIProviderSummary
-    UserSummary:
-      properties:
-        id:
-          type: string
-          format: uuid4
-          title: Id
-        groupId:
-          type: string
-          format: uuid4
-          title: Groupid
-        householdId:
-          type: string
-          format: uuid4
-          title: Householdid
-        username:
-          type: string
-          title: Username
-        fullName:
-          type: string
-          title: Fullname
-      type: object
-      required:
-      - id
-      - groupId
-      - householdId
-      - username
-      - fullName
-      title: UserSummary
-    UpdateGroupPreferences:
-      properties:
-        privateGroup:
-          type: boolean
-          title: Privategroup
-          default: true
-        showAnnouncements:
-          type: boolean
-          title: Showannouncements
-          default: true
-      type: object
-      title: UpdateGroupPreferences
     PaginationBase_UserSummary_:
       properties:
         page:
@@ -380,7 +294,7 @@ components:
       required:
       - items
       title: PaginationBase[UserSummary]
-    ReadGroupPreferences:
+    UpdateGroupPreferences:
       properties:
         privateGroup:
           type: boolean
@@ -390,19 +304,98 @@ components:
           type: boolean
           title: Showannouncements
           default: true
-        groupId:
+      type: object
+      title: UpdateGroupPreferences
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    GroupStorage:
+      properties:
+        usedStorageBytes:
+          type: integer
+          title: Usedstoragebytes
+        usedStorageStr:
           type: string
-          format: uuid
-          title: Groupid
+          title: Usedstoragestr
+        totalStorageBytes:
+          type: integer
+          title: Totalstoragebytes
+        totalStorageStr:
+          type: string
+          title: Totalstoragestr
+      type: object
+      required:
+      - usedStorageBytes
+      - usedStorageStr
+      - totalStorageBytes
+      - totalStorageStr
+      title: GroupStorage
+    UserSummary:
+      properties:
         id:
           type: string
           format: uuid4
           title: Id
+        groupId:
+          type: string
+          format: uuid4
+          title: Groupid
+        householdId:
+          type: string
+          format: uuid4
+          title: Householdid
+        username:
+          type: string
+          title: Username
+        fullName:
+          type: string
+          title: Fullname
       type: object
       required:
-      - groupId
       - id
-      title: ReadGroupPreferences
+      - groupId
+      - householdId
+      - username
+      - fullName
+      title: UserSummary
+    OrderByNullPosition:
+      type: string
+      enum:
+      - first
+      - last
+      title: OrderByNullPosition
+    GroupSummary:
+      properties:
+        name:
+          type: string
+          title: Name
+        id:
+          type: string
+          format: uuid4
+          title: Id
+        slug:
+          type: string
+          title: Slug
+        preferences:
+          anyOf:
+          - $ref: '#/components/schemas/ReadGroupPreferences'
+          - type: 'null'
+        aiProviderSettings:
+          anyOf:
+          - $ref: '#/components/schemas/AIProviderSettingsOut'
+          - type: 'null'
+      type: object
+      required:
+      - name
+      - id
+      - slug
+      title: GroupSummary
     AIProviderSettingsOut:
       properties:
         defaultProviderId:
@@ -450,21 +443,43 @@ components:
       - audioProviderEnabled
       - imageProviderEnabled
       title: AIProviderSettingsOut
-    HTTPValidationError:
+    ReadGroupPreferences:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
+        privateGroup:
+          type: boolean
+          title: Privategroup
+          default: true
+        showAnnouncements:
+          type: boolean
+          title: Showannouncements
+          default: true
+        groupId:
+          type: string
+          format: uuid
+          title: Groupid
+        id:
+          type: string
+          format: uuid4
+          title: Id
       type: object
-      title: HTTPValidationError
-    OrderDirection:
-      type: string
-      enum:
-      - asc
-      - desc
-      title: OrderDirection
+      required:
+      - groupId
+      - id
+      title: ReadGroupPreferences
+    AIProviderSummary:
+      properties:
+        id:
+          type: string
+          format: uuid4
+          title: Id
+        name:
+          type: string
+          title: Name
+      type: object
+      required:
+      - id
+      - name
+      title: AIProviderSummary
     ValidationError:
       properties:
         loc:
@@ -491,59 +506,12 @@ components:
       - msg
       - type
       title: ValidationError
-    GroupSummary:
-      properties:
-        name:
-          type: string
-          title: Name
-        id:
-          type: string
-          format: uuid4
-          title: Id
-        slug:
-          type: string
-          title: Slug
-        preferences:
-          anyOf:
-          - $ref: '#/components/schemas/ReadGroupPreferences'
-          - type: 'null'
-        aiProviderSettings:
-          anyOf:
-          - $ref: '#/components/schemas/AIProviderSettingsOut'
-          - type: 'null'
-      type: object
-      required:
-      - name
-      - id
-      - slug
-      title: GroupSummary
-    OrderByNullPosition:
+    OrderDirection:
       type: string
       enum:
-      - first
-      - last
-      title: OrderByNullPosition
-    GroupStorage:
-      properties:
-        usedStorageBytes:
-          type: integer
-          title: Usedstoragebytes
-        usedStorageStr:
-          type: string
-          title: Usedstoragestr
-        totalStorageBytes:
-          type: integer
-          title: Totalstoragebytes
-        totalStorageStr:
-          type: string
-          title: Totalstoragestr
-      type: object
-      required:
-      - usedStorageBytes
-      - usedStorageStr
-      - totalStorageBytes
-      - totalStorageStr
-      title: GroupStorage
+      - asc
+      - desc
+      title: OrderDirection
   securitySchemes:
     OAuth2PasswordBearer:
       type: oauth2

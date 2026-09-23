@@ -1,39 +1,7 @@
 openapi: 3.2.0
 info:
   title: 'Mealie Explore: Categories API'
-  description: '
-
-    Mealie is a web application for managing your recipes, meal plans, and shopping lists. This is the Restful
-
-    API interactive documentation that can be used to explore the API. If you''re justing getting started with
-
-    the API and want to get started quickly, you can use the
-
-    [API Usage | Mealie Docs](https://docs.mealie.io/documentation/getting-started/api-usage/)
-
-    as a reference for how to get started.
-
-
-
-    If you have any questions or comments about mealie, please use the discord server to talk to the developers or other
-
-    community members. If you''d like to file an issue, please use the
-
-    [GitHub Issue Tracker | Mealie](https://github.com/mealie-recipes/mealie/issues/new/choose)
-
-
-
-    ## Helpful Links
-
-    - [Home Page](https://mealie.io)
-
-    - [Documentation](https://docs.mealie.io)
-
-    - [Discord](https://discord.gg/QuStdQGSGK)
-
-    - [Demo](https://demo.mealie.io)
-
-    '
+  description: Mealie is a web application for managing your recipes, meal plans, and shopping lists.
   version: nightly
 tags:
 - name: 'Explore: Categories'
@@ -212,74 +180,6 @@ components:
       required:
       - items
       title: PaginationBase[RecipeCategory]
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    OrderDirection:
-      type: string
-      enum:
-      - asc
-      - desc
-      title: OrderDirection
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    CategoryOut:
-      properties:
-        name:
-          type: string
-          title: Name
-        id:
-          type: string
-          format: uuid4
-          title: Id
-        groupId:
-          type: string
-          format: uuid4
-          title: Groupid
-        slug:
-          type: string
-          title: Slug
-        recipeCount:
-          type: integer
-          title: Recipecount
-          default: 0
-      type: object
-      required:
-      - name
-      - id
-      - groupId
-      - slug
-      title: CategoryOut
     RecipeCategory:
       properties:
         id:
@@ -309,12 +209,80 @@ components:
       - name
       - slug
       title: RecipeCategory
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     OrderByNullPosition:
       type: string
       enum:
       - first
       - last
       title: OrderByNullPosition
+    CategoryOut:
+      properties:
+        name:
+          type: string
+          title: Name
+        id:
+          type: string
+          format: uuid4
+          title: Id
+        groupId:
+          type: string
+          format: uuid4
+          title: Groupid
+        slug:
+          type: string
+          title: Slug
+        recipeCount:
+          type: integer
+          title: Recipecount
+          default: 0
+      type: object
+      required:
+      - name
+      - id
+      - groupId
+      - slug
+      title: CategoryOut
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    OrderDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: OrderDirection
   securitySchemes:
     OAuth2PasswordBearer:
       type: oauth2

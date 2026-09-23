@@ -1,39 +1,7 @@
 openapi: 3.2.0
 info:
   title: 'Mealie Admin: About API'
-  description: '
-
-    Mealie is a web application for managing your recipes, meal plans, and shopping lists. This is the Restful
-
-    API interactive documentation that can be used to explore the API. If you''re justing getting started with
-
-    the API and want to get started quickly, you can use the
-
-    [API Usage | Mealie Docs](https://docs.mealie.io/documentation/getting-started/api-usage/)
-
-    as a reference for how to get started.
-
-
-
-    If you have any questions or comments about mealie, please use the discord server to talk to the developers or other
-
-    community members. If you''d like to file an issue, please use the
-
-    [GitHub Issue Tracker | Mealie](https://github.com/mealie-recipes/mealie/issues/new/choose)
-
-
-
-    ## Helpful Links
-
-    - [Home Page](https://mealie.io)
-
-    - [Documentation](https://docs.mealie.io)
-
-    - [Discord](https://discord.gg/QuStdQGSGK)
-
-    - [Demo](https://demo.mealie.io)
-
-    '
+  description: Mealie is a web application for managing your recipes, meal plans, and shopping lists.
   version: nightly
 tags:
 - name: 'Admin: About'
@@ -131,6 +99,77 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    CheckAppConfig:
+      properties:
+        emailReady:
+          type: boolean
+          title: Emailready
+        ldapReady:
+          type: boolean
+          title: Ldapready
+        ldapDisabled:
+          type: boolean
+          title: Ldapdisabled
+        oidcReady:
+          type: boolean
+          title: Oidcready
+        oidcDisabled:
+          type: boolean
+          title: Oidcdisabled
+        baseUrlSet:
+          type: boolean
+          title: Baseurlset
+        isUpToDate:
+          type: boolean
+          title: Isuptodate
+      type: object
+      required:
+      - emailReady
+      - ldapReady
+      - ldapDisabled
+      - oidcReady
+      - oidcDisabled
+      - baseUrlSet
+      - isUpToDate
+      title: CheckAppConfig
+    AppStatistics:
+      properties:
+        totalRecipes:
+          type: integer
+          title: Totalrecipes
+        totalUsers:
+          type: integer
+          title: Totalusers
+        totalHouseholds:
+          type: integer
+          title: Totalhouseholds
+        totalGroups:
+          type: integer
+          title: Totalgroups
+        uncategorizedRecipes:
+          type: integer
+          title: Uncategorizedrecipes
+        untaggedRecipes:
+          type: integer
+          title: Untaggedrecipes
+      type: object
+      required:
+      - totalRecipes
+      - totalUsers
+      - totalHouseholds
+      - totalGroups
+      - uncategorizedRecipes
+      - untaggedRecipes
+      title: AppStatistics
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     AdminAboutInfo:
       properties:
         production:
@@ -225,77 +264,6 @@ components:
       - buildId
       - recipeScraperVersion
       title: AdminAboutInfo
-    CheckAppConfig:
-      properties:
-        emailReady:
-          type: boolean
-          title: Emailready
-        ldapReady:
-          type: boolean
-          title: Ldapready
-        ldapDisabled:
-          type: boolean
-          title: Ldapdisabled
-        oidcReady:
-          type: boolean
-          title: Oidcready
-        oidcDisabled:
-          type: boolean
-          title: Oidcdisabled
-        baseUrlSet:
-          type: boolean
-          title: Baseurlset
-        isUpToDate:
-          type: boolean
-          title: Isuptodate
-      type: object
-      required:
-      - emailReady
-      - ldapReady
-      - ldapDisabled
-      - oidcReady
-      - oidcDisabled
-      - baseUrlSet
-      - isUpToDate
-      title: CheckAppConfig
-    AppStatistics:
-      properties:
-        totalRecipes:
-          type: integer
-          title: Totalrecipes
-        totalUsers:
-          type: integer
-          title: Totalusers
-        totalHouseholds:
-          type: integer
-          title: Totalhouseholds
-        totalGroups:
-          type: integer
-          title: Totalgroups
-        uncategorizedRecipes:
-          type: integer
-          title: Uncategorizedrecipes
-        untaggedRecipes:
-          type: integer
-          title: Untaggedrecipes
-      type: object
-      required:
-      - totalRecipes
-      - totalUsers
-      - totalHouseholds
-      - totalGroups
-      - uncategorizedRecipes
-      - untaggedRecipes
-      title: AppStatistics
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     ValidationError:
       properties:
         loc:

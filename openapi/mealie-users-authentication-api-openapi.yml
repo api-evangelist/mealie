@@ -1,47 +1,15 @@
 openapi: 3.2.0
 info:
   title: 'Mealie Users: Authentication API'
-  description: '
-
-    Mealie is a web application for managing your recipes, meal plans, and shopping lists. This is the Restful
-
-    API interactive documentation that can be used to explore the API. If you''re justing getting started with
-
-    the API and want to get started quickly, you can use the
-
-    [API Usage | Mealie Docs](https://docs.mealie.io/documentation/getting-started/api-usage/)
-
-    as a reference for how to get started.
-
-
-
-    If you have any questions or comments about mealie, please use the discord server to talk to the developers or other
-
-    community members. If you''d like to file an issue, please use the
-
-    [GitHub Issue Tracker | Mealie](https://github.com/mealie-recipes/mealie/issues/new/choose)
-
-
-
-    ## Helpful Links
-
-    - [Home Page](https://mealie.io)
-
-    - [Documentation](https://docs.mealie.io)
-
-    - [Discord](https://discord.gg/QuStdQGSGK)
-
-    - [Demo](https://demo.mealie.io)
-
-    '
+  description: Mealie is a web application for managing your recipes, meal plans, and shopping lists.
   version: nightly
 tags:
-- name: 'Users: Authentication'
+- name: Users authentication
 paths:
   /api/auth/token:
     post:
       tags:
-      - 'Users: Authentication'
+      - Users authentication
       summary: Get Token
       operationId: get_token_api_auth_token_post
       requestBody:
@@ -64,7 +32,7 @@ paths:
   /api/auth/oauth:
     get:
       tags:
-      - 'Users: Authentication'
+      - Users authentication
       summary: Oauth Login
       operationId: oauth_login_api_auth_oauth_get
       responses:
@@ -76,7 +44,7 @@ paths:
   /api/auth/oauth/callback:
     get:
       tags:
-      - 'Users: Authentication'
+      - Users authentication
       summary: Oauth Callback
       operationId: oauth_callback_api_auth_oauth_callback_get
       responses:
@@ -88,7 +56,7 @@ paths:
   /api/auth/oauth/native/config:
     get:
       tags:
-      - 'Users: Authentication'
+      - Users authentication
       summary: Oauth Native Config
       description: Return the parameters a native client needs to build its own OIDC authorization request.
       operationId: oauth_native_config_api_auth_oauth_native_config_get
@@ -102,7 +70,7 @@ paths:
   /api/auth/oauth/native/token:
     post:
       tags:
-      - 'Users: Authentication'
+      - Users authentication
       summary: Oauth Native Token
       description: 'Exchange a native client''s authorization code for a Mealie token.
 
@@ -134,7 +102,7 @@ paths:
   /api/auth/refresh:
     post:
       tags:
-      - 'Users: Authentication'
+      - Users authentication
       summary: Refresh Token
       description: 'Exchange a valid session token for a fresh one.
 
@@ -154,7 +122,7 @@ paths:
   /api/auth/logout:
     post:
       tags:
-      - 'Users: Authentication'
+      - Users authentication
       summary: Logout
       operationId: logout_api_auth_logout_post
       security:
@@ -182,6 +150,24 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    OIDCNativeConfig:
+      properties:
+        authorization_endpoint:
+          type: string
+          title: Authorization Endpoint
+        client_id:
+          type: string
+          title: Client Id
+        scope:
+          type: string
+          title: Scope
+      type: object
+      required:
+      - authorization_endpoint
+      - client_id
+      - scope
+      title: OIDCNativeConfig
+      description: Parameters a native client needs to start an OIDC authorization request itself.
     Body_get_token_api_auth_token_post:
       properties:
         username:
@@ -207,6 +193,29 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
+    NativeOIDCTokenRequest:
+      properties:
+        code:
+          type: string
+          title: Code
+        code_verifier:
+          type: string
+          title: Code Verifier
+        redirect_uri:
+          type: string
+          title: Redirect Uri
+        nonce:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Nonce
+      type: object
+      required:
+      - code
+      - code_verifier
+      - redirect_uri
+      title: NativeOIDCTokenRequest
+      description: An authorization code captured by a native client, for server-side exchange.
     ValidationError:
       properties:
         loc:
@@ -233,47 +242,6 @@ components:
       - msg
       - type
       title: ValidationError
-    NativeOIDCTokenRequest:
-      properties:
-        code:
-          type: string
-          title: Code
-        code_verifier:
-          type: string
-          title: Code Verifier
-        redirect_uri:
-          type: string
-          title: Redirect Uri
-        nonce:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Nonce
-      type: object
-      required:
-      - code
-      - code_verifier
-      - redirect_uri
-      title: NativeOIDCTokenRequest
-      description: An authorization code captured by a native client, for server-side exchange.
-    OIDCNativeConfig:
-      properties:
-        authorization_endpoint:
-          type: string
-          title: Authorization Endpoint
-        client_id:
-          type: string
-          title: Client Id
-        scope:
-          type: string
-          title: Scope
-      type: object
-      required:
-      - authorization_endpoint
-      - client_id
-      - scope
-      title: OIDCNativeConfig
-      description: Parameters a native client needs to start an OIDC authorization request itself.
   securitySchemes:
     OAuth2PasswordBearer:
       type: oauth2

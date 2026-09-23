@@ -1,39 +1,7 @@
 openapi: 3.2.0
 info:
   title: 'Mealie Explore: Cookbooks API'
-  description: '
-
-    Mealie is a web application for managing your recipes, meal plans, and shopping lists. This is the Restful
-
-    API interactive documentation that can be used to explore the API. If you''re justing getting started with
-
-    the API and want to get started quickly, you can use the
-
-    [API Usage | Mealie Docs](https://docs.mealie.io/documentation/getting-started/api-usage/)
-
-    as a reference for how to get started.
-
-
-
-    If you have any questions or comments about mealie, please use the discord server to talk to the developers or other
-
-    community members. If you''d like to file an issue, please use the
-
-    [GitHub Issue Tracker | Mealie](https://github.com/mealie-recipes/mealie/issues/new/choose)
-
-
-
-    ## Helpful Links
-
-    - [Home Page](https://mealie.io)
-
-    - [Documentation](https://docs.mealie.io)
-
-    - [Discord](https://discord.gg/QuStdQGSGK)
-
-    - [Demo](https://demo.mealie.io)
-
-    '
+  description: Mealie is a web application for managing your recipes, meal plans, and shopping lists.
   version: nightly
 tags:
 - name: 'Explore: Cookbooks'
@@ -177,6 +145,63 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    PaginationBase_ReadCookBook_:
+      properties:
+        page:
+          type: integer
+          title: Page
+          default: 1
+        per_page:
+          type: integer
+          title: Per Page
+          default: 10
+        total:
+          type: integer
+          title: Total
+          default: 0
+        total_pages:
+          type: integer
+          title: Total Pages
+          default: 0
+        items:
+          items:
+            $ref: '#/components/schemas/ReadCookBook'
+          type: array
+          title: Items
+        next:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Next
+        previous:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Previous
+      type: object
+      required:
+      - items
+      title: PaginationBase[ReadCookBook]
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    RelationalKeyword:
+      type: string
+      enum:
+      - IS
+      - IS NOT
+      - IN
+      - NOT IN
+      - CONTAINS ALL
+      - LIKE
+      - NOT LIKE
+      title: RelationalKeyword
     QueryFilterJSON:
       properties:
         parts:
@@ -187,30 +212,6 @@ components:
           default: []
       type: object
       title: QueryFilterJSON
-    CookbookHousehold:
-      properties:
-        id:
-          type: string
-          format: uuid4
-          title: Id
-        name:
-          type: string
-          title: Name
-      type: object
-      required:
-      - id
-      - name
-      title: CookbookHousehold
-    RelationalOperator:
-      type: string
-      enum:
-      - '='
-      - <>
-      - '>'
-      - <
-      - '>='
-      - <=
-      title: RelationalOperator
     QueryFilterJSONPart:
       properties:
         leftParenthesis:
@@ -248,6 +249,22 @@ components:
           title: Value
       type: object
       title: QueryFilterJSONPart
+    RelationalOperator:
+      type: string
+      enum:
+      - '='
+      - <>
+      - '>'
+      - <
+      - '>='
+      - <=
+      title: RelationalOperator
+    OrderByNullPosition:
+      type: string
+      enum:
+      - first
+      - last
+      title: OrderByNullPosition
     ReadCookBook:
       properties:
         name:
@@ -299,32 +316,20 @@ components:
       - householdId
       - id
       title: ReadCookBook
-    HTTPValidationError:
+    CookbookHousehold:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
+        id:
+          type: string
+          format: uuid4
+          title: Id
+        name:
+          type: string
+          title: Name
       type: object
-      title: HTTPValidationError
-    RelationalKeyword:
-      type: string
-      enum:
-      - IS
-      - IS NOT
-      - IN
-      - NOT IN
-      - CONTAINS ALL
-      - LIKE
-      - NOT LIKE
-      title: RelationalKeyword
-    OrderDirection:
-      type: string
-      enum:
-      - asc
-      - desc
-      title: OrderDirection
+      required:
+      - id
+      - name
+      title: CookbookHousehold
     ValidationError:
       properties:
         loc:
@@ -351,55 +356,18 @@ components:
       - msg
       - type
       title: ValidationError
-    PaginationBase_ReadCookBook_:
-      properties:
-        page:
-          type: integer
-          title: Page
-          default: 1
-        per_page:
-          type: integer
-          title: Per Page
-          default: 10
-        total:
-          type: integer
-          title: Total
-          default: 0
-        total_pages:
-          type: integer
-          title: Total Pages
-          default: 0
-        items:
-          items:
-            $ref: '#/components/schemas/ReadCookBook'
-          type: array
-          title: Items
-        next:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Next
-        previous:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Previous
-      type: object
-      required:
-      - items
-      title: PaginationBase[ReadCookBook]
-    OrderByNullPosition:
-      type: string
-      enum:
-      - first
-      - last
-      title: OrderByNullPosition
     LogicalOperator:
       type: string
       enum:
       - AND
       - OR
       title: LogicalOperator
+    OrderDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: OrderDirection
   securitySchemes:
     OAuth2PasswordBearer:
       type: oauth2

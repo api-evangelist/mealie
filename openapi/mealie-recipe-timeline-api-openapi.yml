@@ -1,39 +1,7 @@
 openapi: 3.2.0
 info:
   title: 'Mealie Recipe: Timeline API'
-  description: '
-
-    Mealie is a web application for managing your recipes, meal plans, and shopping lists. This is the Restful
-
-    API interactive documentation that can be used to explore the API. If you''re justing getting started with
-
-    the API and want to get started quickly, you can use the
-
-    [API Usage | Mealie Docs](https://docs.mealie.io/documentation/getting-started/api-usage/)
-
-    as a reference for how to get started.
-
-
-
-    If you have any questions or comments about mealie, please use the discord server to talk to the developers or other
-
-    community members. If you''d like to file an issue, please use the
-
-    [GitHub Issue Tracker | Mealie](https://github.com/mealie-recipes/mealie/issues/new/choose)
-
-
-
-    ## Helpful Links
-
-    - [Home Page](https://mealie.io)
-
-    - [Documentation](https://docs.mealie.io)
-
-    - [Discord](https://discord.gg/QuStdQGSGK)
-
-    - [Demo](https://demo.mealie.io)
-
-    '
+  description: Mealie is a web application for managing your recipes, meal plans, and shopping lists.
   version: nightly
 tags:
 - name: 'Recipe: Timeline'
@@ -315,24 +283,12 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    RecipeTimelineEventUpdate:
-      properties:
-        subject:
-          type: string
-          title: Subject
-        eventMessage:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Eventmessage
-        image:
-          anyOf:
-          - $ref: '#/components/schemas/TimelineEventImage'
-          - type: 'null'
-      type: object
-      required:
-      - subject
-      title: RecipeTimelineEventUpdate
+    TimelineEventImage:
+      type: string
+      enum:
+      - has image
+      - does not have image
+      title: TimelineEventImage
     RecipeTimelineEventPagination:
       properties:
         page:
@@ -370,13 +326,6 @@ components:
       required:
       - items
       title: RecipeTimelineEventPagination
-    TimelineEventType:
-      type: string
-      enum:
-      - system
-      - info
-      - comment
-      title: TimelineEventType
     RecipeTimelineEventOut:
       properties:
         recipeId:
@@ -439,21 +388,20 @@ components:
       - createdAt
       - updatedAt
       title: RecipeTimelineEventOut
-    UpdateImageResponse:
+    Body_update_event_image_api_recipes_timeline_events__item_id__image_put:
       properties:
         image:
           type: string
+          contentMediaType: application/octet-stream
           title: Image
+        extension:
+          type: string
+          title: Extension
       type: object
       required:
       - image
-      title: UpdateImageResponse
-    TimelineEventImage:
-      type: string
-      enum:
-      - has image
-      - does not have image
-      title: TimelineEventImage
+      - extension
+      title: Body_update_event_image_api_recipes_timeline_events__item_id__image_put
     HTTPValidationError:
       properties:
         detail:
@@ -501,12 +449,28 @@ components:
       - subject
       - eventType
       title: RecipeTimelineEventIn
-    OrderDirection:
+    OrderByNullPosition:
       type: string
       enum:
-      - asc
-      - desc
-      title: OrderDirection
+      - first
+      - last
+      title: OrderByNullPosition
+    UpdateImageResponse:
+      properties:
+        image:
+          type: string
+          title: Image
+      type: object
+      required:
+      - image
+      title: UpdateImageResponse
+    TimelineEventType:
+      type: string
+      enum:
+      - system
+      - info
+      - comment
+      title: TimelineEventType
     ValidationError:
       properties:
         loc:
@@ -533,26 +497,30 @@ components:
       - msg
       - type
       title: ValidationError
-    Body_update_event_image_api_recipes_timeline_events__item_id__image_put:
+    RecipeTimelineEventUpdate:
       properties:
+        subject:
+          type: string
+          title: Subject
+        eventMessage:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Eventmessage
         image:
-          type: string
-          contentMediaType: application/octet-stream
-          title: Image
-        extension:
-          type: string
-          title: Extension
+          anyOf:
+          - $ref: '#/components/schemas/TimelineEventImage'
+          - type: 'null'
       type: object
       required:
-      - image
-      - extension
-      title: Body_update_event_image_api_recipes_timeline_events__item_id__image_put
-    OrderByNullPosition:
+      - subject
+      title: RecipeTimelineEventUpdate
+    OrderDirection:
       type: string
       enum:
-      - first
-      - last
-      title: OrderByNullPosition
+      - asc
+      - desc
+      title: OrderDirection
   securitySchemes:
     OAuth2PasswordBearer:
       type: oauth2

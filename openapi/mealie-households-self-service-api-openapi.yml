@@ -1,39 +1,7 @@
 openapi: 3.2.0
 info:
   title: 'Mealie Households: Self Service API'
-  description: '
-
-    Mealie is a web application for managing your recipes, meal plans, and shopping lists. This is the Restful
-
-    API interactive documentation that can be used to explore the API. If you''re justing getting started with
-
-    the API and want to get started quickly, you can use the
-
-    [API Usage | Mealie Docs](https://docs.mealie.io/documentation/getting-started/api-usage/)
-
-    as a reference for how to get started.
-
-
-
-    If you have any questions or comments about mealie, please use the discord server to talk to the developers or other
-
-    community members. If you''d like to file an issue, please use the
-
-    [GitHub Issue Tracker | Mealie](https://github.com/mealie-recipes/mealie/issues/new/choose)
-
-
-
-    ## Helpful Links
-
-    - [Home Page](https://mealie.io)
-
-    - [Documentation](https://docs.mealie.io)
-
-    - [Discord](https://discord.gg/QuStdQGSGK)
-
-    - [Demo](https://demo.mealie.io)
-
-    '
+  description: Mealie is a web application for managing your recipes, meal plans, and shopping lists.
   version: nightly
 tags:
 - name: 'Households: Self Service'
@@ -322,6 +290,171 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    AuthMethod:
+      type: string
+      enum:
+      - Mealie
+      - LDAP
+      - OIDC
+      title: AuthMethod
+    WebhookType:
+      type: string
+      enum:
+      - mealplan
+      title: WebhookType
+    HouseholdInDB:
+      properties:
+        groupId:
+          type: string
+          format: uuid4
+          title: Groupid
+        name:
+          type: string
+          minLength: 1
+          title: Name
+        id:
+          type: string
+          format: uuid4
+          title: Id
+        slug:
+          type: string
+          title: Slug
+        preferences:
+          anyOf:
+          - $ref: '#/components/schemas/ReadHouseholdPreferences'
+          - type: 'null'
+        group:
+          type: string
+          title: Group
+        users:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/HouseholdUserSummary'
+            type: array
+          - type: 'null'
+          title: Users
+        webhooks:
+          items:
+            $ref: '#/components/schemas/ReadWebhook'
+          type: array
+          title: Webhooks
+          default: []
+      type: object
+      required:
+      - groupId
+      - name
+      - id
+      - slug
+      - group
+      title: HouseholdInDB
+    ReadWebhook:
+      properties:
+        enabled:
+          type: boolean
+          title: Enabled
+          default: true
+        name:
+          type: string
+          title: Name
+          default: ''
+        url:
+          type: string
+          title: Url
+          default: ''
+        webhookType:
+          $ref: '#/components/schemas/WebhookType'
+          default: mealplan
+        scheduledTime:
+          type: string
+          format: time
+          title: Scheduledtime
+        groupId:
+          type: string
+          format: uuid4
+          title: Groupid
+        householdId:
+          type: string
+          format: uuid4
+          title: Householdid
+        id:
+          type: string
+          format: uuid4
+          title: Id
+      type: object
+      required:
+      - scheduledTime
+      - groupId
+      - householdId
+      - id
+      title: ReadWebhook
+    LongLiveTokenOut:
+      properties:
+        name:
+          type: string
+          title: Name
+        id:
+          type: integer
+          title: Id
+        createdAt:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Createdat
+      type: object
+      required:
+      - name
+      - id
+      title: LongLiveTokenOut
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    SetPermissions:
+      properties:
+        userId:
+          type: string
+          format: uuid4
+          title: Userid
+        canManageHousehold:
+          type: boolean
+          title: Canmanagehousehold
+          default: false
+        canManage:
+          type: boolean
+          title: Canmanage
+          default: false
+        canInvite:
+          type: boolean
+          title: Caninvite
+          default: false
+        canOrganize:
+          type: boolean
+          title: Canorganize
+          default: false
+      type: object
+      required:
+      - userId
+      title: SetPermissions
+    HouseholdUserSummary:
+      properties:
+        id:
+          type: string
+          format: uuid4
+          title: Id
+        fullName:
+          type: string
+          title: Fullname
+      type: object
+      required:
+      - id
+      - fullName
+      title: HouseholdUserSummary
     HouseholdStatistics:
       properties:
         totalRecipes:
@@ -387,46 +520,12 @@ components:
           default: false
       type: object
       title: UpdateHouseholdPreferences
-    ReadWebhook:
-      properties:
-        enabled:
-          type: boolean
-          title: Enabled
-          default: true
-        name:
-          type: string
-          title: Name
-          default: ''
-        url:
-          type: string
-          title: Url
-          default: ''
-        webhookType:
-          $ref: '#/components/schemas/WebhookType'
-          default: mealplan
-        scheduledTime:
-          type: string
-          format: time
-          title: Scheduledtime
-        groupId:
-          type: string
-          format: uuid4
-          title: Groupid
-        householdId:
-          type: string
-          format: uuid4
-          title: Householdid
-        id:
-          type: string
-          format: uuid4
-          title: Id
-      type: object
-      required:
-      - scheduledTime
-      - groupId
-      - householdId
-      - id
-      title: ReadWebhook
+    OrderByNullPosition:
+      type: string
+      enum:
+      - first
+      - last
+      title: OrderByNullPosition
     PaginationBase_UserOut_:
       properties:
         page:
@@ -464,25 +563,6 @@ components:
       required:
       - items
       title: PaginationBase[UserOut]
-    LongLiveTokenOut:
-      properties:
-        name:
-          type: string
-          title: Name
-        id:
-          type: integer
-          title: Id
-        createdAt:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Createdat
-      type: object
-      required:
-      - name
-      - id
-      title: LongLiveTokenOut
     HouseholdRecipeSummary:
       properties:
         lastMade:
@@ -499,87 +579,6 @@ components:
       required:
       - recipeId
       title: HouseholdRecipeSummary
-    HouseholdUserSummary:
-      properties:
-        id:
-          type: string
-          format: uuid4
-          title: Id
-        fullName:
-          type: string
-          title: Fullname
-      type: object
-      required:
-      - id
-      - fullName
-      title: HouseholdUserSummary
-    SetPermissions:
-      properties:
-        userId:
-          type: string
-          format: uuid4
-          title: Userid
-        canManageHousehold:
-          type: boolean
-          title: Canmanagehousehold
-          default: false
-        canManage:
-          type: boolean
-          title: Canmanage
-          default: false
-        canInvite:
-          type: boolean
-          title: Caninvite
-          default: false
-        canOrganize:
-          type: boolean
-          title: Canorganize
-          default: false
-      type: object
-      required:
-      - userId
-      title: SetPermissions
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    OrderDirection:
-      type: string
-      enum:
-      - asc
-      - desc
-      title: OrderDirection
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
     UserOut:
       properties:
         id:
@@ -684,51 +683,32 @@ components:
         group: home
         household: Family
         username: ChangeMe
-    HouseholdInDB:
+    ValidationError:
       properties:
-        groupId:
-          type: string
-          format: uuid4
-          title: Groupid
-        name:
-          type: string
-          minLength: 1
-          title: Name
-        id:
-          type: string
-          format: uuid4
-          title: Id
-        slug:
-          type: string
-          title: Slug
-        preferences:
-          anyOf:
-          - $ref: '#/components/schemas/ReadHouseholdPreferences'
-          - type: 'null'
-        group:
-          type: string
-          title: Group
-        users:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/HouseholdUserSummary'
-            type: array
-          - type: 'null'
-          title: Users
-        webhooks:
+        loc:
           items:
-            $ref: '#/components/schemas/ReadWebhook'
+            anyOf:
+            - type: string
+            - type: integer
           type: array
-          title: Webhooks
-          default: []
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
       type: object
       required:
-      - groupId
-      - name
-      - id
-      - slug
-      - group
-      title: HouseholdInDB
+      - loc
+      - msg
+      - type
+      title: ValidationError
     ReadHouseholdPreferences:
       properties:
         privateHousehold:
@@ -775,24 +755,12 @@ components:
       required:
       - id
       title: ReadHouseholdPreferences
-    OrderByNullPosition:
+    OrderDirection:
       type: string
       enum:
-      - first
-      - last
-      title: OrderByNullPosition
-    AuthMethod:
-      type: string
-      enum:
-      - Mealie
-      - LDAP
-      - OIDC
-      title: AuthMethod
-    WebhookType:
-      type: string
-      enum:
-      - mealplan
-      title: WebhookType
+      - asc
+      - desc
+      title: OrderDirection
   securitySchemes:
     OAuth2PasswordBearer:
       type: oauth2

@@ -1,39 +1,7 @@
 openapi: 3.2.0
 info:
   title: 'Mealie Users: CRUD API'
-  description: '
-
-    Mealie is a web application for managing your recipes, meal plans, and shopping lists. This is the Restful
-
-    API interactive documentation that can be used to explore the API. If you''re justing getting started with
-
-    the API and want to get started quickly, you can use the
-
-    [API Usage | Mealie Docs](https://docs.mealie.io/documentation/getting-started/api-usage/)
-
-    as a reference for how to get started.
-
-
-
-    If you have any questions or comments about mealie, please use the discord server to talk to the developers or other
-
-    community members. If you''d like to file an issue, please use the
-
-    [GitHub Issue Tracker | Mealie](https://github.com/mealie-recipes/mealie/issues/new/choose)
-
-
-
-    ## Helpful Links
-
-    - [Home Page](https://mealie.io)
-
-    - [Documentation](https://docs.mealie.io)
-
-    - [Discord](https://discord.gg/QuStdQGSGK)
-
-    - [Demo](https://demo.mealie.io)
-
-    '
+  description: Mealie is a web application for managing your recipes, meal plans, and shopping lists.
   version: nightly
 tags:
 - name: 'Users: CRUD'
@@ -245,25 +213,13 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    LongLiveTokenOut:
-      properties:
-        name:
-          type: string
-          title: Name
-        id:
-          type: integer
-          title: Id
-        createdAt:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Createdat
-      type: object
-      required:
-      - name
-      - id
-      title: LongLiveTokenOut
+    AuthMethod:
+      type: string
+      enum:
+      - Mealie
+      - LDAP
+      - OIDC
+      title: AuthMethod
     mealie__schema__user__user__UserBase:
       properties:
         id:
@@ -342,20 +298,36 @@ components:
         group: home
         household: Family
         username: ChangeMe
-    ChangePassword:
+    UserRatings_UserRatingSummary_:
       properties:
-        currentPassword:
-          type: string
-          title: Currentpassword
-          default: ''
-        newPassword:
-          type: string
-          minLength: 8
-          title: Newpassword
+        ratings:
+          items:
+            $ref: '#/components/schemas/UserRatingSummary'
+          type: array
+          title: Ratings
       type: object
       required:
-      - newPassword
-      title: ChangePassword
+      - ratings
+      title: UserRatings[UserRatingSummary]
+    LongLiveTokenOut:
+      properties:
+        name:
+          type: string
+          title: Name
+        id:
+          type: integer
+          title: Id
+        createdAt:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Createdat
+      type: object
+      required:
+      - name
+      - id
+      title: LongLiveTokenOut
     HTTPValidationError:
       properties:
         detail:
@@ -365,51 +337,6 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    UserRatingSummary:
-      properties:
-        recipeId:
-          type: string
-          format: uuid4
-          title: Recipeid
-        rating:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Rating
-        isFavorite:
-          type: boolean
-          title: Isfavorite
-          default: false
-      type: object
-      required:
-      - recipeId
-      title: UserRatingSummary
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
     UserOut:
       properties:
         id:
@@ -514,24 +441,65 @@ components:
         group: home
         household: Family
         username: ChangeMe
-    UserRatings_UserRatingSummary_:
+    ValidationError:
       properties:
-        ratings:
+        loc:
           items:
-            $ref: '#/components/schemas/UserRatingSummary'
+            anyOf:
+            - type: string
+            - type: integer
           type: array
-          title: Ratings
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
       type: object
       required:
-      - ratings
-      title: UserRatings[UserRatingSummary]
-    AuthMethod:
-      type: string
-      enum:
-      - Mealie
-      - LDAP
-      - OIDC
-      title: AuthMethod
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    ChangePassword:
+      properties:
+        currentPassword:
+          type: string
+          title: Currentpassword
+          default: ''
+        newPassword:
+          type: string
+          minLength: 8
+          title: Newpassword
+      type: object
+      required:
+      - newPassword
+      title: ChangePassword
+    UserRatingSummary:
+      properties:
+        recipeId:
+          type: string
+          format: uuid4
+          title: Recipeid
+        rating:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Rating
+        isFavorite:
+          type: boolean
+          title: Isfavorite
+          default: false
+      type: object
+      required:
+      - recipeId
+      title: UserRatingSummary
   securitySchemes:
     OAuth2PasswordBearer:
       type: oauth2

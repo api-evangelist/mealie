@@ -1,39 +1,7 @@
 openapi: 3.2.0
 info:
   title: 'Mealie Households: Invitations API'
-  description: '
-
-    Mealie is a web application for managing your recipes, meal plans, and shopping lists. This is the Restful
-
-    API interactive documentation that can be used to explore the API. If you''re justing getting started with
-
-    the API and want to get started quickly, you can use the
-
-    [API Usage | Mealie Docs](https://docs.mealie.io/documentation/getting-started/api-usage/)
-
-    as a reference for how to get started.
-
-
-
-    If you have any questions or comments about mealie, please use the discord server to talk to the developers or other
-
-    community members. If you''d like to file an issue, please use the
-
-    [GitHub Issue Tracker | Mealie](https://github.com/mealie-recipes/mealie/issues/new/choose)
-
-
-
-    ## Helpful Links
-
-    - [Home Page](https://mealie.io)
-
-    - [Documentation](https://docs.mealie.io)
-
-    - [Discord](https://discord.gg/QuStdQGSGK)
-
-    - [Demo](https://demo.mealie.io)
-
-    '
+  description: Mealie is a web application for managing your recipes, meal plans, and shopping lists.
   version: nightly
 tags:
 - name: 'Households: Invitations'
@@ -144,29 +112,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    ReadInviteToken:
-      properties:
-        token:
-          type: string
-          title: Token
-        usesLeft:
-          type: integer
-          title: Usesleft
-        groupId:
-          type: string
-          format: uuid
-          title: Groupid
-        householdId:
-          type: string
-          format: uuid
-          title: Householdid
-      type: object
-      required:
-      - token
-      - usesLeft
-      - groupId
-      - householdId
-      title: ReadInviteToken
     EmailInitationResponse:
       properties:
         success:
@@ -190,6 +135,40 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
+    EmailInvitation:
+      properties:
+        email:
+          type: string
+          title: Email
+        token:
+          type: string
+          title: Token
+      type: object
+      required:
+      - email
+      - token
+      title: EmailInvitation
+    CreateInviteToken:
+      properties:
+        uses:
+          type: integer
+          title: Uses
+        groupId:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Groupid
+        householdId:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Householdid
+      type: object
+      required:
+      - uses
+      title: CreateInviteToken
     ValidationError:
       properties:
         loc:
@@ -216,40 +195,29 @@ components:
       - msg
       - type
       title: ValidationError
-    CreateInviteToken:
+    ReadInviteToken:
       properties:
-        uses:
-          type: integer
-          title: Uses
-        groupId:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Groupid
-        householdId:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Householdid
-      type: object
-      required:
-      - uses
-      title: CreateInviteToken
-    EmailInvitation:
-      properties:
-        email:
-          type: string
-          title: Email
         token:
           type: string
           title: Token
+        usesLeft:
+          type: integer
+          title: Usesleft
+        groupId:
+          type: string
+          format: uuid
+          title: Groupid
+        householdId:
+          type: string
+          format: uuid
+          title: Householdid
       type: object
       required:
-      - email
       - token
-      title: EmailInvitation
+      - usesLeft
+      - groupId
+      - householdId
+      title: ReadInviteToken
   securitySchemes:
     OAuth2PasswordBearer:
       type: oauth2

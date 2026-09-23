@@ -1,47 +1,15 @@
 openapi: 3.2.0
 info:
   title: 'Mealie Admin: Maintenance API'
-  description: '
-
-    Mealie is a web application for managing your recipes, meal plans, and shopping lists. This is the Restful
-
-    API interactive documentation that can be used to explore the API. If you''re justing getting started with
-
-    the API and want to get started quickly, you can use the
-
-    [API Usage | Mealie Docs](https://docs.mealie.io/documentation/getting-started/api-usage/)
-
-    as a reference for how to get started.
-
-
-
-    If you have any questions or comments about mealie, please use the discord server to talk to the developers or other
-
-    community members. If you''d like to file an issue, please use the
-
-    [GitHub Issue Tracker | Mealie](https://github.com/mealie-recipes/mealie/issues/new/choose)
-
-
-
-    ## Helpful Links
-
-    - [Home Page](https://mealie.io)
-
-    - [Documentation](https://docs.mealie.io)
-
-    - [Discord](https://discord.gg/QuStdQGSGK)
-
-    - [Demo](https://demo.mealie.io)
-
-    '
+  description: Mealie is a web application for managing your recipes, meal plans, and shopping lists.
   version: nightly
 tags:
-- name: 'Admin: Maintenance'
+- name: Admin - Maintenance
 paths:
   /api/admin/maintenance:
     get:
       tags:
-      - 'Admin: Maintenance'
+      - Admin - Maintenance
       summary: Get Maintenance Summary
       description: Get the maintenance summary
       operationId: get_maintenance_summary_api_admin_maintenance_get
@@ -72,7 +40,7 @@ paths:
   /api/admin/maintenance/storage:
     get:
       tags:
-      - 'Admin: Maintenance'
+      - Admin - Maintenance
       summary: Get Storage Details
       operationId: get_storage_details_api_admin_maintenance_storage_get
       security:
@@ -102,7 +70,7 @@ paths:
   /api/admin/maintenance/clean/images:
     post:
       tags:
-      - 'Admin: Maintenance'
+      - Admin - Maintenance
       summary: Clean Images
       description: Purges all the images from the filesystem that aren't .webp
       operationId: clean_images_api_admin_maintenance_clean_images_post
@@ -133,7 +101,7 @@ paths:
   /api/admin/maintenance/clean/temp:
     post:
       tags:
-      - 'Admin: Maintenance'
+      - Admin - Maintenance
       summary: Clean Temp
       operationId: clean_temp_api_admin_maintenance_clean_temp_post
       security:
@@ -163,7 +131,7 @@ paths:
   /api/admin/maintenance/clean/recipe-folders:
     post:
       tags:
-      - 'Admin: Maintenance'
+      - Admin - Maintenance
       summary: Clean Recipe Folders
       description: Deletes all the recipe folders that don't have names that are valid UUIDs
       operationId: clean_recipe_folders_api_admin_maintenance_clean_recipe_folders_post
@@ -193,23 +161,15 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    MaintenanceSummary:
+    HTTPValidationError:
       properties:
-        dataDirSize:
-          type: string
-          title: Datadirsize
-        cleanableImages:
-          type: integer
-          title: Cleanableimages
-        cleanableDirs:
-          type: integer
-          title: Cleanabledirs
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
       type: object
-      required:
-      - dataDirSize
-      - cleanableImages
-      - cleanableDirs
-      title: MaintenanceSummary
+      title: HTTPValidationError
     MaintenanceStorageDetails:
       properties:
         tempDirSize:
@@ -235,15 +195,36 @@ components:
       - recipesDirSize
       - userDirSize
       title: MaintenanceStorageDetails
-    HTTPValidationError:
+    SuccessResponse:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
+        message:
+          type: string
+          title: Message
+        error:
+          type: boolean
+          title: Error
+          default: false
       type: object
-      title: HTTPValidationError
+      required:
+      - message
+      title: SuccessResponse
+    MaintenanceSummary:
+      properties:
+        dataDirSize:
+          type: string
+          title: Datadirsize
+        cleanableImages:
+          type: integer
+          title: Cleanableimages
+        cleanableDirs:
+          type: integer
+          title: Cleanabledirs
+      type: object
+      required:
+      - dataDirSize
+      - cleanableImages
+      - cleanableDirs
+      title: MaintenanceSummary
     ValidationError:
       properties:
         loc:
@@ -270,19 +251,6 @@ components:
       - msg
       - type
       title: ValidationError
-    SuccessResponse:
-      properties:
-        message:
-          type: string
-          title: Message
-        error:
-          type: boolean
-          title: Error
-          default: false
-      type: object
-      required:
-      - message
-      title: SuccessResponse
   securitySchemes:
     OAuth2PasswordBearer:
       type: oauth2

@@ -1,39 +1,7 @@
 openapi: 3.2.0
 info:
   title: 'Mealie Households: Mealplans API'
-  description: '
-
-    Mealie is a web application for managing your recipes, meal plans, and shopping lists. This is the Restful
-
-    API interactive documentation that can be used to explore the API. If you''re justing getting started with
-
-    the API and want to get started quickly, you can use the
-
-    [API Usage | Mealie Docs](https://docs.mealie.io/documentation/getting-started/api-usage/)
-
-    as a reference for how to get started.
-
-
-
-    If you have any questions or comments about mealie, please use the discord server to talk to the developers or other
-
-    community members. If you''d like to file an issue, please use the
-
-    [GitHub Issue Tracker | Mealie](https://github.com/mealie-recipes/mealie/issues/new/choose)
-
-
-
-    ## Helpful Links
-
-    - [Home Page](https://mealie.io)
-
-    - [Documentation](https://docs.mealie.io)
-
-    - [Discord](https://discord.gg/QuStdQGSGK)
-
-    - [Demo](https://demo.mealie.io)
-
-    '
+  description: Mealie is a web application for managing your recipes, meal plans, and shopping lists.
   version: nightly
 tags:
 - name: 'Households: Mealplans'
@@ -362,6 +330,48 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    CreateRandomEntry:
+      properties:
+        date:
+          type: string
+          format: date
+          title: Date
+        entryType:
+          $ref: '#/components/schemas/PlanEntryType'
+          default: dinner
+      type: object
+      required:
+      - date
+      title: CreateRandomEntry
+    RecipeCategory:
+      properties:
+        id:
+          anyOf:
+          - type: string
+            format: uuid4
+          - type: 'null'
+          title: Id
+        groupId:
+          anyOf:
+          - type: string
+            format: uuid4
+          - type: 'null'
+          title: Groupid
+        name:
+          type: string
+          title: Name
+        slug:
+          type: string
+          title: Slug
+        recipeCount:
+          type: integer
+          title: Recipecount
+          default: 0
+      type: object
+      required:
+      - name
+      - slug
+      title: RecipeCategory
     UpdatePlanEntry:
       properties:
         date:
@@ -403,96 +413,15 @@ components:
       - groupId
       - userId
       title: UpdatePlanEntry
-    CreatePlanEntry:
+    HTTPValidationError:
       properties:
-        date:
-          type: string
-          format: date
-          title: Date
-        entryType:
-          $ref: '#/components/schemas/PlanEntryType'
-          default: breakfast
-        title:
-          type: string
-          title: Title
-          default: ''
-        text:
-          type: string
-          title: Text
-          default: ''
-        recipeId:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Recipeid
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
       type: object
-      required:
-      - date
-      title: CreatePlanEntry
-    CreateRandomEntry:
-      properties:
-        date:
-          type: string
-          format: date
-          title: Date
-        entryType:
-          $ref: '#/components/schemas/PlanEntryType'
-          default: dinner
-      type: object
-      required:
-      - date
-      title: CreateRandomEntry
-    ReadPlanEntry:
-      properties:
-        date:
-          type: string
-          format: date
-          title: Date
-        entryType:
-          $ref: '#/components/schemas/PlanEntryType'
-          default: breakfast
-        title:
-          type: string
-          title: Title
-          default: ''
-        text:
-          type: string
-          title: Text
-          default: ''
-        recipeId:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Recipeid
-        id:
-          type: integer
-          title: Id
-        groupId:
-          type: string
-          format: uuid
-          title: Groupid
-        userId:
-          type: string
-          format: uuid
-          title: Userid
-        householdId:
-          type: string
-          format: uuid
-          title: Householdid
-        recipe:
-          anyOf:
-          - $ref: '#/components/schemas/RecipeSummary'
-          - type: 'null'
-      type: object
-      required:
-      - date
-      - id
-      - groupId
-      - userId
-      - householdId
-      title: ReadPlanEntry
+      title: HTTPValidationError
     RecipeSummary:
       properties:
         id:
@@ -630,6 +559,41 @@ components:
           title: Lastmade
       type: object
       title: RecipeSummary
+    RecipeTag:
+      properties:
+        id:
+          anyOf:
+          - type: string
+            format: uuid4
+          - type: 'null'
+          title: Id
+        groupId:
+          anyOf:
+          - type: string
+            format: uuid4
+          - type: 'null'
+          title: Groupid
+        name:
+          type: string
+          title: Name
+        slug:
+          type: string
+          title: Slug
+        recipeCount:
+          type: integer
+          title: Recipecount
+          default: 0
+      type: object
+      required:
+      - name
+      - slug
+      title: RecipeTag
+    OrderByNullPosition:
+      type: string
+      enum:
+      - first
+      - last
+      title: OrderByNullPosition
     PlanEntryPagination:
       properties:
         page:
@@ -667,116 +631,83 @@ components:
       required:
       - items
       title: PlanEntryPagination
-    HTTPValidationError:
+    ReadPlanEntry:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    PlanEntryType:
-      type: string
-      enum:
-      - breakfast
-      - lunch
-      - dinner
-      - side
-      - snack
-      - drink
-      - dessert
-      title: PlanEntryType
-    OrderDirection:
-      type: string
-      enum:
-      - asc
-      - desc
-      title: OrderDirection
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
+        date:
           type: string
-          title: Message
-        type:
+          format: date
+          title: Date
+        entryType:
+          $ref: '#/components/schemas/PlanEntryType'
+          default: breakfast
+        title:
           type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    RecipeCategory:
-      properties:
-        id:
+          title: Title
+          default: ''
+        text:
+          type: string
+          title: Text
+          default: ''
+        recipeId:
           anyOf:
           - type: string
-            format: uuid4
+            format: uuid
           - type: 'null'
+          title: Recipeid
+        id:
+          type: integer
           title: Id
         groupId:
-          anyOf:
-          - type: string
-            format: uuid4
-          - type: 'null'
+          type: string
+          format: uuid
           title: Groupid
-        name:
+        userId:
           type: string
-          title: Name
-        slug:
+          format: uuid
+          title: Userid
+        householdId:
           type: string
-          title: Slug
-        recipeCount:
-          type: integer
-          title: Recipecount
-          default: 0
+          format: uuid
+          title: Householdid
+        recipe:
+          anyOf:
+          - $ref: '#/components/schemas/RecipeSummary'
+          - type: 'null'
       type: object
       required:
-      - name
-      - slug
-      title: RecipeCategory
-    RecipeTag:
+      - date
+      - id
+      - groupId
+      - userId
+      - householdId
+      title: ReadPlanEntry
+    CreatePlanEntry:
       properties:
-        id:
+        date:
+          type: string
+          format: date
+          title: Date
+        entryType:
+          $ref: '#/components/schemas/PlanEntryType'
+          default: breakfast
+        title:
+          type: string
+          title: Title
+          default: ''
+        text:
+          type: string
+          title: Text
+          default: ''
+        recipeId:
           anyOf:
           - type: string
-            format: uuid4
+            format: uuid
           - type: 'null'
-          title: Id
-        groupId:
-          anyOf:
-          - type: string
-            format: uuid4
-          - type: 'null'
-          title: Groupid
-        name:
-          type: string
-          title: Name
-        slug:
-          type: string
-          title: Slug
-        recipeCount:
-          type: integer
-          title: Recipecount
-          default: 0
+          title: Recipeid
       type: object
       required:
-      - name
-      - slug
-      title: RecipeTag
+      - date
+      title: CreatePlanEntry
     RecipeTool:
       properties:
         id:
@@ -811,12 +742,49 @@ components:
       - name
       - slug
       title: RecipeTool
-    OrderByNullPosition:
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    PlanEntryType:
       type: string
       enum:
-      - first
-      - last
-      title: OrderByNullPosition
+      - breakfast
+      - lunch
+      - dinner
+      - side
+      - snack
+      - drink
+      - dessert
+      title: PlanEntryType
+    OrderDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: OrderDirection
   securitySchemes:
     OAuth2PasswordBearer:
       type: oauth2

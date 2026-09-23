@@ -1,39 +1,7 @@
 openapi: 3.2.0
 info:
   title: 'Mealie Households: Recipe Actions API'
-  description: '
-
-    Mealie is a web application for managing your recipes, meal plans, and shopping lists. This is the Restful
-
-    API interactive documentation that can be used to explore the API. If you''re justing getting started with
-
-    the API and want to get started quickly, you can use the
-
-    [API Usage | Mealie Docs](https://docs.mealie.io/documentation/getting-started/api-usage/)
-
-    as a reference for how to get started.
-
-
-
-    If you have any questions or comments about mealie, please use the discord server to talk to the developers or other
-
-    community members. If you''d like to file an issue, please use the
-
-    [GitHub Issue Tracker | Mealie](https://github.com/mealie-recipes/mealie/issues/new/choose)
-
-
-
-    ## Helpful Links
-
-    - [Home Page](https://mealie.io)
-
-    - [Documentation](https://docs.mealie.io)
-
-    - [Discord](https://discord.gg/QuStdQGSGK)
-
-    - [Demo](https://demo.mealie.io)
-
-    '
+  description: Mealie is a web application for managing your recipes, meal plans, and shopping lists.
   version: nightly
 tags:
 - name: 'Households: Recipe Actions'
@@ -319,14 +287,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    Body_trigger_action_api_households_recipe_actions__item_id__trigger__recipe_slug__post:
-      properties:
-        recipe_scale:
-          type: number
-          title: Recipe Scale
-          default: 1
-      type: object
-      title: Body_trigger_action_api_households_recipe_actions__item_id__trigger__recipe_slug__post
     GroupRecipeActionType:
       type: string
       enum:
@@ -370,6 +330,31 @@ components:
       required:
       - items
       title: GroupRecipeActionPagination
+    CreateGroupRecipeAction:
+      properties:
+        actionType:
+          $ref: '#/components/schemas/GroupRecipeActionType'
+        title:
+          type: string
+          title: Title
+        url:
+          type: string
+          title: Url
+      type: object
+      required:
+      - actionType
+      - title
+      - url
+      title: CreateGroupRecipeAction
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     GroupRecipeActionOut:
       properties:
         actionType:
@@ -401,21 +386,12 @@ components:
       - householdId
       - id
       title: GroupRecipeActionOut
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    OrderDirection:
+    OrderByNullPosition:
       type: string
       enum:
-      - asc
-      - desc
-      title: OrderDirection
+      - first
+      - last
+      title: OrderByNullPosition
     ValidationError:
       properties:
         loc:
@@ -468,28 +444,20 @@ components:
       - groupId
       - householdId
       title: SaveGroupRecipeAction
-    OrderByNullPosition:
+    Body_trigger_action_api_households_recipe_actions__item_id__trigger__recipe_slug__post:
+      properties:
+        recipe_scale:
+          type: number
+          title: Recipe Scale
+          default: 1
+      type: object
+      title: Body_trigger_action_api_households_recipe_actions__item_id__trigger__recipe_slug__post
+    OrderDirection:
       type: string
       enum:
-      - first
-      - last
-      title: OrderByNullPosition
-    CreateGroupRecipeAction:
-      properties:
-        actionType:
-          $ref: '#/components/schemas/GroupRecipeActionType'
-        title:
-          type: string
-          title: Title
-        url:
-          type: string
-          title: Url
-      type: object
-      required:
-      - actionType
-      - title
-      - url
-      title: CreateGroupRecipeAction
+      - asc
+      - desc
+      title: OrderDirection
   securitySchemes:
     OAuth2PasswordBearer:
       type: oauth2

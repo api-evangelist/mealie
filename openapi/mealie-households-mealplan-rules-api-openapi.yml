@@ -1,39 +1,7 @@
 openapi: 3.2.0
 info:
   title: 'Mealie Households: Mealplan Rules API'
-  description: '
-
-    Mealie is a web application for managing your recipes, meal plans, and shopping lists. This is the Restful
-
-    API interactive documentation that can be used to explore the API. If you''re justing getting started with
-
-    the API and want to get started quickly, you can use the
-
-    [API Usage | Mealie Docs](https://docs.mealie.io/documentation/getting-started/api-usage/)
-
-    as a reference for how to get started.
-
-
-
-    If you have any questions or comments about mealie, please use the discord server to talk to the developers or other
-
-    community members. If you''d like to file an issue, please use the
-
-    [GitHub Issue Tracker | Mealie](https://github.com/mealie-recipes/mealie/issues/new/choose)
-
-
-
-    ## Helpful Links
-
-    - [Home Page](https://mealie.io)
-
-    - [Documentation](https://docs.mealie.io)
-
-    - [Discord](https://discord.gg/QuStdQGSGK)
-
-    - [Demo](https://demo.mealie.io)
-
-    '
+  description: Mealie is a web application for managing your recipes, meal plans, and shopping lists.
   version: nightly
 tags:
 - name: 'Households: Mealplan Rules'
@@ -272,38 +240,38 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    QueryFilterJSON:
+    PlanRulesOut:
       properties:
-        parts:
-          items:
-            $ref: '#/components/schemas/QueryFilterJSONPart'
-          type: array
-          title: Parts
-          default: []
+        day:
+          $ref: '#/components/schemas/PlanRulesDay'
+          default: unset
+        entryType:
+          $ref: '#/components/schemas/PlanRulesType'
+          default: unset
+        queryFilterString:
+          type: string
+          title: Queryfilterstring
+          default: ''
+        groupId:
+          type: string
+          format: uuid4
+          title: Groupid
+        householdId:
+          type: string
+          format: uuid4
+          title: Householdid
+        id:
+          type: string
+          format: uuid4
+          title: Id
+        queryFilter:
+          $ref: '#/components/schemas/QueryFilterJSON'
       type: object
-      title: QueryFilterJSON
-    PlanRulesDay:
-      type: string
-      enum:
-      - monday
-      - tuesday
-      - wednesday
-      - thursday
-      - friday
-      - saturday
-      - sunday
-      - unset
-      title: PlanRulesDay
-    RelationalOperator:
-      type: string
-      enum:
-      - '='
-      - <>
-      - '>'
-      - <
-      - '>='
-      - <=
-      title: RelationalOperator
+      required:
+      - groupId
+      - householdId
+      - id
+      title: PlanRulesOut
     PlanRulesPagination:
       properties:
         page:
@@ -341,6 +309,48 @@ components:
       required:
       - items
       title: PlanRulesPagination
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    RelationalKeyword:
+      type: string
+      enum:
+      - IS
+      - IS NOT
+      - IN
+      - NOT IN
+      - CONTAINS ALL
+      - LIKE
+      - NOT LIKE
+      title: RelationalKeyword
+    PlanRulesType:
+      type: string
+      enum:
+      - breakfast
+      - lunch
+      - dinner
+      - side
+      - snack
+      - drink
+      - dessert
+      - unset
+      title: PlanRulesType
+    QueryFilterJSON:
+      properties:
+        parts:
+          items:
+            $ref: '#/components/schemas/QueryFilterJSONPart'
+          type: array
+          title: Parts
+          default: []
+      type: object
+      title: QueryFilterJSON
     QueryFilterJSONPart:
       properties:
         leftParenthesis:
@@ -378,19 +388,23 @@ components:
           title: Value
       type: object
       title: QueryFilterJSONPart
-    PlanRulesType:
+    RelationalOperator:
       type: string
       enum:
-      - breakfast
-      - lunch
-      - dinner
-      - side
-      - snack
-      - drink
-      - dessert
-      - unset
-      title: PlanRulesType
-    PlanRulesOut:
+      - '='
+      - <>
+      - '>'
+      - <
+      - '>='
+      - <=
+      title: RelationalOperator
+    OrderByNullPosition:
+      type: string
+      enum:
+      - first
+      - last
+      title: OrderByNullPosition
+    PlanRulesCreate:
       properties:
         day:
           $ref: '#/components/schemas/PlanRulesDay'
@@ -402,52 +416,8 @@ components:
           type: string
           title: Queryfilterstring
           default: ''
-        groupId:
-          type: string
-          format: uuid4
-          title: Groupid
-        householdId:
-          type: string
-          format: uuid4
-          title: Householdid
-        id:
-          type: string
-          format: uuid4
-          title: Id
-        queryFilter:
-          $ref: '#/components/schemas/QueryFilterJSON'
       type: object
-      required:
-      - groupId
-      - householdId
-      - id
-      title: PlanRulesOut
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    RelationalKeyword:
-      type: string
-      enum:
-      - IS
-      - IS NOT
-      - IN
-      - NOT IN
-      - CONTAINS ALL
-      - LIKE
-      - NOT LIKE
-      title: RelationalKeyword
-    OrderDirection:
-      type: string
-      enum:
-      - asc
-      - desc
-      title: OrderDirection
+      title: PlanRulesCreate
     ValidationError:
       properties:
         loc:
@@ -474,32 +444,30 @@ components:
       - msg
       - type
       title: ValidationError
-    OrderByNullPosition:
+    PlanRulesDay:
       type: string
       enum:
-      - first
-      - last
-      title: OrderByNullPosition
+      - monday
+      - tuesday
+      - wednesday
+      - thursday
+      - friday
+      - saturday
+      - sunday
+      - unset
+      title: PlanRulesDay
     LogicalOperator:
       type: string
       enum:
       - AND
       - OR
       title: LogicalOperator
-    PlanRulesCreate:
-      properties:
-        day:
-          $ref: '#/components/schemas/PlanRulesDay'
-          default: unset
-        entryType:
-          $ref: '#/components/schemas/PlanRulesType'
-          default: unset
-        queryFilterString:
-          type: string
-          title: Queryfilterstring
-          default: ''
-      type: object
-      title: PlanRulesCreate
+    OrderDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: OrderDirection
   securitySchemes:
     OAuth2PasswordBearer:
       type: oauth2

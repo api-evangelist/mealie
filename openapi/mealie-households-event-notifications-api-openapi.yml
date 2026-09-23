@@ -1,39 +1,7 @@
 openapi: 3.2.0
 info:
   title: 'Mealie Households: Event Notifications API'
-  description: '
-
-    Mealie is a web application for managing your recipes, meal plans, and shopping lists. This is the Restful
-
-    API interactive documentation that can be used to explore the API. If you''re justing getting started with
-
-    the API and want to get started quickly, you can use the
-
-    [API Usage | Mealie Docs](https://docs.mealie.io/documentation/getting-started/api-usage/)
-
-    as a reference for how to get started.
-
-
-
-    If you have any questions or comments about mealie, please use the discord server to talk to the developers or other
-
-    community members. If you''d like to file an issue, please use the
-
-    [GitHub Issue Tracker | Mealie](https://github.com/mealie-recipes/mealie/issues/new/choose)
-
-
-
-    ## Helpful Links
-
-    - [Home Page](https://mealie.io)
-
-    - [Documentation](https://docs.mealie.io)
-
-    - [Discord](https://discord.gg/QuStdQGSGK)
-
-    - [Demo](https://demo.mealie.io)
-
-    '
+  description: Mealie is a web application for managing your recipes, meal plans, and shopping lists.
   version: nightly
 tags:
 - name: 'Households: Event Notifications'
@@ -301,6 +269,20 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    GroupEventNotifierCreate:
+      properties:
+        name:
+          type: string
+          title: Name
+        appriseUrl:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Appriseurl
+      type: object
+      required:
+      - name
+      title: GroupEventNotifierCreate
     GroupEventPagination:
       properties:
         page:
@@ -456,6 +438,109 @@ components:
       required:
       - id
       title: GroupEventNotifierOptionsOut
+    GroupEventNotifierUpdate:
+      properties:
+        name:
+          type: string
+          title: Name
+        appriseUrl:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Appriseurl
+        enabled:
+          type: boolean
+          title: Enabled
+          default: true
+        groupId:
+          type: string
+          format: uuid4
+          title: Groupid
+        householdId:
+          type: string
+          format: uuid4
+          title: Householdid
+        options:
+          $ref: '#/components/schemas/GroupEventNotifierOptions'
+          default:
+            testMessage: false
+            webhookTask: false
+            recipeCreated: false
+            recipeUpdated: false
+            recipeDeleted: false
+            userSignup: false
+            dataMigrations: false
+            dataExport: false
+            dataImport: false
+            mealplanEntryCreated: false
+            mealplanEntryUpdated: false
+            mealplanEntryDeleted: false
+            shoppingListCreated: false
+            shoppingListUpdated: false
+            shoppingListDeleted: false
+            cookbookCreated: false
+            cookbookUpdated: false
+            cookbookDeleted: false
+            tagCreated: false
+            tagUpdated: false
+            tagDeleted: false
+            categoryCreated: false
+            categoryUpdated: false
+            categoryDeleted: false
+            labelCreated: false
+            labelUpdated: false
+            labelDeleted: false
+        id:
+          type: string
+          format: uuid4
+          title: Id
+      type: object
+      required:
+      - name
+      - groupId
+      - householdId
+      - id
+      title: GroupEventNotifierUpdate
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    GroupEventNotifierOut:
+      properties:
+        id:
+          type: string
+          format: uuid4
+          title: Id
+        name:
+          type: string
+          title: Name
+        enabled:
+          type: boolean
+          title: Enabled
+        groupId:
+          type: string
+          format: uuid4
+          title: Groupid
+        householdId:
+          type: string
+          format: uuid4
+          title: Householdid
+        options:
+          $ref: '#/components/schemas/GroupEventNotifierOptionsOut'
+      type: object
+      required:
+      - id
+      - name
+      - enabled
+      - groupId
+      - householdId
+      - options
+      title: GroupEventNotifierOut
     GroupEventNotifierOptions:
       properties:
         testMessage:
@@ -571,52 +656,12 @@ components:
       description: 'These events are in-sync with the EventTypes found in the EventBusService.
 
         If you modify this, make sure to update the EventBusService as well.'
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    OrderDirection:
+    OrderByNullPosition:
       type: string
       enum:
-      - asc
-      - desc
-      title: OrderDirection
-    GroupEventNotifierOut:
-      properties:
-        id:
-          type: string
-          format: uuid4
-          title: Id
-        name:
-          type: string
-          title: Name
-        enabled:
-          type: boolean
-          title: Enabled
-        groupId:
-          type: string
-          format: uuid4
-          title: Groupid
-        householdId:
-          type: string
-          format: uuid4
-          title: Householdid
-        options:
-          $ref: '#/components/schemas/GroupEventNotifierOptionsOut'
-      type: object
-      required:
-      - id
-      - name
-      - enabled
-      - groupId
-      - householdId
-      - options
-      title: GroupEventNotifierOut
+      - first
+      - last
+      title: OrderByNullPosition
     ValidationError:
       properties:
         loc:
@@ -643,89 +688,12 @@ components:
       - msg
       - type
       title: ValidationError
-    OrderByNullPosition:
+    OrderDirection:
       type: string
       enum:
-      - first
-      - last
-      title: OrderByNullPosition
-    GroupEventNotifierCreate:
-      properties:
-        name:
-          type: string
-          title: Name
-        appriseUrl:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Appriseurl
-      type: object
-      required:
-      - name
-      title: GroupEventNotifierCreate
-    GroupEventNotifierUpdate:
-      properties:
-        name:
-          type: string
-          title: Name
-        appriseUrl:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Appriseurl
-        enabled:
-          type: boolean
-          title: Enabled
-          default: true
-        groupId:
-          type: string
-          format: uuid4
-          title: Groupid
-        householdId:
-          type: string
-          format: uuid4
-          title: Householdid
-        options:
-          $ref: '#/components/schemas/GroupEventNotifierOptions'
-          default:
-            testMessage: false
-            webhookTask: false
-            recipeCreated: false
-            recipeUpdated: false
-            recipeDeleted: false
-            userSignup: false
-            dataMigrations: false
-            dataExport: false
-            dataImport: false
-            mealplanEntryCreated: false
-            mealplanEntryUpdated: false
-            mealplanEntryDeleted: false
-            shoppingListCreated: false
-            shoppingListUpdated: false
-            shoppingListDeleted: false
-            cookbookCreated: false
-            cookbookUpdated: false
-            cookbookDeleted: false
-            tagCreated: false
-            tagUpdated: false
-            tagDeleted: false
-            categoryCreated: false
-            categoryUpdated: false
-            categoryDeleted: false
-            labelCreated: false
-            labelUpdated: false
-            labelDeleted: false
-        id:
-          type: string
-          format: uuid4
-          title: Id
-      type: object
-      required:
-      - name
-      - groupId
-      - householdId
-      - id
-      title: GroupEventNotifierUpdate
+      - asc
+      - desc
+      title: OrderDirection
   securitySchemes:
     OAuth2PasswordBearer:
       type: oauth2
