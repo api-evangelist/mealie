@@ -97,24 +97,6 @@ components:
       required:
       - success
       title: EmailSuccess
-    EmailTest:
-      properties:
-        email:
-          type: string
-          title: Email
-      type: object
-      required:
-      - email
-      title: EmailTest
-    EmailReady:
-      properties:
-        ready:
-          type: boolean
-          title: Ready
-      type: object
-      required:
-      - ready
-      title: EmailReady
     ValidationError:
       properties:
         loc:
@@ -141,6 +123,24 @@ components:
       - msg
       - type
       title: ValidationError
+    EmailTest:
+      properties:
+        email:
+          type: string
+          title: Email
+      type: object
+      required:
+      - email
+      title: EmailTest
+    EmailReady:
+      properties:
+        ready:
+          type: boolean
+          title: Ready
+      type: object
+      required:
+      - ready
+      title: EmailReady
   securitySchemes:
     OAuth2PasswordBearer:
       type: oauth2

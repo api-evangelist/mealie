@@ -44,6 +44,15 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     Body_start_data_migration_api_groups_migrations_post:
       properties:
         add_migration_tag:
@@ -61,6 +70,46 @@ components:
       - migration_type
       - archive
       title: Body_start_data_migration_api_groups_migrations_post
+    SupportedMigrations:
+      type: string
+      enum:
+      - nextcloud
+      - chowdown
+      - copymethat
+      - paprika
+      - mealie_alpha
+      - tandoor
+      - plantoeat
+      - myrecipebox
+      - recipekeeper
+      - cookn
+      title: SupportedMigrations
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     ReportSummaryStatus:
       type: string
       enum:
@@ -69,15 +118,6 @@ components:
       - failure
       - partial
       title: ReportSummaryStatus
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     ReportSummary:
       properties:
         timestamp:
@@ -115,46 +155,6 @@ components:
       - migration
       - bulk_import
       title: ReportCategory
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    SupportedMigrations:
-      type: string
-      enum:
-      - nextcloud
-      - chowdown
-      - copymethat
-      - paprika
-      - mealie_alpha
-      - tandoor
-      - plantoeat
-      - myrecipebox
-      - recipekeeper
-      - cookn
-      title: SupportedMigrations
   securitySchemes:
     OAuth2PasswordBearer:
       type: oauth2

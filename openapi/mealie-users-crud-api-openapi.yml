@@ -213,6 +213,71 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    LongLiveTokenOut:
+      properties:
+        name:
+          type: string
+          title: Name
+        id:
+          type: integer
+          title: Id
+        createdAt:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Createdat
+      type: object
+      required:
+      - name
+      - id
+      title: LongLiveTokenOut
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    UserRatings_UserRatingSummary_:
+      properties:
+        ratings:
+          items:
+            $ref: '#/components/schemas/UserRatingSummary'
+          type: array
+          title: Ratings
+      type: object
+      required:
+      - ratings
+      title: UserRatings[UserRatingSummary]
     AuthMethod:
       type: string
       enum:
@@ -298,45 +363,6 @@ components:
         group: home
         household: Family
         username: ChangeMe
-    UserRatings_UserRatingSummary_:
-      properties:
-        ratings:
-          items:
-            $ref: '#/components/schemas/UserRatingSummary'
-          type: array
-          title: Ratings
-      type: object
-      required:
-      - ratings
-      title: UserRatings[UserRatingSummary]
-    LongLiveTokenOut:
-      properties:
-        name:
-          type: string
-          title: Name
-        id:
-          type: integer
-          title: Id
-        createdAt:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Createdat
-      type: object
-      required:
-      - name
-      - id
-      title: LongLiveTokenOut
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     UserOut:
       properties:
         id:
@@ -441,32 +467,6 @@ components:
         group: home
         household: Family
         username: ChangeMe
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
     ChangePassword:
       properties:
         currentPassword:

@@ -159,6 +159,41 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     AIProviderCreate:
       properties:
         name:
@@ -197,53 +232,6 @@ components:
       - name
       - model
       title: AIProviderCreate
-    AIProviderUpdate:
-      properties:
-        name:
-          type: string
-          title: Name
-        baseUrl:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Baseurl
-        apiKey:
-          type: string
-          title: Apikey
-          default: ''
-        model:
-          type: string
-          title: Model
-        timeout:
-          type: integer
-          title: Timeout
-          default: 300
-        requestHeaders:
-          additionalProperties:
-            type: string
-          type: object
-          title: Requestheaders
-          default: {}
-        requestParams:
-          additionalProperties:
-            type: string
-          type: object
-          title: Requestparams
-          default: {}
-      type: object
-      required:
-      - name
-      - model
-      title: AIProviderUpdate
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     AIProviderOut:
       properties:
         name:
@@ -283,32 +271,44 @@ components:
       - model
       - id
       title: AIProviderOut
-    ValidationError:
+    AIProviderUpdate:
       properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
+        name:
           type: string
-          title: Message
-        type:
+          title: Name
+        baseUrl:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Baseurl
+        apiKey:
           type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
+          title: Apikey
+          default: ''
+        model:
+          type: string
+          title: Model
+        timeout:
+          type: integer
+          title: Timeout
+          default: 300
+        requestHeaders:
+          additionalProperties:
+            type: string
           type: object
-          title: Context
+          title: Requestheaders
+          default: {}
+        requestParams:
+          additionalProperties:
+            type: string
+          type: object
+          title: Requestparams
+          default: {}
       type: object
       required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
+      - name
+      - model
+      title: AIProviderUpdate
   securitySchemes:
     OAuth2PasswordBearer:
       type: oauth2

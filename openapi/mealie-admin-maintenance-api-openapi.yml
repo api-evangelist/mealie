@@ -170,61 +170,6 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    MaintenanceStorageDetails:
-      properties:
-        tempDirSize:
-          type: string
-          title: Tempdirsize
-        backupsDirSize:
-          type: string
-          title: Backupsdirsize
-        groupsDirSize:
-          type: string
-          title: Groupsdirsize
-        recipesDirSize:
-          type: string
-          title: Recipesdirsize
-        userDirSize:
-          type: string
-          title: Userdirsize
-      type: object
-      required:
-      - tempDirSize
-      - backupsDirSize
-      - groupsDirSize
-      - recipesDirSize
-      - userDirSize
-      title: MaintenanceStorageDetails
-    SuccessResponse:
-      properties:
-        message:
-          type: string
-          title: Message
-        error:
-          type: boolean
-          title: Error
-          default: false
-      type: object
-      required:
-      - message
-      title: SuccessResponse
-    MaintenanceSummary:
-      properties:
-        dataDirSize:
-          type: string
-          title: Datadirsize
-        cleanableImages:
-          type: integer
-          title: Cleanableimages
-        cleanableDirs:
-          type: integer
-          title: Cleanabledirs
-      type: object
-      required:
-      - dataDirSize
-      - cleanableImages
-      - cleanableDirs
-      title: MaintenanceSummary
     ValidationError:
       properties:
         loc:
@@ -251,6 +196,61 @@ components:
       - msg
       - type
       title: ValidationError
+    SuccessResponse:
+      properties:
+        message:
+          type: string
+          title: Message
+        error:
+          type: boolean
+          title: Error
+          default: false
+      type: object
+      required:
+      - message
+      title: SuccessResponse
+    MaintenanceStorageDetails:
+      properties:
+        tempDirSize:
+          type: string
+          title: Tempdirsize
+        backupsDirSize:
+          type: string
+          title: Backupsdirsize
+        groupsDirSize:
+          type: string
+          title: Groupsdirsize
+        recipesDirSize:
+          type: string
+          title: Recipesdirsize
+        userDirSize:
+          type: string
+          title: Userdirsize
+      type: object
+      required:
+      - tempDirSize
+      - backupsDirSize
+      - groupsDirSize
+      - recipesDirSize
+      - userDirSize
+      title: MaintenanceStorageDetails
+    MaintenanceSummary:
+      properties:
+        dataDirSize:
+          type: string
+          title: Datadirsize
+        cleanableImages:
+          type: integer
+          title: Cleanableimages
+        cleanableDirs:
+          type: integer
+          title: Cleanabledirs
+      type: object
+      required:
+      - dataDirSize
+      - cleanableImages
+      - cleanableDirs
+      title: MaintenanceSummary
   securitySchemes:
     OAuth2PasswordBearer:
       type: oauth2

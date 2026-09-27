@@ -50,6 +50,39 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    Body_debug_openai_api_admin_debug_openai__provider_id__post:
+      properties:
+        image:
+          anyOf:
+          - type: string
+            contentMediaType: application/octet-stream
+          - type: 'null'
+          title: Image
+      type: object
+      title: Body_debug_openai_api_admin_debug_openai__provider_id__post
+    DebugResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+        response:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Response
+      type: object
+      required:
+      - success
+      title: DebugResponse
     ValidationError:
       properties:
         loc:
@@ -76,39 +109,6 @@ components:
       - msg
       - type
       title: ValidationError
-    DebugResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-        response:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Response
-      type: object
-      required:
-      - success
-      title: DebugResponse
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    Body_debug_openai_api_admin_debug_openai__provider_id__post:
-      properties:
-        image:
-          anyOf:
-          - type: string
-            contentMediaType: application/octet-stream
-          - type: 'null'
-          title: Image
-      type: object
-      title: Body_debug_openai_api_admin_debug_openai__provider_id__post
   securitySchemes:
     OAuth2PasswordBearer:
       type: oauth2

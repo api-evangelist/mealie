@@ -248,58 +248,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    OrderDirection:
-      type: string
-      enum:
-      - asc
-      - desc
-      title: OrderDirection
-    MultiPurposeLabelSummary:
-      properties:
-        name:
-          type: string
-          title: Name
-        color:
-          type: string
-          title: Color
-          default: '#959595'
-        groupId:
-          type: string
-          format: uuid4
-          title: Groupid
-        id:
-          type: string
-          format: uuid4
-          title: Id
-      type: object
-      required:
-      - name
-      - groupId
-      - id
-      title: MultiPurposeLabelSummary
-    MultiPurposeLabelUpdate:
-      properties:
-        name:
-          type: string
-          title: Name
-        color:
-          type: string
-          title: Color
-          default: '#959595'
-        groupId:
-          type: string
-          format: uuid4
-          title: Groupid
-        id:
-          type: string
-          format: uuid4
-          title: Id
-      type: object
-      required:
-      - name
-      - groupId
-      - id
-      title: MultiPurposeLabelUpdate
     HTTPValidationError:
       properties:
         detail:
@@ -309,48 +257,6 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    MultiPurposeLabelOut:
-      properties:
-        name:
-          type: string
-          title: Name
-        color:
-          type: string
-          title: Color
-          default: '#959595'
-        groupId:
-          type: string
-          format: uuid4
-          title: Groupid
-        id:
-          type: string
-          format: uuid4
-          title: Id
-      type: object
-      required:
-      - name
-      - groupId
-      - id
-      title: MultiPurposeLabelOut
-    OrderByNullPosition:
-      type: string
-      enum:
-      - first
-      - last
-      title: OrderByNullPosition
-    MultiPurposeLabelCreate:
-      properties:
-        name:
-          type: string
-          title: Name
-        color:
-          type: string
-          title: Color
-          default: '#959595'
-      type: object
-      required:
-      - name
-      title: MultiPurposeLabelCreate
     ValidationError:
       properties:
         loc:
@@ -377,6 +283,54 @@ components:
       - msg
       - type
       title: ValidationError
+    OrderByNullPosition:
+      type: string
+      enum:
+      - first
+      - last
+      title: OrderByNullPosition
+    MultiPurposeLabelUpdate:
+      properties:
+        name:
+          type: string
+          title: Name
+        color:
+          type: string
+          title: Color
+          default: '#959595'
+        groupId:
+          type: string
+          format: uuid4
+          title: Groupid
+        id:
+          type: string
+          format: uuid4
+          title: Id
+      type: object
+      required:
+      - name
+      - groupId
+      - id
+      title: MultiPurposeLabelUpdate
+    OrderDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: OrderDirection
+    MultiPurposeLabelCreate:
+      properties:
+        name:
+          type: string
+          title: Name
+        color:
+          type: string
+          title: Color
+          default: '#959595'
+      type: object
+      required:
+      - name
+      title: MultiPurposeLabelCreate
     MultiPurposeLabelPagination:
       properties:
         page:
@@ -414,6 +368,52 @@ components:
       required:
       - items
       title: MultiPurposeLabelPagination
+    MultiPurposeLabelOut:
+      properties:
+        name:
+          type: string
+          title: Name
+        color:
+          type: string
+          title: Color
+          default: '#959595'
+        groupId:
+          type: string
+          format: uuid4
+          title: Groupid
+        id:
+          type: string
+          format: uuid4
+          title: Id
+      type: object
+      required:
+      - name
+      - groupId
+      - id
+      title: MultiPurposeLabelOut
+    MultiPurposeLabelSummary:
+      properties:
+        name:
+          type: string
+          title: Name
+        color:
+          type: string
+          title: Color
+          default: '#959595'
+        groupId:
+          type: string
+          format: uuid4
+          title: Groupid
+        id:
+          type: string
+          format: uuid4
+          title: Id
+      type: object
+      required:
+      - name
+      - groupId
+      - id
+      title: MultiPurposeLabelSummary
   securitySchemes:
     OAuth2PasswordBearer:
       type: oauth2

@@ -112,29 +112,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    EmailInitationResponse:
-      properties:
-        success:
-          type: boolean
-          title: Success
-        error:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Error
-      type: object
-      required:
-      - success
-      title: EmailInitationResponse
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     EmailInvitation:
       properties:
         email:
@@ -148,27 +125,15 @@ components:
       - email
       - token
       title: EmailInvitation
-    CreateInviteToken:
+    HTTPValidationError:
       properties:
-        uses:
-          type: integer
-          title: Uses
-        groupId:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Groupid
-        householdId:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Householdid
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
       type: object
-      required:
-      - uses
-      title: CreateInviteToken
+      title: HTTPValidationError
     ValidationError:
       properties:
         loc:
@@ -195,6 +160,20 @@ components:
       - msg
       - type
       title: ValidationError
+    EmailInitationResponse:
+      properties:
+        success:
+          type: boolean
+          title: Success
+        error:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Error
+      type: object
+      required:
+      - success
+      title: EmailInitationResponse
     ReadInviteToken:
       properties:
         token:
@@ -218,6 +197,27 @@ components:
       - groupId
       - householdId
       title: ReadInviteToken
+    CreateInviteToken:
+      properties:
+        uses:
+          type: integer
+          title: Uses
+        groupId:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Groupid
+        householdId:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Householdid
+      type: object
+      required:
+      - uses
+      title: CreateInviteToken
   securitySchemes:
     OAuth2PasswordBearer:
       type: oauth2

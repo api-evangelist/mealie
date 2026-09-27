@@ -145,43 +145,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    PaginationBase_ReadCookBook_:
-      properties:
-        page:
-          type: integer
-          title: Page
-          default: 1
-        per_page:
-          type: integer
-          title: Per Page
-          default: 10
-        total:
-          type: integer
-          title: Total
-          default: 0
-        total_pages:
-          type: integer
-          title: Total Pages
-          default: 0
-        items:
-          items:
-            $ref: '#/components/schemas/ReadCookBook'
-          type: array
-          title: Items
-        next:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Next
-        previous:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Previous
-      type: object
-      required:
-      - items
-      title: PaginationBase[ReadCookBook]
     HTTPValidationError:
       properties:
         detail:
@@ -191,27 +154,32 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    RelationalKeyword:
-      type: string
-      enum:
-      - IS
-      - IS NOT
-      - IN
-      - NOT IN
-      - CONTAINS ALL
-      - LIKE
-      - NOT LIKE
-      title: RelationalKeyword
-    QueryFilterJSON:
+    ValidationError:
       properties:
-        parts:
+        loc:
           items:
-            $ref: '#/components/schemas/QueryFilterJSONPart'
+            anyOf:
+            - type: string
+            - type: integer
           type: array
-          title: Parts
-          default: []
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
       type: object
-      title: QueryFilterJSON
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     QueryFilterJSONPart:
       properties:
         leftParenthesis:
@@ -249,22 +217,6 @@ components:
           title: Value
       type: object
       title: QueryFilterJSONPart
-    RelationalOperator:
-      type: string
-      enum:
-      - '='
-      - <>
-      - '>'
-      - <
-      - '>='
-      - <=
-      title: RelationalOperator
-    OrderByNullPosition:
-      type: string
-      enum:
-      - first
-      - last
-      title: OrderByNullPosition
     ReadCookBook:
       properties:
         name:
@@ -316,6 +268,82 @@ components:
       - householdId
       - id
       title: ReadCookBook
+    LogicalOperator:
+      type: string
+      enum:
+      - AND
+      - OR
+      title: LogicalOperator
+    OrderByNullPosition:
+      type: string
+      enum:
+      - first
+      - last
+      title: OrderByNullPosition
+    PaginationBase_ReadCookBook_:
+      properties:
+        page:
+          type: integer
+          title: Page
+          default: 1
+        per_page:
+          type: integer
+          title: Per Page
+          default: 10
+        total:
+          type: integer
+          title: Total
+          default: 0
+        total_pages:
+          type: integer
+          title: Total Pages
+          default: 0
+        items:
+          items:
+            $ref: '#/components/schemas/ReadCookBook'
+          type: array
+          title: Items
+        next:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Next
+        previous:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Previous
+      type: object
+      required:
+      - items
+      title: PaginationBase[ReadCookBook]
+    QueryFilterJSON:
+      properties:
+        parts:
+          items:
+            $ref: '#/components/schemas/QueryFilterJSONPart'
+          type: array
+          title: Parts
+          default: []
+      type: object
+      title: QueryFilterJSON
+    OrderDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: OrderDirection
+    RelationalKeyword:
+      type: string
+      enum:
+      - IS
+      - IS NOT
+      - IN
+      - NOT IN
+      - CONTAINS ALL
+      - LIKE
+      - NOT LIKE
+      title: RelationalKeyword
     CookbookHousehold:
       properties:
         id:
@@ -330,44 +358,16 @@ components:
       - id
       - name
       title: CookbookHousehold
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    LogicalOperator:
+    RelationalOperator:
       type: string
       enum:
-      - AND
-      - OR
-      title: LogicalOperator
-    OrderDirection:
-      type: string
-      enum:
-      - asc
-      - desc
-      title: OrderDirection
+      - '='
+      - <>
+      - '>'
+      - <
+      - '>='
+      - <=
+      title: RelationalOperator
   securitySchemes:
     OAuth2PasswordBearer:
       type: oauth2

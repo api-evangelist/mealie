@@ -143,29 +143,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    MultiPurposeLabelSummary:
-      properties:
-        name:
-          type: string
-          title: Name
-        color:
-          type: string
-          title: Color
-          default: '#959595'
-        groupId:
-          type: string
-          format: uuid4
-          title: Groupid
-        id:
-          type: string
-          format: uuid4
-          title: Id
-      type: object
-      required:
-      - name
-      - groupId
-      - id
-      title: MultiPurposeLabelSummary
     HTTPValidationError:
       properties:
         detail:
@@ -175,6 +152,38 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    OrderByNullPosition:
+      type: string
+      enum:
+      - first
+      - last
+      title: OrderByNullPosition
     IngredientFoodAlias:
       properties:
         name:
@@ -184,12 +193,12 @@ components:
       required:
       - name
       title: IngredientFoodAlias
-    OrderByNullPosition:
+    OrderDirection:
       type: string
       enum:
-      - first
-      - last
-      title: OrderByNullPosition
+      - asc
+      - desc
+      title: OrderDirection
     PaginationBase_IngredientFood_:
       properties:
         page:
@@ -227,32 +236,29 @@ components:
       required:
       - items
       title: PaginationBase[IngredientFood]
-    ValidationError:
+    MultiPurposeLabelSummary:
       properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
+        name:
           type: string
-          title: Message
-        type:
+          title: Name
+        color:
           type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
+          title: Color
+          default: '#959595'
+        groupId:
+          type: string
+          format: uuid4
+          title: Groupid
+        id:
+          type: string
+          format: uuid4
+          title: Id
       type: object
       required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
+      - name
+      - groupId
+      - id
+      title: MultiPurposeLabelSummary
     IngredientFood-Output:
       properties:
         id:
@@ -317,12 +323,6 @@ components:
       - id
       - name
       title: IngredientFood
-    OrderDirection:
-      type: string
-      enum:
-      - asc
-      - desc
-      title: OrderDirection
   securitySchemes:
     OAuth2PasswordBearer:
       type: oauth2

@@ -283,82 +283,15 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    AssignSettings:
+    HTTPValidationError:
       properties:
-        recipes:
+        detail:
           items:
-            type: string
+            $ref: '#/components/schemas/ValidationError'
           type: array
-          title: Recipes
-        settings:
-          $ref: '#/components/schemas/RecipeSettings'
+          title: Detail
       type: object
-      required:
-      - recipes
-      - settings
-      title: AssignSettings
-    ExportRecipes:
-      properties:
-        recipes:
-          items:
-            type: string
-          type: array
-          title: Recipes
-        exportType:
-          $ref: '#/components/schemas/ExportTypes'
-          default: json
-      type: object
-      required:
-      - recipes
-      title: ExportRecipes
-    CategoryBase:
-      properties:
-        name:
-          type: string
-          title: Name
-        id:
-          type: string
-          format: uuid4
-          title: Id
-        groupId:
-          anyOf:
-          - type: string
-            format: uuid4
-          - type: 'null'
-          title: Groupid
-        slug:
-          type: string
-          title: Slug
-      type: object
-      required:
-      - name
-      - id
-      - slug
-      title: CategoryBase
-    TagBase:
-      properties:
-        name:
-          type: string
-          title: Name
-        id:
-          type: string
-          format: uuid4
-          title: Id
-        groupId:
-          anyOf:
-          - type: string
-            format: uuid4
-          - type: 'null'
-          title: Groupid
-        slug:
-          type: string
-          title: Slug
-      type: object
-      required:
-      - name
-      - id
-      - slug
-      title: TagBase
+      title: HTTPValidationError
     ValidationError:
       properties:
         loc:
@@ -385,76 +318,20 @@ components:
       - msg
       - type
       title: ValidationError
-    DeleteRecipes:
+    AssignSettings:
       properties:
         recipes:
           items:
             type: string
           type: array
           title: Recipes
+        settings:
+          $ref: '#/components/schemas/RecipeSettings'
       type: object
       required:
       - recipes
-      title: DeleteRecipes
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    ExportTypes:
-      type: string
-      enum:
-      - json
-      title: ExportTypes
-    RecipeSettings:
-      properties:
-        public:
-          type: boolean
-          title: Public
-          default: false
-        showNutrition:
-          type: boolean
-          title: Shownutrition
-          default: false
-        showAssets:
-          type: boolean
-          title: Showassets
-          default: false
-        landscapeView:
-          type: boolean
-          title: Landscapeview
-          default: false
-        disableComments:
-          type: boolean
-          title: Disablecomments
-          default: true
-        locked:
-          type: boolean
-          title: Locked
-          default: false
-      type: object
-      title: RecipeSettings
-    AssignCategories:
-      properties:
-        recipes:
-          items:
-            type: string
-          type: array
-          title: Recipes
-        categories:
-          items:
-            $ref: '#/components/schemas/CategoryBase'
-          type: array
-          title: Categories
-      type: object
-      required:
-      - recipes
-      - categories
-      title: AssignCategories
+      - settings
+      title: AssignSettings
     SuccessResponse:
       properties:
         message:
@@ -468,23 +345,30 @@ components:
       required:
       - message
       title: SuccessResponse
-    AssignTags:
+    TagBase:
       properties:
-        recipes:
-          items:
-            type: string
-          type: array
-          title: Recipes
-        tags:
-          items:
-            $ref: '#/components/schemas/TagBase'
-          type: array
-          title: Tags
+        name:
+          type: string
+          title: Name
+        id:
+          type: string
+          format: uuid4
+          title: Id
+        groupId:
+          anyOf:
+          - type: string
+            format: uuid4
+          - type: 'null'
+          title: Groupid
+        slug:
+          type: string
+          title: Slug
       type: object
       required:
-      - recipes
-      - tags
-      title: AssignTags
+      - name
+      - id
+      - slug
+      title: TagBase
     GroupDataExport:
       properties:
         id:
@@ -521,6 +405,122 @@ components:
       - size
       - expires
       title: GroupDataExport
+    ExportRecipes:
+      properties:
+        recipes:
+          items:
+            type: string
+          type: array
+          title: Recipes
+        exportType:
+          $ref: '#/components/schemas/ExportTypes'
+          default: json
+      type: object
+      required:
+      - recipes
+      title: ExportRecipes
+    DeleteRecipes:
+      properties:
+        recipes:
+          items:
+            type: string
+          type: array
+          title: Recipes
+      type: object
+      required:
+      - recipes
+      title: DeleteRecipes
+    AssignTags:
+      properties:
+        recipes:
+          items:
+            type: string
+          type: array
+          title: Recipes
+        tags:
+          items:
+            $ref: '#/components/schemas/TagBase'
+          type: array
+          title: Tags
+      type: object
+      required:
+      - recipes
+      - tags
+      title: AssignTags
+    AssignCategories:
+      properties:
+        recipes:
+          items:
+            type: string
+          type: array
+          title: Recipes
+        categories:
+          items:
+            $ref: '#/components/schemas/CategoryBase'
+          type: array
+          title: Categories
+      type: object
+      required:
+      - recipes
+      - categories
+      title: AssignCategories
+    ExportTypes:
+      type: string
+      enum:
+      - json
+      title: ExportTypes
+    RecipeSettings:
+      properties:
+        public:
+          type: boolean
+          title: Public
+          default: false
+        showNutrition:
+          type: boolean
+          title: Shownutrition
+          default: false
+        showAssets:
+          type: boolean
+          title: Showassets
+          default: false
+        landscapeView:
+          type: boolean
+          title: Landscapeview
+          default: false
+        disableComments:
+          type: boolean
+          title: Disablecomments
+          default: true
+        locked:
+          type: boolean
+          title: Locked
+          default: false
+      type: object
+      title: RecipeSettings
+    CategoryBase:
+      properties:
+        name:
+          type: string
+          title: Name
+        id:
+          type: string
+          format: uuid4
+          title: Id
+        groupId:
+          anyOf:
+          - type: string
+            format: uuid4
+          - type: 'null'
+          title: Groupid
+        slug:
+          type: string
+          title: Slug
+      type: object
+      required:
+      - name
+      - id
+      - slug
+      title: CategoryBase
   securitySchemes:
     OAuth2PasswordBearer:
       type: oauth2

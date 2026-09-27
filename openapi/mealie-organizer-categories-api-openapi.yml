@@ -362,35 +362,15 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    RecipeCategory:
+    HTTPValidationError:
       properties:
-        id:
-          anyOf:
-          - type: string
-            format: uuid4
-          - type: 'null'
-          title: Id
-        groupId:
-          anyOf:
-          - type: string
-            format: uuid4
-          - type: 'null'
-          title: Groupid
-        name:
-          type: string
-          title: Name
-        slug:
-          type: string
-          title: Slug
-        recipeCount:
-          type: integer
-          title: Recipecount
-          default: 0
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
       type: object
-      required:
-      - name
-      - slug
-      title: RecipeCategory
+      title: HTTPValidationError
     CategoryMerge:
       properties:
         fromId:
@@ -406,39 +386,32 @@ components:
       - fromId
       - toId
       title: CategoryMerge
-    CategoryBase:
+    ValidationError:
       properties:
-        name:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
           type: string
-          title: Name
-        id:
+          title: Message
+        type:
           type: string
-          format: uuid4
-          title: Id
-        groupId:
-          anyOf:
-          - type: string
-            format: uuid4
-          - type: 'null'
-          title: Groupid
-        slug:
-          type: string
-          title: Slug
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
       type: object
       required:
-      - name
-      - id
-      - slug
-      title: CategoryBase
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
+      - loc
+      - msg
+      - type
+      title: ValidationError
     OrderByNullPosition:
       type: string
       enum:
@@ -472,24 +445,6 @@ components:
       - groupId
       - slug
       title: CategoryOut
-    CategorySummary:
-      properties:
-        id:
-          type: string
-          format: uuid4
-          title: Id
-        slug:
-          type: string
-          title: Slug
-        name:
-          type: string
-          title: Name
-      type: object
-      required:
-      - id
-      - slug
-      - name
-      title: CategorySummary
     RecipeCategoryPagination:
       properties:
         page:
@@ -527,32 +482,41 @@ components:
       required:
       - items
       title: RecipeCategoryPagination
-    ValidationError:
+    OrderDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: OrderDirection
+    RecipeCategory:
       properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
+        id:
+          anyOf:
+          - type: string
+            format: uuid4
+          - type: 'null'
+          title: Id
+        groupId:
+          anyOf:
+          - type: string
+            format: uuid4
+          - type: 'null'
+          title: Groupid
+        name:
           type: string
-          title: Message
-        type:
+          title: Name
+        slug:
           type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
+          title: Slug
+        recipeCount:
+          type: integer
+          title: Recipecount
+          default: 0
       type: object
       required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
+      - name
+      - slug
+      title: RecipeCategory
     CategoryIn:
       properties:
         name:
@@ -562,12 +526,48 @@ components:
       required:
       - name
       title: CategoryIn
-    OrderDirection:
-      type: string
-      enum:
-      - asc
-      - desc
-      title: OrderDirection
+    CategoryBase:
+      properties:
+        name:
+          type: string
+          title: Name
+        id:
+          type: string
+          format: uuid4
+          title: Id
+        groupId:
+          anyOf:
+          - type: string
+            format: uuid4
+          - type: 'null'
+          title: Groupid
+        slug:
+          type: string
+          title: Slug
+      type: object
+      required:
+      - name
+      - id
+      - slug
+      title: CategoryBase
+    CategorySummary:
+      properties:
+        id:
+          type: string
+          format: uuid4
+          title: Id
+        slug:
+          type: string
+          title: Slug
+        name:
+          type: string
+          title: Name
+      type: object
+      required:
+      - id
+      - slug
+      - name
+      title: CategorySummary
   securitySchemes:
     OAuth2PasswordBearer:
       type: oauth2

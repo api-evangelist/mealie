@@ -99,68 +99,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    CheckAppConfig:
-      properties:
-        emailReady:
-          type: boolean
-          title: Emailready
-        ldapReady:
-          type: boolean
-          title: Ldapready
-        ldapDisabled:
-          type: boolean
-          title: Ldapdisabled
-        oidcReady:
-          type: boolean
-          title: Oidcready
-        oidcDisabled:
-          type: boolean
-          title: Oidcdisabled
-        baseUrlSet:
-          type: boolean
-          title: Baseurlset
-        isUpToDate:
-          type: boolean
-          title: Isuptodate
-      type: object
-      required:
-      - emailReady
-      - ldapReady
-      - ldapDisabled
-      - oidcReady
-      - oidcDisabled
-      - baseUrlSet
-      - isUpToDate
-      title: CheckAppConfig
-    AppStatistics:
-      properties:
-        totalRecipes:
-          type: integer
-          title: Totalrecipes
-        totalUsers:
-          type: integer
-          title: Totalusers
-        totalHouseholds:
-          type: integer
-          title: Totalhouseholds
-        totalGroups:
-          type: integer
-          title: Totalgroups
-        uncategorizedRecipes:
-          type: integer
-          title: Uncategorizedrecipes
-        untaggedRecipes:
-          type: integer
-          title: Untaggedrecipes
-      type: object
-      required:
-      - totalRecipes
-      - totalUsers
-      - totalHouseholds
-      - totalGroups
-      - uncategorizedRecipes
-      - untaggedRecipes
-      title: AppStatistics
     HTTPValidationError:
       properties:
         detail:
@@ -170,6 +108,32 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     AdminAboutInfo:
       properties:
         production:
@@ -264,32 +228,68 @@ components:
       - buildId
       - recipeScraperVersion
       title: AdminAboutInfo
-    ValidationError:
+    CheckAppConfig:
       properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
+        emailReady:
+          type: boolean
+          title: Emailready
+        ldapReady:
+          type: boolean
+          title: Ldapready
+        ldapDisabled:
+          type: boolean
+          title: Ldapdisabled
+        oidcReady:
+          type: boolean
+          title: Oidcready
+        oidcDisabled:
+          type: boolean
+          title: Oidcdisabled
+        baseUrlSet:
+          type: boolean
+          title: Baseurlset
+        isUpToDate:
+          type: boolean
+          title: Isuptodate
       type: object
       required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
+      - emailReady
+      - ldapReady
+      - ldapDisabled
+      - oidcReady
+      - oidcDisabled
+      - baseUrlSet
+      - isUpToDate
+      title: CheckAppConfig
+    AppStatistics:
+      properties:
+        totalRecipes:
+          type: integer
+          title: Totalrecipes
+        totalUsers:
+          type: integer
+          title: Totalusers
+        totalHouseholds:
+          type: integer
+          title: Totalhouseholds
+        totalGroups:
+          type: integer
+          title: Totalgroups
+        uncategorizedRecipes:
+          type: integer
+          title: Uncategorizedrecipes
+        untaggedRecipes:
+          type: integer
+          title: Untaggedrecipes
+      type: object
+      required:
+      - totalRecipes
+      - totalUsers
+      - totalHouseholds
+      - totalGroups
+      - uncategorizedRecipes
+      - untaggedRecipes
+      title: AppStatistics
   securitySchemes:
     OAuth2PasswordBearer:
       type: oauth2

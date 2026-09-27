@@ -280,12 +280,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    OrderDirection:
-      type: string
-      enum:
-      - asc
-      - desc
-      title: OrderDirection
     HTTPValidationError:
       properties:
         detail:
@@ -332,6 +326,38 @@ components:
       - userId
       - user
       title: RecipeCommentOut
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    OrderByNullPosition:
+      type: string
+      enum:
+      - first
+      - last
+      title: OrderByNullPosition
     SuccessResponse:
       properties:
         message:
@@ -345,12 +371,12 @@ components:
       required:
       - message
       title: SuccessResponse
-    OrderByNullPosition:
+    OrderDirection:
       type: string
       enum:
-      - first
-      - last
-      title: OrderByNullPosition
+      - asc
+      - desc
+      title: OrderDirection
     RecipeCommentCreate:
       properties:
         recipeId:
@@ -365,6 +391,44 @@ components:
       - recipeId
       - text
       title: RecipeCommentCreate
+    UserBase-Output:
+      properties:
+        id:
+          type: string
+          format: uuid4
+          title: Id
+        username:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Username
+        admin:
+          type: boolean
+          title: Admin
+        fullName:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Fullname
+      type: object
+      required:
+      - id
+      - admin
+      title: UserBase
+    RecipeCommentUpdate:
+      properties:
+        id:
+          type: string
+          format: uuid4
+          title: Id
+        text:
+          type: string
+          title: Text
+      type: object
+      required:
+      - id
+      - text
+      title: RecipeCommentUpdate
     RecipeCommentPagination:
       properties:
         page:
@@ -402,70 +466,6 @@ components:
       required:
       - items
       title: RecipeCommentPagination
-    RecipeCommentUpdate:
-      properties:
-        id:
-          type: string
-          format: uuid4
-          title: Id
-        text:
-          type: string
-          title: Text
-      type: object
-      required:
-      - id
-      - text
-      title: RecipeCommentUpdate
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    UserBase-Output:
-      properties:
-        id:
-          type: string
-          format: uuid4
-          title: Id
-        username:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Username
-        admin:
-          type: boolean
-          title: Admin
-        fullName:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Fullname
-      type: object
-      required:
-      - id
-      - admin
-      title: UserBase
   securitySchemes:
     OAuth2PasswordBearer:
       type: oauth2

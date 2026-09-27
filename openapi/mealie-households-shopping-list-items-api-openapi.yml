@@ -355,371 +355,52 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    IngredientUnit-Input:
+    RecipeCommentOut-Input:
       properties:
+        recipeId:
+          type: string
+          format: uuid4
+          title: Recipeid
+        text:
+          type: string
+          title: Text
         id:
           type: string
           format: uuid4
           title: Id
-        name:
-          type: string
-          title: Name
-        pluralName:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Pluralname
-        description:
-          type: string
-          title: Description
-          default: ''
-        extras:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Extras
-          default: {}
-        fraction:
-          type: boolean
-          title: Fraction
-          default: true
-        abbreviation:
-          type: string
-          title: Abbreviation
-          default: ''
-        pluralAbbreviation:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Pluralabbreviation
-          default: ''
-        useAbbreviation:
-          type: boolean
-          title: Useabbreviation
-          default: false
-        aliases:
-          items:
-            $ref: '#/components/schemas/IngredientUnitAlias'
-          type: array
-          title: Aliases
-          default: []
-        standardQuantity:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Standardquantity
-        standardUnit:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Standardunit
         createdAt:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
+          type: string
+          format: date-time
           title: Createdat
         update_at:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
+          type: string
+          format: date-time
           title: Update At
-      type: object
-      required:
-      - id
-      - name
-      title: IngredientUnit
-    ShoppingListItemPagination:
-      properties:
-        page:
-          type: integer
-          title: Page
-          default: 1
-        per_page:
-          type: integer
-          title: Per Page
-          default: 10
-        total:
-          type: integer
-          title: Total
-          default: 0
-        total_pages:
-          type: integer
-          title: Total Pages
-          default: 0
-        items:
-          items:
-            $ref: '#/components/schemas/ShoppingListItemOut-Output'
-          type: array
-          title: Items
-        next:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Next
-        previous:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Previous
-      type: object
-      required:
-      - items
-      title: ShoppingListItemPagination
-    ShoppingListItemUpdate:
-      properties:
-        quantity:
-          type: number
-          title: Quantity
-          default: 1
-        unit:
-          anyOf:
-          - $ref: '#/components/schemas/IngredientUnit-Input'
-          - $ref: '#/components/schemas/CreateIngredientUnit'
-          - type: 'null'
-          title: Unit
-        food:
-          anyOf:
-          - $ref: '#/components/schemas/IngredientFood-Input'
-          - $ref: '#/components/schemas/CreateIngredientFood'
-          - type: 'null'
-          title: Food
-        referencedRecipe:
-          anyOf:
-          - $ref: '#/components/schemas/Recipe-Input'
-          - type: 'null'
-        note:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Note
-          default: ''
-        display:
-          type: string
-          title: Display
-          default: ''
-        shoppingListId:
+        userId:
           type: string
           format: uuid4
-          title: Shoppinglistid
-        checked:
-          type: boolean
-          title: Checked
-          default: false
-        position:
-          type: integer
-          title: Position
-          default: 0
-        foodId:
-          anyOf:
-          - type: string
-            format: uuid4
-          - type: 'null'
-          title: Foodid
-        labelId:
-          anyOf:
-          - type: string
-            format: uuid4
-          - type: 'null'
-          title: Labelid
-        unitId:
-          anyOf:
-          - type: string
-            format: uuid4
-          - type: 'null'
-          title: Unitid
-        extras:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Extras
-          default: {}
-        recipeReferences:
-          items:
-            anyOf:
-            - $ref: '#/components/schemas/ShoppingListItemRecipeRefCreate'
-            - $ref: '#/components/schemas/ShoppingListItemRecipeRefUpdate'
-          type: array
-          title: Recipereferences
-          default: []
+          title: Userid
+        user:
+          $ref: '#/components/schemas/mealie__schema__recipe__recipe_comments__UserBase'
       type: object
       required:
-      - shoppingListId
-      title: ShoppingListItemUpdate
-    IngredientUnit-Output:
-      properties:
-        id:
-          type: string
-          format: uuid4
-          title: Id
-        name:
-          type: string
-          title: Name
-        pluralName:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Pluralname
-        description:
-          type: string
-          title: Description
-          default: ''
-        extras:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Extras
-          default: {}
-        fraction:
-          type: boolean
-          title: Fraction
-          default: true
-        abbreviation:
-          type: string
-          title: Abbreviation
-          default: ''
-        pluralAbbreviation:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Pluralabbreviation
-          default: ''
-        useAbbreviation:
-          type: boolean
-          title: Useabbreviation
-          default: false
-        aliases:
-          items:
-            $ref: '#/components/schemas/IngredientUnitAlias'
-          type: array
-          title: Aliases
-          default: []
-        standardQuantity:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Standardquantity
-        standardUnit:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Standardunit
-        createdAt:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Createdat
-        updatedAt:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Updatedat
-      type: object
-      required:
+      - recipeId
+      - text
       - id
-      - name
-      title: IngredientUnit
-    RecipeTag:
+      - createdAt
+      - update_at
+      - userId
+      - user
+      title: RecipeCommentOut
+    HTTPValidationError:
       properties:
-        id:
-          anyOf:
-          - type: string
-            format: uuid4
-          - type: 'null'
-          title: Id
-        groupId:
-          anyOf:
-          - type: string
-            format: uuid4
-          - type: 'null'
-          title: Groupid
-        name:
-          type: string
-          title: Name
-        slug:
-          type: string
-          title: Slug
-        recipeCount:
-          type: integer
-          title: Recipecount
-          default: 0
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
       type: object
-      required:
-      - name
-      - slug
-      title: RecipeTag
-    IngredientUnitAlias:
-      properties:
-        name:
-          type: string
-          title: Name
-      type: object
-      required:
-      - name
-      title: IngredientUnitAlias
-    RecipeAsset:
-      properties:
-        name:
-          type: string
-          title: Name
-        icon:
-          type: string
-          title: Icon
-        fileName:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Filename
-      type: object
-      required:
-      - name
-      - icon
-      title: RecipeAsset
-    UserBase-Output:
-      properties:
-        id:
-          type: string
-          format: uuid4
-          title: Id
-        username:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Username
-        admin:
-          type: boolean
-          title: Admin
-        fullName:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Fullname
-      type: object
-      required:
-      - id
-      - admin
-      title: UserBase
-    OrderDirection:
-      type: string
-      enum:
-      - asc
-      - desc
-      title: OrderDirection
-    CreateIngredientFoodAlias:
-      properties:
-        name:
-          type: string
-          title: Name
-      type: object
-      required:
-      - name
-      title: CreateIngredientFoodAlias
+      title: HTTPValidationError
     RecipeIngredient-Input:
       properties:
         quantity:
@@ -770,90 +451,13 @@ components:
           title: Referenceid
       type: object
       title: RecipeIngredient
-    CreateIngredientUnitAlias:
+    RecipeCategory:
       properties:
-        name:
-          type: string
-          title: Name
-      type: object
-      required:
-      - name
-      title: CreateIngredientUnitAlias
-    IngredientReferences:
-      properties:
-        referenceId:
+        id:
           anyOf:
           - type: string
             format: uuid4
           - type: 'null'
-          title: Referenceid
-      type: object
-      title: IngredientReferences
-      description: A list of ingredient references.
-    RecipeIngredient-Output:
-      properties:
-        quantity:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Quantity
-          default: 0
-        unit:
-          anyOf:
-          - $ref: '#/components/schemas/IngredientUnit-Output'
-          - $ref: '#/components/schemas/CreateIngredientUnit'
-          - type: 'null'
-          title: Unit
-        food:
-          anyOf:
-          - $ref: '#/components/schemas/IngredientFood-Output'
-          - $ref: '#/components/schemas/CreateIngredientFood'
-          - type: 'null'
-          title: Food
-        referencedRecipe:
-          anyOf:
-          - $ref: '#/components/schemas/Recipe-Output'
-          - type: 'null'
-        note:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Note
-          default: ''
-        display:
-          type: string
-          title: Display
-          default: ''
-        title:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Title
-        originalText:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Originaltext
-        referenceId:
-          type: string
-          format: uuid
-          title: Referenceid
-      type: object
-      title: RecipeIngredient
-    IngredientFoodAlias:
-      properties:
-        name:
-          type: string
-          title: Name
-      type: object
-      required:
-      - name
-      title: IngredientFoodAlias
-    RecipeTool:
-      properties:
-        id:
-          type: string
-          format: uuid4
           title: Id
         groupId:
           anyOf:
@@ -871,240 +475,12 @@ components:
           type: integer
           title: Recipecount
           default: 0
-        householdsWithTool:
-          items:
-            type: string
-          type: array
-          title: Householdswithtool
-          default: []
       type: object
       required:
-      - id
       - name
       - slug
-      title: RecipeTool
-    Nutrition:
-      properties:
-        calories:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Calories
-        carbohydrateContent:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Carbohydratecontent
-        cholesterolContent:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Cholesterolcontent
-        fatContent:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Fatcontent
-        fiberContent:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Fibercontent
-        proteinContent:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Proteincontent
-        saturatedFatContent:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Saturatedfatcontent
-        sodiumContent:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Sodiumcontent
-        sugarContent:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Sugarcontent
-        transFatContent:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Transfatcontent
-        unsaturatedFatContent:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Unsaturatedfatcontent
-      type: object
-      title: Nutrition
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    RecipeCommentOut-Input:
-      properties:
-        recipeId:
-          type: string
-          format: uuid4
-          title: Recipeid
-        text:
-          type: string
-          title: Text
-        id:
-          type: string
-          format: uuid4
-          title: Id
-        createdAt:
-          type: string
-          format: date-time
-          title: Createdat
-        update_at:
-          type: string
-          format: date-time
-          title: Update At
-        userId:
-          type: string
-          format: uuid4
-          title: Userid
-        user:
-          $ref: '#/components/schemas/mealie__schema__recipe__recipe_comments__UserBase'
-      type: object
-      required:
-      - recipeId
-      - text
-      - id
-      - createdAt
-      - update_at
-      - userId
-      - user
-      title: RecipeCommentOut
-    IngredientFood-Output:
-      properties:
-        id:
-          type: string
-          format: uuid4
-          title: Id
-        name:
-          type: string
-          title: Name
-        pluralName:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Pluralname
-        description:
-          type: string
-          title: Description
-          default: ''
-        extras:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Extras
-          default: {}
-        labelId:
-          anyOf:
-          - type: string
-            format: uuid4
-          - type: 'null'
-          title: Labelid
-        aliases:
-          items:
-            $ref: '#/components/schemas/IngredientFoodAlias'
-          type: array
-          title: Aliases
-          default: []
-        householdsWithIngredientFood:
-          items:
-            type: string
-          type: array
-          title: Householdswithingredientfood
-          default: []
-        label:
-          anyOf:
-          - $ref: '#/components/schemas/MultiPurposeLabelSummary'
-          - type: 'null'
-        createdAt:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Createdat
-        updatedAt:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Updatedat
-      type: object
-      required:
-      - id
-      - name
-      title: IngredientFood
-    ShoppingListItemRecipeRefUpdate:
-      properties:
-        recipeId:
-          type: string
-          format: uuid4
-          title: Recipeid
-        recipeQuantity:
-          type: number
-          title: Recipequantity
-          default: 0
-        recipeScale:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Recipescale
-          default: 1
-        recipeNote:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Recipenote
-        id:
-          type: string
-          format: uuid4
-          title: Id
-        shoppingListItemId:
-          type: string
-          format: uuid4
-          title: Shoppinglistitemid
-      type: object
-      required:
-      - recipeId
-      - id
-      - shoppingListItemId
-      title: ShoppingListItemRecipeRefUpdate
-    ShoppingListItemUpdateBulk:
+      title: RecipeCategory
+    ShoppingListItemCreate:
       properties:
         quantity:
           type: number
@@ -1173,24 +549,218 @@ components:
           - type: 'null'
           title: Extras
           default: {}
+        id:
+          anyOf:
+          - type: string
+            format: uuid4
+          - type: 'null'
+          title: Id
         recipeReferences:
           items:
-            anyOf:
-            - $ref: '#/components/schemas/ShoppingListItemRecipeRefCreate'
-            - $ref: '#/components/schemas/ShoppingListItemRecipeRefUpdate'
+            $ref: '#/components/schemas/ShoppingListItemRecipeRefCreate'
           type: array
           title: Recipereferences
           default: []
+      type: object
+      required:
+      - shoppingListId
+      title: ShoppingListItemCreate
+    IngredientUnitAlias:
+      properties:
+        name:
+          type: string
+          title: Name
+      type: object
+      required:
+      - name
+      title: IngredientUnitAlias
+    RecipeSettings:
+      properties:
+        public:
+          type: boolean
+          title: Public
+          default: false
+        showNutrition:
+          type: boolean
+          title: Shownutrition
+          default: false
+        showAssets:
+          type: boolean
+          title: Showassets
+          default: false
+        landscapeView:
+          type: boolean
+          title: Landscapeview
+          default: false
+        disableComments:
+          type: boolean
+          title: Disablecomments
+          default: true
+        locked:
+          type: boolean
+          title: Locked
+          default: false
+      type: object
+      title: RecipeSettings
+    RecipeTool:
+      properties:
         id:
           type: string
           format: uuid4
           title: Id
+        groupId:
+          anyOf:
+          - type: string
+            format: uuid4
+          - type: 'null'
+          title: Groupid
+        name:
+          type: string
+          title: Name
+        slug:
+          type: string
+          title: Slug
+        recipeCount:
+          type: integer
+          title: Recipecount
+          default: 0
+        householdsWithTool:
+          items:
+            type: string
+          type: array
+          title: Householdswithtool
+          default: []
       type: object
       required:
-      - shoppingListId
       - id
-      title: ShoppingListItemUpdateBulk
-      description: Only used for bulk update operations where the shopping list item id isn't already supplied
+      - name
+      - slug
+      title: RecipeTool
+    ShoppingListItemRecipeRefUpdate:
+      properties:
+        recipeId:
+          type: string
+          format: uuid4
+          title: Recipeid
+        recipeQuantity:
+          type: number
+          title: Recipequantity
+          default: 0
+        recipeScale:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Recipescale
+          default: 1
+        recipeNote:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Recipenote
+        id:
+          type: string
+          format: uuid4
+          title: Id
+        shoppingListItemId:
+          type: string
+          format: uuid4
+          title: Shoppinglistitemid
+      type: object
+      required:
+      - recipeId
+      - id
+      - shoppingListItemId
+      title: ShoppingListItemRecipeRefUpdate
+    CreateIngredientUnit:
+      properties:
+        id:
+          anyOf:
+          - type: string
+            format: uuid4
+          - type: 'null'
+          title: Id
+        name:
+          type: string
+          title: Name
+        pluralName:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Pluralname
+        description:
+          type: string
+          title: Description
+          default: ''
+        extras:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Extras
+          default: {}
+        fraction:
+          type: boolean
+          title: Fraction
+          default: true
+        abbreviation:
+          type: string
+          title: Abbreviation
+          default: ''
+        pluralAbbreviation:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Pluralabbreviation
+          default: ''
+        useAbbreviation:
+          type: boolean
+          title: Useabbreviation
+          default: false
+        aliases:
+          items:
+            $ref: '#/components/schemas/CreateIngredientUnitAlias'
+          type: array
+          title: Aliases
+          default: []
+        standardQuantity:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Standardquantity
+        standardUnit:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Standardunit
+      type: object
+      required:
+      - name
+      title: CreateIngredientUnit
+    ShoppingListItemRecipeRefCreate:
+      properties:
+        recipeId:
+          type: string
+          format: uuid4
+          title: Recipeid
+        recipeQuantity:
+          type: number
+          title: Recipequantity
+          default: 0
+        recipeScale:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Recipescale
+          default: 1
+        recipeNote:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Recipenote
+      type: object
+      required:
+      - recipeId
+      title: ShoppingListItemRecipeRefCreate
     Recipe-Output:
       properties:
         id:
@@ -1381,176 +951,12 @@ components:
           default: []
       type: object
       title: Recipe
-    MultiPurposeLabelSummary:
-      properties:
-        name:
-          type: string
-          title: Name
-        color:
-          type: string
-          title: Color
-          default: '#959595'
-        groupId:
-          type: string
-          format: uuid4
-          title: Groupid
-        id:
-          type: string
-          format: uuid4
-          title: Id
-      type: object
-      required:
-      - name
-      - groupId
-      - id
-      title: MultiPurposeLabelSummary
-    RecipeCategory:
-      properties:
-        id:
-          anyOf:
-          - type: string
-            format: uuid4
-          - type: 'null'
-          title: Id
-        groupId:
-          anyOf:
-          - type: string
-            format: uuid4
-          - type: 'null'
-          title: Groupid
-        name:
-          type: string
-          title: Name
-        slug:
-          type: string
-          title: Slug
-        recipeCount:
-          type: integer
-          title: Recipecount
-          default: 0
-      type: object
-      required:
-      - name
-      - slug
-      title: RecipeCategory
-    ShoppingListItemCreate:
-      properties:
-        quantity:
-          type: number
-          title: Quantity
-          default: 1
-        unit:
-          anyOf:
-          - $ref: '#/components/schemas/IngredientUnit-Input'
-          - $ref: '#/components/schemas/CreateIngredientUnit'
-          - type: 'null'
-          title: Unit
-        food:
-          anyOf:
-          - $ref: '#/components/schemas/IngredientFood-Input'
-          - $ref: '#/components/schemas/CreateIngredientFood'
-          - type: 'null'
-          title: Food
-        referencedRecipe:
-          anyOf:
-          - $ref: '#/components/schemas/Recipe-Input'
-          - type: 'null'
-        note:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Note
-          default: ''
-        display:
-          type: string
-          title: Display
-          default: ''
-        shoppingListId:
-          type: string
-          format: uuid4
-          title: Shoppinglistid
-        checked:
-          type: boolean
-          title: Checked
-          default: false
-        position:
-          type: integer
-          title: Position
-          default: 0
-        foodId:
-          anyOf:
-          - type: string
-            format: uuid4
-          - type: 'null'
-          title: Foodid
-        labelId:
-          anyOf:
-          - type: string
-            format: uuid4
-          - type: 'null'
-          title: Labelid
-        unitId:
-          anyOf:
-          - type: string
-            format: uuid4
-          - type: 'null'
-          title: Unitid
-        extras:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Extras
-          default: {}
-        id:
-          anyOf:
-          - type: string
-            format: uuid4
-          - type: 'null'
-          title: Id
-        recipeReferences:
-          items:
-            $ref: '#/components/schemas/ShoppingListItemRecipeRefCreate'
-          type: array
-          title: Recipereferences
-          default: []
-      type: object
-      required:
-      - shoppingListId
-      title: ShoppingListItemCreate
-    RecipeStep:
-      properties:
-        id:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Id
-        title:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Title
-          default: ''
-        summary:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Summary
-          default: ''
-        text:
-          type: string
-          title: Text
-        ingredientReferences:
-          items:
-            $ref: '#/components/schemas/IngredientReferences'
-          type: array
-          title: Ingredientreferences
-          default: []
-      type: object
-      required:
-      - text
-      title: RecipeStep
+    OrderByNullPosition:
+      type: string
+      enum:
+      - first
+      - last
+      title: OrderByNullPosition
     SuccessResponse:
       properties:
         message:
@@ -1564,7 +970,53 @@ components:
       required:
       - message
       title: SuccessResponse
-    ShoppingListItemRecipeRefCreate:
+    ShoppingListItemPagination:
+      properties:
+        page:
+          type: integer
+          title: Page
+          default: 1
+        per_page:
+          type: integer
+          title: Per Page
+          default: 10
+        total:
+          type: integer
+          title: Total
+          default: 0
+        total_pages:
+          type: integer
+          title: Total Pages
+          default: 0
+        items:
+          items:
+            $ref: '#/components/schemas/ShoppingListItemOut-Output'
+          type: array
+          title: Items
+        next:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Next
+        previous:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Previous
+      type: object
+      required:
+      - items
+      title: ShoppingListItemPagination
+    IngredientFoodAlias:
+      properties:
+        name:
+          type: string
+          title: Name
+      type: object
+      required:
+      - name
+      title: IngredientFoodAlias
+    ShoppingListItemRecipeRefOut:
       properties:
         recipeId:
           type: string
@@ -1585,289 +1037,25 @@ components:
           - type: string
           - type: 'null'
           title: Recipenote
+        id:
+          type: string
+          format: uuid4
+          title: Id
+        shoppingListItemId:
+          type: string
+          format: uuid4
+          title: Shoppinglistitemid
       type: object
       required:
       - recipeId
-      title: ShoppingListItemRecipeRefCreate
-    OrderByNullPosition:
-      type: string
-      enum:
-      - first
-      - last
-      title: OrderByNullPosition
-    RecipeNote:
-      properties:
-        title:
-          type: string
-          title: Title
-        text:
-          type: string
-          title: Text
-      type: object
-      required:
-      - title
-      - text
-      title: RecipeNote
-    CreateIngredientFood:
-      properties:
-        id:
-          anyOf:
-          - type: string
-            format: uuid4
-          - type: 'null'
-          title: Id
-        name:
-          type: string
-          title: Name
-        pluralName:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Pluralname
-        description:
-          type: string
-          title: Description
-          default: ''
-        extras:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Extras
-          default: {}
-        labelId:
-          anyOf:
-          - type: string
-            format: uuid4
-          - type: 'null'
-          title: Labelid
-        aliases:
-          items:
-            $ref: '#/components/schemas/CreateIngredientFoodAlias'
-          type: array
-          title: Aliases
-          default: []
-        householdsWithIngredientFood:
-          items:
-            type: string
-          type: array
-          title: Householdswithingredientfood
-          default: []
-      type: object
-      required:
-      - name
-      title: CreateIngredientFood
-    mealie__schema__recipe__recipe_comments__UserBase:
-      properties:
-        id:
-          type: string
-          format: uuid4
-          title: Id
-        username:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Username
-        admin:
-          type: boolean
-          title: Admin
-        fullName:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Fullname
-      type: object
-      required:
       - id
-      - admin
-      title: UserBase
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    RecipeSettings:
-      properties:
-        public:
-          type: boolean
-          title: Public
-          default: false
-        showNutrition:
-          type: boolean
-          title: Shownutrition
-          default: false
-        showAssets:
-          type: boolean
-          title: Showassets
-          default: false
-        landscapeView:
-          type: boolean
-          title: Landscapeview
-          default: false
-        disableComments:
-          type: boolean
-          title: Disablecomments
-          default: true
-        locked:
-          type: boolean
-          title: Locked
-          default: false
-      type: object
-      title: RecipeSettings
-    ShoppingListItemOut-Output:
-      properties:
-        quantity:
-          type: number
-          title: Quantity
-          default: 1
-        unit:
-          anyOf:
-          - $ref: '#/components/schemas/IngredientUnit-Output'
-          - type: 'null'
-        food:
-          anyOf:
-          - $ref: '#/components/schemas/IngredientFood-Output'
-          - type: 'null'
-        referencedRecipe:
-          anyOf:
-          - $ref: '#/components/schemas/Recipe-Output'
-          - type: 'null'
-        note:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Note
-          default: ''
-        display:
-          type: string
-          title: Display
-          default: ''
-        shoppingListId:
-          type: string
-          format: uuid4
-          title: Shoppinglistid
-        checked:
-          type: boolean
-          title: Checked
-          default: false
-        position:
-          type: integer
-          title: Position
-          default: 0
-        foodId:
-          anyOf:
-          - type: string
-            format: uuid4
-          - type: 'null'
-          title: Foodid
-        labelId:
-          anyOf:
-          - type: string
-            format: uuid4
-          - type: 'null'
-          title: Labelid
-        unitId:
-          anyOf:
-          - type: string
-            format: uuid4
-          - type: 'null'
-          title: Unitid
-        extras:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Extras
-          default: {}
-        id:
-          type: string
-          format: uuid4
-          title: Id
-        groupId:
-          type: string
-          format: uuid4
-          title: Groupid
-        householdId:
-          type: string
-          format: uuid4
-          title: Householdid
-        label:
-          anyOf:
-          - $ref: '#/components/schemas/MultiPurposeLabelSummary'
-          - type: 'null'
-        recipeReferences:
-          items:
-            $ref: '#/components/schemas/ShoppingListItemRecipeRefOut'
-          type: array
-          title: Recipereferences
-          default: []
-        createdAt:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Createdat
-        updatedAt:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Updatedat
-      type: object
-      required:
-      - shoppingListId
-      - id
-      - groupId
-      - householdId
-      title: ShoppingListItemOut
-    RecipeCommentOut-Output:
-      properties:
-        recipeId:
-          type: string
-          format: uuid4
-          title: Recipeid
-        text:
-          type: string
-          title: Text
-        id:
-          type: string
-          format: uuid4
-          title: Id
-        createdAt:
-          type: string
-          format: date-time
-          title: Createdat
-        updatedAt:
-          type: string
-          format: date-time
-          title: Updatedat
-        userId:
-          type: string
-          format: uuid4
-          title: Userid
-        user:
-          $ref: '#/components/schemas/UserBase-Output'
-      type: object
-      required:
-      - recipeId
-      - text
-      - id
-      - createdAt
-      - updatedAt
-      - userId
-      - user
-      title: RecipeCommentOut
-    CreateIngredientUnit:
+      - shoppingListItemId
+      title: ShoppingListItemRecipeRefOut
+    IngredientUnit-Output:
       properties:
         id:
-          anyOf:
-          - type: string
-            format: uuid4
-          - type: 'null'
+          type: string
+          format: uuid4
           title: Id
         name:
           type: string
@@ -1908,7 +1096,7 @@ components:
           default: false
         aliases:
           items:
-            $ref: '#/components/schemas/CreateIngredientUnitAlias'
+            $ref: '#/components/schemas/IngredientUnitAlias'
           type: array
           title: Aliases
           default: []
@@ -1922,33 +1110,56 @@ components:
           - type: string
           - type: 'null'
           title: Standardunit
+        createdAt:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Createdat
+        updatedAt:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Updatedat
       type: object
       required:
+      - id
       - name
-      title: CreateIngredientUnit
-    ShoppingListItemsCollectionOut:
+      title: IngredientUnit
+    RecipeStep:
       properties:
-        createdItems:
+        id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Id
+        title:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Title
+          default: ''
+        summary:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Summary
+          default: ''
+        text:
+          type: string
+          title: Text
+        ingredientReferences:
           items:
-            $ref: '#/components/schemas/ShoppingListItemOut-Output'
+            $ref: '#/components/schemas/IngredientReferences'
           type: array
-          title: Createditems
-          default: []
-        updatedItems:
-          items:
-            $ref: '#/components/schemas/ShoppingListItemOut-Output'
-          type: array
-          title: Updateditems
-          default: []
-        deletedItems:
-          items:
-            $ref: '#/components/schemas/ShoppingListItemOut-Output'
-          type: array
-          title: Deleteditems
+          title: Ingredientreferences
           default: []
       type: object
-      title: ShoppingListItemsCollectionOut
-      description: Container for bulk shopping list item changes
+      required:
+      - text
+      title: RecipeStep
     Recipe-Input:
       properties:
         id:
@@ -2139,6 +1350,368 @@ components:
           default: []
       type: object
       title: Recipe
+    IngredientFood-Output:
+      properties:
+        id:
+          type: string
+          format: uuid4
+          title: Id
+        name:
+          type: string
+          title: Name
+        pluralName:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Pluralname
+        description:
+          type: string
+          title: Description
+          default: ''
+        extras:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Extras
+          default: {}
+        labelId:
+          anyOf:
+          - type: string
+            format: uuid4
+          - type: 'null'
+          title: Labelid
+        aliases:
+          items:
+            $ref: '#/components/schemas/IngredientFoodAlias'
+          type: array
+          title: Aliases
+          default: []
+        householdsWithIngredientFood:
+          items:
+            type: string
+          type: array
+          title: Householdswithingredientfood
+          default: []
+        label:
+          anyOf:
+          - $ref: '#/components/schemas/MultiPurposeLabelSummary'
+          - type: 'null'
+        createdAt:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Createdat
+        updatedAt:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Updatedat
+      type: object
+      required:
+      - id
+      - name
+      title: IngredientFood
+    Nutrition:
+      properties:
+        calories:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Calories
+        carbohydrateContent:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Carbohydratecontent
+        cholesterolContent:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Cholesterolcontent
+        fatContent:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Fatcontent
+        fiberContent:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Fibercontent
+        proteinContent:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Proteincontent
+        saturatedFatContent:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Saturatedfatcontent
+        sodiumContent:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Sodiumcontent
+        sugarContent:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Sugarcontent
+        transFatContent:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Transfatcontent
+        unsaturatedFatContent:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Unsaturatedfatcontent
+      type: object
+      title: Nutrition
+    RecipeCommentOut-Output:
+      properties:
+        recipeId:
+          type: string
+          format: uuid4
+          title: Recipeid
+        text:
+          type: string
+          title: Text
+        id:
+          type: string
+          format: uuid4
+          title: Id
+        createdAt:
+          type: string
+          format: date-time
+          title: Createdat
+        updatedAt:
+          type: string
+          format: date-time
+          title: Updatedat
+        userId:
+          type: string
+          format: uuid4
+          title: Userid
+        user:
+          $ref: '#/components/schemas/UserBase-Output'
+      type: object
+      required:
+      - recipeId
+      - text
+      - id
+      - createdAt
+      - updatedAt
+      - userId
+      - user
+      title: RecipeCommentOut
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    OrderDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: OrderDirection
+    CreateIngredientFood:
+      properties:
+        id:
+          anyOf:
+          - type: string
+            format: uuid4
+          - type: 'null'
+          title: Id
+        name:
+          type: string
+          title: Name
+        pluralName:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Pluralname
+        description:
+          type: string
+          title: Description
+          default: ''
+        extras:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Extras
+          default: {}
+        labelId:
+          anyOf:
+          - type: string
+            format: uuid4
+          - type: 'null'
+          title: Labelid
+        aliases:
+          items:
+            $ref: '#/components/schemas/CreateIngredientFoodAlias'
+          type: array
+          title: Aliases
+          default: []
+        householdsWithIngredientFood:
+          items:
+            type: string
+          type: array
+          title: Householdswithingredientfood
+          default: []
+      type: object
+      required:
+      - name
+      title: CreateIngredientFood
+    UserBase-Output:
+      properties:
+        id:
+          type: string
+          format: uuid4
+          title: Id
+        username:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Username
+        admin:
+          type: boolean
+          title: Admin
+        fullName:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Fullname
+      type: object
+      required:
+      - id
+      - admin
+      title: UserBase
+    CreateIngredientFoodAlias:
+      properties:
+        name:
+          type: string
+          title: Name
+      type: object
+      required:
+      - name
+      title: CreateIngredientFoodAlias
+    RecipeIngredient-Output:
+      properties:
+        quantity:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Quantity
+          default: 0
+        unit:
+          anyOf:
+          - $ref: '#/components/schemas/IngredientUnit-Output'
+          - $ref: '#/components/schemas/CreateIngredientUnit'
+          - type: 'null'
+          title: Unit
+        food:
+          anyOf:
+          - $ref: '#/components/schemas/IngredientFood-Output'
+          - $ref: '#/components/schemas/CreateIngredientFood'
+          - type: 'null'
+          title: Food
+        referencedRecipe:
+          anyOf:
+          - $ref: '#/components/schemas/Recipe-Output'
+          - type: 'null'
+        note:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Note
+          default: ''
+        display:
+          type: string
+          title: Display
+          default: ''
+        title:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Title
+        originalText:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Originaltext
+        referenceId:
+          type: string
+          format: uuid
+          title: Referenceid
+      type: object
+      title: RecipeIngredient
+    RecipeTag:
+      properties:
+        id:
+          anyOf:
+          - type: string
+            format: uuid4
+          - type: 'null'
+          title: Id
+        groupId:
+          anyOf:
+          - type: string
+            format: uuid4
+          - type: 'null'
+          title: Groupid
+        name:
+          type: string
+          title: Name
+        slug:
+          type: string
+          title: Slug
+        recipeCount:
+          type: integer
+          title: Recipecount
+          default: 0
+      type: object
+      required:
+      - name
+      - slug
+      title: RecipeTag
+    CreateIngredientUnitAlias:
+      properties:
+        name:
+          type: string
+          title: Name
+      type: object
+      required:
+      - name
+      title: CreateIngredientUnitAlias
     IngredientFood-Input:
       properties:
         id:
@@ -2203,41 +1776,468 @@ components:
       - id
       - name
       title: IngredientFood
-    ShoppingListItemRecipeRefOut:
+    ShoppingListItemUpdate:
       properties:
-        recipeId:
-          type: string
-          format: uuid4
-          title: Recipeid
-        recipeQuantity:
+        quantity:
           type: number
-          title: Recipequantity
-          default: 0
-        recipeScale:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Recipescale
+          title: Quantity
           default: 1
-        recipeNote:
+        unit:
+          anyOf:
+          - $ref: '#/components/schemas/IngredientUnit-Input'
+          - $ref: '#/components/schemas/CreateIngredientUnit'
+          - type: 'null'
+          title: Unit
+        food:
+          anyOf:
+          - $ref: '#/components/schemas/IngredientFood-Input'
+          - $ref: '#/components/schemas/CreateIngredientFood'
+          - type: 'null'
+          title: Food
+        referencedRecipe:
+          anyOf:
+          - $ref: '#/components/schemas/Recipe-Input'
+          - type: 'null'
+        note:
           anyOf:
           - type: string
           - type: 'null'
-          title: Recipenote
+          title: Note
+          default: ''
+        display:
+          type: string
+          title: Display
+          default: ''
+        shoppingListId:
+          type: string
+          format: uuid4
+          title: Shoppinglistid
+        checked:
+          type: boolean
+          title: Checked
+          default: false
+        position:
+          type: integer
+          title: Position
+          default: 0
+        foodId:
+          anyOf:
+          - type: string
+            format: uuid4
+          - type: 'null'
+          title: Foodid
+        labelId:
+          anyOf:
+          - type: string
+            format: uuid4
+          - type: 'null'
+          title: Labelid
+        unitId:
+          anyOf:
+          - type: string
+            format: uuid4
+          - type: 'null'
+          title: Unitid
+        extras:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Extras
+          default: {}
+        recipeReferences:
+          items:
+            anyOf:
+            - $ref: '#/components/schemas/ShoppingListItemRecipeRefCreate'
+            - $ref: '#/components/schemas/ShoppingListItemRecipeRefUpdate'
+          type: array
+          title: Recipereferences
+          default: []
+      type: object
+      required:
+      - shoppingListId
+      title: ShoppingListItemUpdate
+    IngredientUnit-Input:
+      properties:
         id:
           type: string
           format: uuid4
           title: Id
-        shoppingListItemId:
+        name:
           type: string
-          format: uuid4
-          title: Shoppinglistitemid
+          title: Name
+        pluralName:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Pluralname
+        description:
+          type: string
+          title: Description
+          default: ''
+        extras:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Extras
+          default: {}
+        fraction:
+          type: boolean
+          title: Fraction
+          default: true
+        abbreviation:
+          type: string
+          title: Abbreviation
+          default: ''
+        pluralAbbreviation:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Pluralabbreviation
+          default: ''
+        useAbbreviation:
+          type: boolean
+          title: Useabbreviation
+          default: false
+        aliases:
+          items:
+            $ref: '#/components/schemas/IngredientUnitAlias'
+          type: array
+          title: Aliases
+          default: []
+        standardQuantity:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Standardquantity
+        standardUnit:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Standardunit
+        createdAt:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Createdat
+        update_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Update At
       type: object
       required:
-      - recipeId
       - id
-      - shoppingListItemId
-      title: ShoppingListItemRecipeRefOut
+      - name
+      title: IngredientUnit
+    IngredientReferences:
+      properties:
+        referenceId:
+          anyOf:
+          - type: string
+            format: uuid4
+          - type: 'null'
+          title: Referenceid
+      type: object
+      title: IngredientReferences
+      description: A list of ingredient references.
+    mealie__schema__recipe__recipe_comments__UserBase:
+      properties:
+        id:
+          type: string
+          format: uuid4
+          title: Id
+        username:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Username
+        admin:
+          type: boolean
+          title: Admin
+        fullName:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Fullname
+      type: object
+      required:
+      - id
+      - admin
+      title: UserBase
+    ShoppingListItemOut-Output:
+      properties:
+        quantity:
+          type: number
+          title: Quantity
+          default: 1
+        unit:
+          anyOf:
+          - $ref: '#/components/schemas/IngredientUnit-Output'
+          - type: 'null'
+        food:
+          anyOf:
+          - $ref: '#/components/schemas/IngredientFood-Output'
+          - type: 'null'
+        referencedRecipe:
+          anyOf:
+          - $ref: '#/components/schemas/Recipe-Output'
+          - type: 'null'
+        note:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Note
+          default: ''
+        display:
+          type: string
+          title: Display
+          default: ''
+        shoppingListId:
+          type: string
+          format: uuid4
+          title: Shoppinglistid
+        checked:
+          type: boolean
+          title: Checked
+          default: false
+        position:
+          type: integer
+          title: Position
+          default: 0
+        foodId:
+          anyOf:
+          - type: string
+            format: uuid4
+          - type: 'null'
+          title: Foodid
+        labelId:
+          anyOf:
+          - type: string
+            format: uuid4
+          - type: 'null'
+          title: Labelid
+        unitId:
+          anyOf:
+          - type: string
+            format: uuid4
+          - type: 'null'
+          title: Unitid
+        extras:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Extras
+          default: {}
+        id:
+          type: string
+          format: uuid4
+          title: Id
+        groupId:
+          type: string
+          format: uuid4
+          title: Groupid
+        householdId:
+          type: string
+          format: uuid4
+          title: Householdid
+        label:
+          anyOf:
+          - $ref: '#/components/schemas/MultiPurposeLabelSummary'
+          - type: 'null'
+        recipeReferences:
+          items:
+            $ref: '#/components/schemas/ShoppingListItemRecipeRefOut'
+          type: array
+          title: Recipereferences
+          default: []
+        createdAt:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Createdat
+        updatedAt:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Updatedat
+      type: object
+      required:
+      - shoppingListId
+      - id
+      - groupId
+      - householdId
+      title: ShoppingListItemOut
+    ShoppingListItemUpdateBulk:
+      properties:
+        quantity:
+          type: number
+          title: Quantity
+          default: 1
+        unit:
+          anyOf:
+          - $ref: '#/components/schemas/IngredientUnit-Input'
+          - $ref: '#/components/schemas/CreateIngredientUnit'
+          - type: 'null'
+          title: Unit
+        food:
+          anyOf:
+          - $ref: '#/components/schemas/IngredientFood-Input'
+          - $ref: '#/components/schemas/CreateIngredientFood'
+          - type: 'null'
+          title: Food
+        referencedRecipe:
+          anyOf:
+          - $ref: '#/components/schemas/Recipe-Input'
+          - type: 'null'
+        note:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Note
+          default: ''
+        display:
+          type: string
+          title: Display
+          default: ''
+        shoppingListId:
+          type: string
+          format: uuid4
+          title: Shoppinglistid
+        checked:
+          type: boolean
+          title: Checked
+          default: false
+        position:
+          type: integer
+          title: Position
+          default: 0
+        foodId:
+          anyOf:
+          - type: string
+            format: uuid4
+          - type: 'null'
+          title: Foodid
+        labelId:
+          anyOf:
+          - type: string
+            format: uuid4
+          - type: 'null'
+          title: Labelid
+        unitId:
+          anyOf:
+          - type: string
+            format: uuid4
+          - type: 'null'
+          title: Unitid
+        extras:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Extras
+          default: {}
+        recipeReferences:
+          items:
+            anyOf:
+            - $ref: '#/components/schemas/ShoppingListItemRecipeRefCreate'
+            - $ref: '#/components/schemas/ShoppingListItemRecipeRefUpdate'
+          type: array
+          title: Recipereferences
+          default: []
+        id:
+          type: string
+          format: uuid4
+          title: Id
+      type: object
+      required:
+      - shoppingListId
+      - id
+      title: ShoppingListItemUpdateBulk
+      description: Only used for bulk update operations where the shopping list item id isn't already supplied
+    MultiPurposeLabelSummary:
+      properties:
+        name:
+          type: string
+          title: Name
+        color:
+          type: string
+          title: Color
+          default: '#959595'
+        groupId:
+          type: string
+          format: uuid4
+          title: Groupid
+        id:
+          type: string
+          format: uuid4
+          title: Id
+      type: object
+      required:
+      - name
+      - groupId
+      - id
+      title: MultiPurposeLabelSummary
+    RecipeNote:
+      properties:
+        title:
+          type: string
+          title: Title
+        text:
+          type: string
+          title: Text
+      type: object
+      required:
+      - title
+      - text
+      title: RecipeNote
+    RecipeAsset:
+      properties:
+        name:
+          type: string
+          title: Name
+        icon:
+          type: string
+          title: Icon
+        fileName:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Filename
+      type: object
+      required:
+      - name
+      - icon
+      title: RecipeAsset
+    ShoppingListItemsCollectionOut:
+      properties:
+        createdItems:
+          items:
+            $ref: '#/components/schemas/ShoppingListItemOut-Output'
+          type: array
+          title: Createditems
+          default: []
+        updatedItems:
+          items:
+            $ref: '#/components/schemas/ShoppingListItemOut-Output'
+          type: array
+          title: Updateditems
+          default: []
+        deletedItems:
+          items:
+            $ref: '#/components/schemas/ShoppingListItemOut-Output'
+          type: array
+          title: Deleteditems
+          default: []
+      type: object
+      title: ShoppingListItemsCollectionOut
+      description: Container for bulk shopping list item changes
   securitySchemes:
     OAuth2PasswordBearer:
       type: oauth2

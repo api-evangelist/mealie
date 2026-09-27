@@ -82,30 +82,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    LongLiveTokenCreateResponse:
-      properties:
-        name:
-          type: string
-          title: Name
-        id:
-          type: integer
-          title: Id
-        createdAt:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Createdat
-        token:
-          type: string
-          title: Token
-      type: object
-      required:
-      - name
-      - id
-      - token
-      title: LongLiveTokenCreateResponse
-      description: Should ONLY be used when creating a new token, as the token field is sensitive
     HTTPValidationError:
       properties:
         detail:
@@ -115,19 +91,6 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    LongLiveTokenIn:
-      properties:
-        name:
-          type: string
-          title: Name
-        integrationId:
-          type: string
-          title: Integrationid
-          default: generic
-      type: object
-      required:
-      - name
-      title: LongLiveTokenIn
     ValidationError:
       properties:
         loc:
@@ -154,6 +117,43 @@ components:
       - msg
       - type
       title: ValidationError
+    LongLiveTokenCreateResponse:
+      properties:
+        name:
+          type: string
+          title: Name
+        id:
+          type: integer
+          title: Id
+        createdAt:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Createdat
+        token:
+          type: string
+          title: Token
+      type: object
+      required:
+      - name
+      - id
+      - token
+      title: LongLiveTokenCreateResponse
+      description: Should ONLY be used when creating a new token, as the token field is sensitive
+    LongLiveTokenIn:
+      properties:
+        name:
+          type: string
+          title: Name
+        integrationId:
+          type: string
+          title: Integrationid
+          default: generic
+      type: object
+      required:
+      - name
+      title: LongLiveTokenIn
     DeleteTokenResponse:
       properties:
         tokenDelete:

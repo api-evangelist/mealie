@@ -218,40 +218,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    UserRatings_UserRatingOut_:
-      properties:
-        ratings:
-          items:
-            $ref: '#/components/schemas/UserRatingOut'
-          type: array
-          title: Ratings
-      type: object
-      required:
-      - ratings
-      title: UserRatings[UserRatingOut]
-    UserRatingUpdate:
-      properties:
-        rating:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Rating
-        isFavorite:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Isfavorite
-      type: object
-      title: UserRatingUpdate
     UserRatingOut:
       properties:
         recipeId:
@@ -307,6 +273,40 @@ components:
       - msg
       - type
       title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    UserRatings_UserRatingOut_:
+      properties:
+        ratings:
+          items:
+            $ref: '#/components/schemas/UserRatingOut'
+          type: array
+          title: Ratings
+      type: object
+      required:
+      - ratings
+      title: UserRatings[UserRatingOut]
+    UserRatingUpdate:
+      properties:
+        rating:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Rating
+        isFavorite:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Isfavorite
+      type: object
+      title: UserRatingUpdate
   securitySchemes:
     OAuth2PasswordBearer:
       type: oauth2

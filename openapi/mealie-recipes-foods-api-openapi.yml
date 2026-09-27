@@ -284,38 +284,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    CreateIngredientFoodAlias:
-      properties:
-        name:
-          type: string
-          title: Name
-      type: object
-      required:
-      - name
-      title: CreateIngredientFoodAlias
-    MultiPurposeLabelSummary:
-      properties:
-        name:
-          type: string
-          title: Name
-        color:
-          type: string
-          title: Color
-          default: '#959595'
-        groupId:
-          type: string
-          format: uuid4
-          title: Groupid
-        id:
-          type: string
-          format: uuid4
-          title: Id
-      type: object
-      required:
-      - name
-      - groupId
-      - id
-      title: MultiPurposeLabelSummary
     HTTPValidationError:
       properties:
         detail:
@@ -325,15 +293,38 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    IngredientFoodAlias:
+    ValidationError:
       properties:
-        name:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
           type: string
-          title: Name
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
       type: object
       required:
-      - name
-      title: IngredientFoodAlias
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    OrderByNullPosition:
+      type: string
+      enum:
+      - first
+      - last
+      title: OrderByNullPosition
     SuccessResponse:
       properties:
         message:
@@ -347,49 +338,21 @@ components:
       required:
       - message
       title: SuccessResponse
-    IngredientFoodPagination:
+    IngredientFoodAlias:
       properties:
-        page:
-          type: integer
-          title: Page
-          default: 1
-        per_page:
-          type: integer
-          title: Per Page
-          default: 10
-        total:
-          type: integer
-          title: Total
-          default: 0
-        total_pages:
-          type: integer
-          title: Total Pages
-          default: 0
-        items:
-          items:
-            $ref: '#/components/schemas/IngredientFood-Output'
-          type: array
-          title: Items
-        next:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Next
-        previous:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Previous
+        name:
+          type: string
+          title: Name
       type: object
       required:
-      - items
-      title: IngredientFoodPagination
-    OrderByNullPosition:
+      - name
+      title: IngredientFoodAlias
+    OrderDirection:
       type: string
       enum:
-      - first
-      - last
-      title: OrderByNullPosition
+      - asc
+      - desc
+      title: OrderDirection
     CreateIngredientFood:
       properties:
         id:
@@ -439,32 +402,66 @@ components:
       required:
       - name
       title: CreateIngredientFood
-    ValidationError:
+    MultiPurposeLabelSummary:
       properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
+        name:
           type: string
-          title: Message
-        type:
+          title: Name
+        color:
           type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
+          title: Color
+          default: '#959595'
+        groupId:
+          type: string
+          format: uuid4
+          title: Groupid
+        id:
+          type: string
+          format: uuid4
+          title: Id
       type: object
       required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
+      - name
+      - groupId
+      - id
+      title: MultiPurposeLabelSummary
+    IngredientFoodPagination:
+      properties:
+        page:
+          type: integer
+          title: Page
+          default: 1
+        per_page:
+          type: integer
+          title: Per Page
+          default: 10
+        total:
+          type: integer
+          title: Total
+          default: 0
+        total_pages:
+          type: integer
+          title: Total Pages
+          default: 0
+        items:
+          items:
+            $ref: '#/components/schemas/IngredientFood-Output'
+          type: array
+          title: Items
+        next:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Next
+        previous:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Previous
+      type: object
+      required:
+      - items
+      title: IngredientFoodPagination
     MergeFood:
       properties:
         fromFood:
@@ -544,12 +541,15 @@ components:
       - id
       - name
       title: IngredientFood
-    OrderDirection:
-      type: string
-      enum:
-      - asc
-      - desc
-      title: OrderDirection
+    CreateIngredientFoodAlias:
+      properties:
+        name:
+          type: string
+          title: Name
+      type: object
+      required:
+      - name
+      title: CreateIngredientFoodAlias
   securitySchemes:
     OAuth2PasswordBearer:
       type: oauth2

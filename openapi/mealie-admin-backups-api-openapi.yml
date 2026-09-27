@@ -212,15 +212,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    FileTokenResponse:
-      properties:
-        fileToken:
-          type: string
-          title: Filetoken
-      type: object
-      required:
-      - fileToken
-      title: FileTokenResponse
     HTTPValidationError:
       properties:
         detail:
@@ -230,23 +221,6 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    AllBackups:
-      properties:
-        imports:
-          items:
-            $ref: '#/components/schemas/BackupFile'
-          type: array
-          title: Imports
-        templates:
-          items:
-            type: string
-          type: array
-          title: Templates
-      type: object
-      required:
-      - imports
-      - templates
-      title: AllBackups
     Body_upload_one_api_admin_backups_upload_post:
       properties:
         archive:
@@ -257,37 +231,15 @@ components:
       required:
       - archive
       title: Body_upload_one_api_admin_backups_upload_post
-    SuccessResponse:
+    FileTokenResponse:
       properties:
-        message:
+        fileToken:
           type: string
-          title: Message
-        error:
-          type: boolean
-          title: Error
-          default: false
+          title: Filetoken
       type: object
       required:
-      - message
-      title: SuccessResponse
-    BackupFile:
-      properties:
-        name:
-          type: string
-          title: Name
-        date:
-          type: string
-          format: date-time
-          title: Date
-        size:
-          type: string
-          title: Size
-      type: object
-      required:
-      - name
-      - date
-      - size
-      title: BackupFile
+      - fileToken
+      title: FileTokenResponse
     ValidationError:
       properties:
         loc:
@@ -314,6 +266,54 @@ components:
       - msg
       - type
       title: ValidationError
+    SuccessResponse:
+      properties:
+        message:
+          type: string
+          title: Message
+        error:
+          type: boolean
+          title: Error
+          default: false
+      type: object
+      required:
+      - message
+      title: SuccessResponse
+    AllBackups:
+      properties:
+        imports:
+          items:
+            $ref: '#/components/schemas/BackupFile'
+          type: array
+          title: Imports
+        templates:
+          items:
+            type: string
+          type: array
+          title: Templates
+      type: object
+      required:
+      - imports
+      - templates
+      title: AllBackups
+    BackupFile:
+      properties:
+        name:
+          type: string
+          title: Name
+        date:
+          type: string
+          format: date-time
+          title: Date
+        size:
+          type: string
+          title: Size
+      type: object
+      required:
+      - name
+      - date
+      - size
+      title: BackupFile
   securitySchemes:
     OAuth2PasswordBearer:
       type: oauth2

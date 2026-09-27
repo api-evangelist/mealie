@@ -287,12 +287,124 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    OrderByNullPosition:
+      type: string
+      enum:
+      - first
+      - last
+      title: OrderByNullPosition
+    GroupRecipeActionOut:
+      properties:
+        actionType:
+          $ref: '#/components/schemas/GroupRecipeActionType'
+        title:
+          type: string
+          title: Title
+        url:
+          type: string
+          title: Url
+        groupId:
+          type: string
+          format: uuid4
+          title: Groupid
+        householdId:
+          type: string
+          format: uuid4
+          title: Householdid
+        id:
+          type: string
+          format: uuid4
+          title: Id
+      type: object
+      required:
+      - actionType
+      - title
+      - url
+      - groupId
+      - householdId
+      - id
+      title: GroupRecipeActionOut
     GroupRecipeActionType:
       type: string
       enum:
       - link
       - post
       title: GroupRecipeActionType
+    SaveGroupRecipeAction:
+      properties:
+        actionType:
+          $ref: '#/components/schemas/GroupRecipeActionType'
+        title:
+          type: string
+          title: Title
+        url:
+          type: string
+          title: Url
+        groupId:
+          type: string
+          format: uuid4
+          title: Groupid
+        householdId:
+          type: string
+          format: uuid4
+          title: Householdid
+      type: object
+      required:
+      - actionType
+      - title
+      - url
+      - groupId
+      - householdId
+      title: SaveGroupRecipeAction
+    OrderDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: OrderDirection
+    Body_trigger_action_api_households_recipe_actions__item_id__trigger__recipe_slug__post:
+      properties:
+        recipe_scale:
+          type: number
+          title: Recipe Scale
+          default: 1
+      type: object
+      title: Body_trigger_action_api_households_recipe_actions__item_id__trigger__recipe_slug__post
     GroupRecipeActionPagination:
       properties:
         page:
@@ -346,118 +458,6 @@ components:
       - title
       - url
       title: CreateGroupRecipeAction
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    GroupRecipeActionOut:
-      properties:
-        actionType:
-          $ref: '#/components/schemas/GroupRecipeActionType'
-        title:
-          type: string
-          title: Title
-        url:
-          type: string
-          title: Url
-        groupId:
-          type: string
-          format: uuid4
-          title: Groupid
-        householdId:
-          type: string
-          format: uuid4
-          title: Householdid
-        id:
-          type: string
-          format: uuid4
-          title: Id
-      type: object
-      required:
-      - actionType
-      - title
-      - url
-      - groupId
-      - householdId
-      - id
-      title: GroupRecipeActionOut
-    OrderByNullPosition:
-      type: string
-      enum:
-      - first
-      - last
-      title: OrderByNullPosition
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    SaveGroupRecipeAction:
-      properties:
-        actionType:
-          $ref: '#/components/schemas/GroupRecipeActionType'
-        title:
-          type: string
-          title: Title
-        url:
-          type: string
-          title: Url
-        groupId:
-          type: string
-          format: uuid4
-          title: Groupid
-        householdId:
-          type: string
-          format: uuid4
-          title: Householdid
-      type: object
-      required:
-      - actionType
-      - title
-      - url
-      - groupId
-      - householdId
-      title: SaveGroupRecipeAction
-    Body_trigger_action_api_households_recipe_actions__item_id__trigger__recipe_slug__post:
-      properties:
-        recipe_scale:
-          type: number
-          title: Recipe Scale
-          default: 1
-      type: object
-      title: Body_trigger_action_api_households_recipe_actions__item_id__trigger__recipe_slug__post
-    OrderDirection:
-      type: string
-      enum:
-      - asc
-      - desc
-      title: OrderDirection
   securitySchemes:
     OAuth2PasswordBearer:
       type: oauth2

@@ -269,7 +269,79 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    GroupEventNotifierCreate:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    GroupEventNotifierOut:
+      properties:
+        id:
+          type: string
+          format: uuid4
+          title: Id
+        name:
+          type: string
+          title: Name
+        enabled:
+          type: boolean
+          title: Enabled
+        groupId:
+          type: string
+          format: uuid4
+          title: Groupid
+        householdId:
+          type: string
+          format: uuid4
+          title: Householdid
+        options:
+          $ref: '#/components/schemas/GroupEventNotifierOptionsOut'
+      type: object
+      required:
+      - id
+      - name
+      - enabled
+      - groupId
+      - householdId
+      - options
+      title: GroupEventNotifierOut
+    OrderByNullPosition:
+      type: string
+      enum:
+      - first
+      - last
+      title: OrderByNullPosition
+    GroupEventNotifierUpdate:
       properties:
         name:
           type: string
@@ -279,47 +351,65 @@ components:
           - type: string
           - type: 'null'
           title: Appriseurl
+        enabled:
+          type: boolean
+          title: Enabled
+          default: true
+        groupId:
+          type: string
+          format: uuid4
+          title: Groupid
+        householdId:
+          type: string
+          format: uuid4
+          title: Householdid
+        options:
+          $ref: '#/components/schemas/GroupEventNotifierOptions'
+          default:
+            testMessage: false
+            webhookTask: false
+            recipeCreated: false
+            recipeUpdated: false
+            recipeDeleted: false
+            userSignup: false
+            dataMigrations: false
+            dataExport: false
+            dataImport: false
+            mealplanEntryCreated: false
+            mealplanEntryUpdated: false
+            mealplanEntryDeleted: false
+            shoppingListCreated: false
+            shoppingListUpdated: false
+            shoppingListDeleted: false
+            cookbookCreated: false
+            cookbookUpdated: false
+            cookbookDeleted: false
+            tagCreated: false
+            tagUpdated: false
+            tagDeleted: false
+            categoryCreated: false
+            categoryUpdated: false
+            categoryDeleted: false
+            labelCreated: false
+            labelUpdated: false
+            labelDeleted: false
+        id:
+          type: string
+          format: uuid4
+          title: Id
       type: object
       required:
       - name
-      title: GroupEventNotifierCreate
-    GroupEventPagination:
-      properties:
-        page:
-          type: integer
-          title: Page
-          default: 1
-        per_page:
-          type: integer
-          title: Per Page
-          default: 10
-        total:
-          type: integer
-          title: Total
-          default: 0
-        total_pages:
-          type: integer
-          title: Total Pages
-          default: 0
-        items:
-          items:
-            $ref: '#/components/schemas/GroupEventNotifierOut'
-          type: array
-          title: Items
-        next:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Next
-        previous:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Previous
-      type: object
-      required:
-      - items
-      title: GroupEventPagination
+      - groupId
+      - householdId
+      - id
+      title: GroupEventNotifierUpdate
+    OrderDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: OrderDirection
     GroupEventNotifierOptionsOut:
       properties:
         testMessage:
@@ -438,7 +528,7 @@ components:
       required:
       - id
       title: GroupEventNotifierOptionsOut
-    GroupEventNotifierUpdate:
+    GroupEventNotifierCreate:
       properties:
         name:
           type: string
@@ -448,99 +538,10 @@ components:
           - type: string
           - type: 'null'
           title: Appriseurl
-        enabled:
-          type: boolean
-          title: Enabled
-          default: true
-        groupId:
-          type: string
-          format: uuid4
-          title: Groupid
-        householdId:
-          type: string
-          format: uuid4
-          title: Householdid
-        options:
-          $ref: '#/components/schemas/GroupEventNotifierOptions'
-          default:
-            testMessage: false
-            webhookTask: false
-            recipeCreated: false
-            recipeUpdated: false
-            recipeDeleted: false
-            userSignup: false
-            dataMigrations: false
-            dataExport: false
-            dataImport: false
-            mealplanEntryCreated: false
-            mealplanEntryUpdated: false
-            mealplanEntryDeleted: false
-            shoppingListCreated: false
-            shoppingListUpdated: false
-            shoppingListDeleted: false
-            cookbookCreated: false
-            cookbookUpdated: false
-            cookbookDeleted: false
-            tagCreated: false
-            tagUpdated: false
-            tagDeleted: false
-            categoryCreated: false
-            categoryUpdated: false
-            categoryDeleted: false
-            labelCreated: false
-            labelUpdated: false
-            labelDeleted: false
-        id:
-          type: string
-          format: uuid4
-          title: Id
       type: object
       required:
       - name
-      - groupId
-      - householdId
-      - id
-      title: GroupEventNotifierUpdate
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    GroupEventNotifierOut:
-      properties:
-        id:
-          type: string
-          format: uuid4
-          title: Id
-        name:
-          type: string
-          title: Name
-        enabled:
-          type: boolean
-          title: Enabled
-        groupId:
-          type: string
-          format: uuid4
-          title: Groupid
-        householdId:
-          type: string
-          format: uuid4
-          title: Householdid
-        options:
-          $ref: '#/components/schemas/GroupEventNotifierOptionsOut'
-      type: object
-      required:
-      - id
-      - name
-      - enabled
-      - groupId
-      - householdId
-      - options
-      title: GroupEventNotifierOut
+      title: GroupEventNotifierCreate
     GroupEventNotifierOptions:
       properties:
         testMessage:
@@ -656,44 +657,43 @@ components:
       description: 'These events are in-sync with the EventTypes found in the EventBusService.
 
         If you modify this, make sure to update the EventBusService as well.'
-    OrderByNullPosition:
-      type: string
-      enum:
-      - first
-      - last
-      title: OrderByNullPosition
-    ValidationError:
+    GroupEventPagination:
       properties:
-        loc:
+        page:
+          type: integer
+          title: Page
+          default: 1
+        per_page:
+          type: integer
+          title: Per Page
+          default: 10
+        total:
+          type: integer
+          title: Total
+          default: 0
+        total_pages:
+          type: integer
+          title: Total Pages
+          default: 0
+        items:
           items:
-            anyOf:
-            - type: string
-            - type: integer
+            $ref: '#/components/schemas/GroupEventNotifierOut'
           type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
+          title: Items
+        next:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Next
+        previous:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Previous
       type: object
       required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    OrderDirection:
-      type: string
-      enum:
-      - asc
-      - desc
-      title: OrderDirection
+      - items
+      title: GroupEventPagination
   securitySchemes:
     OAuth2PasswordBearer:
       type: oauth2

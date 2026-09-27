@@ -121,45 +121,32 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    ReportEntryOut:
+    ValidationError:
       properties:
-        reportId:
-          type: string
-          format: uuid4
-          title: Reportid
-        timestamp:
-          type: string
-          format: date-time
-          title: Timestamp
-        success:
-          type: boolean
-          title: Success
-          default: true
-        message:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
           type: string
           title: Message
-        exception:
+        type:
           type: string
-          title: Exception
-          default: ''
-        id:
-          type: string
-          format: uuid4
-          title: Id
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
       type: object
       required:
-      - reportId
-      - message
-      - id
-      title: ReportEntryOut
-    ReportSummaryStatus:
-      type: string
-      enum:
-      - in-progress
-      - success
-      - failure
-      - partial
-      title: ReportSummaryStatus
+      - loc
+      - msg
+      - type
+      title: ValidationError
     HTTPValidationError:
       properties:
         detail:
@@ -169,6 +156,14 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
+    ReportSummaryStatus:
+      type: string
+      enum:
+      - in-progress
+      - success
+      - failure
+      - partial
+      title: ReportSummaryStatus
     ReportOut:
       properties:
         timestamp:
@@ -241,32 +236,37 @@ components:
       - migration
       - bulk_import
       title: ReportCategory
-    ValidationError:
+    ReportEntryOut:
       properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
+        reportId:
+          type: string
+          format: uuid4
+          title: Reportid
+        timestamp:
+          type: string
+          format: date-time
+          title: Timestamp
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
           type: string
           title: Message
-        type:
+        exception:
           type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
+          title: Exception
+          default: ''
+        id:
+          type: string
+          format: uuid4
+          title: Id
       type: object
       required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
+      - reportId
+      - message
+      - id
+      title: ReportEntryOut
   securitySchemes:
     OAuth2PasswordBearer:
       type: oauth2

@@ -116,6 +116,37 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    SuccessResponse:
+      properties:
+        message:
+          type: string
+          title: Message
+        error:
+          type: boolean
+          title: Error
+          default: false
+      type: object
+      required:
+      - message
+      title: SuccessResponse
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    SeederConfig:
+      properties:
+        locale:
+          type: string
+          title: Locale
+      type: object
+      required:
+      - locale
+      title: SeederConfig
     ValidationError:
       properties:
         loc:
@@ -142,37 +173,6 @@ components:
       - msg
       - type
       title: ValidationError
-    SeederConfig:
-      properties:
-        locale:
-          type: string
-          title: Locale
-      type: object
-      required:
-      - locale
-      title: SeederConfig
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    SuccessResponse:
-      properties:
-        message:
-          type: string
-          title: Message
-        error:
-          type: boolean
-          title: Error
-          default: false
-      type: object
-      required:
-      - message
-      title: SuccessResponse
   securitySchemes:
     OAuth2PasswordBearer:
       type: oauth2

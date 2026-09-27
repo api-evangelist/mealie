@@ -314,6 +314,43 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    LongLiveTokenOut:
+      properties:
+        name:
+          type: string
+          title: Name
+        id:
+          type: integer
+          title: Id
+        createdAt:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Createdat
+      type: object
+      required:
+      - name
+      - id
+      title: LongLiveTokenOut
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ForgotPassword:
+      properties:
+        email:
+          type: string
+          title: Email
+      type: object
+      required:
+      - email
+      title: ForgotPassword
     UserIn:
       properties:
         id:
@@ -401,57 +438,6 @@ components:
       - LDAP
       - OIDC
       title: AuthMethod
-    UnlockResults:
-      properties:
-        unlocked:
-          type: integer
-          title: Unlocked
-          default: 0
-      type: object
-      title: UnlockResults
-    LongLiveTokenOut:
-      properties:
-        name:
-          type: string
-          title: Name
-        id:
-          type: integer
-          title: Id
-        createdAt:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Createdat
-      type: object
-      required:
-      - name
-      - id
-      title: LongLiveTokenOut
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    OrderByNullPosition:
-      type: string
-      enum:
-      - first
-      - last
-      title: OrderByNullPosition
-    PasswordResetToken:
-      properties:
-        token:
-          type: string
-          title: Token
-      type: object
-      required:
-      - token
-      title: PasswordResetToken
     UserPagination:
       properties:
         page:
@@ -489,6 +475,46 @@ components:
       required:
       - items
       title: UserPagination
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    OrderByNullPosition:
+      type: string
+      enum:
+      - first
+      - last
+      title: OrderByNullPosition
+    UnlockResults:
+      properties:
+        unlocked:
+          type: integer
+          title: Unlocked
+          default: 0
+      type: object
+      title: UnlockResults
     UserOut:
       properties:
         id:
@@ -593,47 +619,21 @@ components:
         group: home
         household: Family
         username: ChangeMe
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    ForgotPassword:
-      properties:
-        email:
-          type: string
-          title: Email
-      type: object
-      required:
-      - email
-      title: ForgotPassword
     OrderDirection:
       type: string
       enum:
       - asc
       - desc
       title: OrderDirection
+    PasswordResetToken:
+      properties:
+        token:
+          type: string
+          title: Token
+      type: object
+      required:
+      - token
+      title: PasswordResetToken
   securitySchemes:
     OAuth2PasswordBearer:
       type: oauth2

@@ -330,20 +330,7 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    CreateRandomEntry:
-      properties:
-        date:
-          type: string
-          format: date
-          title: Date
-        entryType:
-          $ref: '#/components/schemas/PlanEntryType'
-          default: dinner
-      type: object
-      required:
-      - date
-      title: CreateRandomEntry
-    RecipeCategory:
+    RecipeTag:
       properties:
         id:
           anyOf:
@@ -371,48 +358,7 @@ components:
       required:
       - name
       - slug
-      title: RecipeCategory
-    UpdatePlanEntry:
-      properties:
-        date:
-          type: string
-          format: date
-          title: Date
-        entryType:
-          $ref: '#/components/schemas/PlanEntryType'
-          default: breakfast
-        title:
-          type: string
-          title: Title
-          default: ''
-        text:
-          type: string
-          title: Text
-          default: ''
-        recipeId:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Recipeid
-        id:
-          type: integer
-          title: Id
-        groupId:
-          type: string
-          format: uuid
-          title: Groupid
-        userId:
-          type: string
-          format: uuid
-          title: Userid
-      type: object
-      required:
-      - date
-      - id
-      - groupId
-      - userId
-      title: UpdatePlanEntry
+      title: RecipeTag
     HTTPValidationError:
       properties:
         detail:
@@ -422,6 +368,38 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    OrderByNullPosition:
+      type: string
+      enum:
+      - first
+      - last
+      title: OrderByNullPosition
     RecipeSummary:
       properties:
         id:
@@ -559,78 +537,6 @@ components:
           title: Lastmade
       type: object
       title: RecipeSummary
-    RecipeTag:
-      properties:
-        id:
-          anyOf:
-          - type: string
-            format: uuid4
-          - type: 'null'
-          title: Id
-        groupId:
-          anyOf:
-          - type: string
-            format: uuid4
-          - type: 'null'
-          title: Groupid
-        name:
-          type: string
-          title: Name
-        slug:
-          type: string
-          title: Slug
-        recipeCount:
-          type: integer
-          title: Recipecount
-          default: 0
-      type: object
-      required:
-      - name
-      - slug
-      title: RecipeTag
-    OrderByNullPosition:
-      type: string
-      enum:
-      - first
-      - last
-      title: OrderByNullPosition
-    PlanEntryPagination:
-      properties:
-        page:
-          type: integer
-          title: Page
-          default: 1
-        per_page:
-          type: integer
-          title: Per Page
-          default: 10
-        total:
-          type: integer
-          title: Total
-          default: 0
-        total_pages:
-          type: integer
-          title: Total Pages
-          default: 0
-        items:
-          items:
-            $ref: '#/components/schemas/ReadPlanEntry'
-          type: array
-          title: Items
-        next:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Next
-        previous:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Previous
-      type: object
-      required:
-      - items
-      title: PlanEntryPagination
     ReadPlanEntry:
       properties:
         date:
@@ -681,6 +587,54 @@ components:
       - userId
       - householdId
       title: ReadPlanEntry
+    OrderDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: OrderDirection
+    CreateRandomEntry:
+      properties:
+        date:
+          type: string
+          format: date
+          title: Date
+        entryType:
+          $ref: '#/components/schemas/PlanEntryType'
+          default: dinner
+      type: object
+      required:
+      - date
+      title: CreateRandomEntry
+    RecipeCategory:
+      properties:
+        id:
+          anyOf:
+          - type: string
+            format: uuid4
+          - type: 'null'
+          title: Id
+        groupId:
+          anyOf:
+          - type: string
+            format: uuid4
+          - type: 'null'
+          title: Groupid
+        name:
+          type: string
+          title: Name
+        slug:
+          type: string
+          title: Slug
+        recipeCount:
+          type: integer
+          title: Recipecount
+          default: 0
+      type: object
+      required:
+      - name
+      - slug
+      title: RecipeCategory
     CreatePlanEntry:
       properties:
         date:
@@ -708,6 +662,54 @@ components:
       required:
       - date
       title: CreatePlanEntry
+    PlanEntryType:
+      type: string
+      enum:
+      - breakfast
+      - lunch
+      - dinner
+      - side
+      - snack
+      - drink
+      - dessert
+      title: PlanEntryType
+    PlanEntryPagination:
+      properties:
+        page:
+          type: integer
+          title: Page
+          default: 1
+        per_page:
+          type: integer
+          title: Per Page
+          default: 10
+        total:
+          type: integer
+          title: Total
+          default: 0
+        total_pages:
+          type: integer
+          title: Total Pages
+          default: 0
+        items:
+          items:
+            $ref: '#/components/schemas/ReadPlanEntry'
+          type: array
+          title: Items
+        next:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Next
+        previous:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Previous
+      type: object
+      required:
+      - items
+      title: PlanEntryPagination
     RecipeTool:
       properties:
         id:
@@ -742,49 +744,47 @@ components:
       - name
       - slug
       title: RecipeTool
-    ValidationError:
+    UpdatePlanEntry:
       properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
+        date:
           type: string
-          title: Message
-        type:
+          format: date
+          title: Date
+        entryType:
+          $ref: '#/components/schemas/PlanEntryType'
+          default: breakfast
+        title:
           type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
+          title: Title
+          default: ''
+        text:
+          type: string
+          title: Text
+          default: ''
+        recipeId:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Recipeid
+        id:
+          type: integer
+          title: Id
+        groupId:
+          type: string
+          format: uuid
+          title: Groupid
+        userId:
+          type: string
+          format: uuid
+          title: Userid
       type: object
       required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    PlanEntryType:
-      type: string
-      enum:
-      - breakfast
-      - lunch
-      - dinner
-      - side
-      - snack
-      - drink
-      - dessert
-      title: PlanEntryType
-    OrderDirection:
-      type: string
-      enum:
-      - asc
-      - desc
-      title: OrderDirection
+      - date
+      - id
+      - groupId
+      - userId
+      title: UpdatePlanEntry
   securitySchemes:
     OAuth2PasswordBearer:
       type: oauth2

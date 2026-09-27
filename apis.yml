@@ -11,15 +11,22 @@ description: 'Mealie is an open-source (AGPL-3.0), self-hosted recipe manager, m
   with long-lived bearer API tokens (plus OIDC and LDAP for user login), and shares a uniform pagination,
   filtering and ordering grammar across nearly every collection endpoint.'
 deliveryModel:
-  model: saas
-  open_source: false
+  model: open-core
+  license: AGPL-3.0
+  license_evidence:
+    repo: mealie-recipes/mealie
+    spdx: AGPL-3.0
+    stars: 13310
+  open_source: true
   commercial: true
   callable_host: false
-  label: Hosted service · you call their endpoint
+  label: Open core · an OSS project plus a commercial hosted product
   confidence: medium
   source:
+  - openapi
   - pricing
-  generated: '2026-08-28'
+  - repository-license
+  generated: '2026-09-25'
   method: derived
 accessModel:
   pricing: unknown
@@ -51,7 +58,7 @@ tags:
 - Meal Planning
 - Shopping Lists
 - Self-Hosted
-- Open-Source
+- Open Source
 - Household
 - Nutrition
 - Home Automation
@@ -66,6 +73,7 @@ tags_raw:
 - Household
 - Nutrition
 - Home Automation
+- Open-Source
 apis:
 - aid: mealie:mealie-admin-about-api
   name: 'Mealie Admin: About API'
