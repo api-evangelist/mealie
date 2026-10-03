@@ -121,6 +121,74 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    ReportEntryOut:
+      properties:
+        reportId:
+          type: string
+          format: uuid4
+          title: Reportid
+        timestamp:
+          type: string
+          format: date-time
+          title: Timestamp
+        success:
+          type: boolean
+          title: Success
+          default: true
+        message:
+          type: string
+          title: Message
+        exception:
+          type: string
+          title: Exception
+          default: ''
+        id:
+          type: string
+          format: uuid4
+          title: Id
+      type: object
+      required:
+      - reportId
+      - message
+      - id
+      title: ReportEntryOut
+    ReportCategory:
+      type: string
+      enum:
+      - backup
+      - restore
+      - migration
+      - bulk_import
+      title: ReportCategory
+    ReportSummary:
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+          title: Timestamp
+        category:
+          $ref: '#/components/schemas/ReportCategory'
+        groupId:
+          type: string
+          format: uuid4
+          title: Groupid
+        name:
+          type: string
+          title: Name
+        status:
+          $ref: '#/components/schemas/ReportSummaryStatus'
+          default: in-progress
+        id:
+          type: string
+          format: uuid4
+          title: Id
+      type: object
+      required:
+      - category
+      - groupId
+      - name
+      - id
+      title: ReportSummary
     ValidationError:
       properties:
         loc:
@@ -147,23 +215,6 @@ components:
       - msg
       - type
       title: ValidationError
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    ReportSummaryStatus:
-      type: string
-      enum:
-      - in-progress
-      - success
-      - failure
-      - partial
-      title: ReportSummaryStatus
     ReportOut:
       properties:
         timestamp:
@@ -199,74 +250,23 @@ components:
       - name
       - id
       title: ReportOut
-    ReportSummary:
-      properties:
-        timestamp:
-          type: string
-          format: date-time
-          title: Timestamp
-        category:
-          $ref: '#/components/schemas/ReportCategory'
-        groupId:
-          type: string
-          format: uuid4
-          title: Groupid
-        name:
-          type: string
-          title: Name
-        status:
-          $ref: '#/components/schemas/ReportSummaryStatus'
-          default: in-progress
-        id:
-          type: string
-          format: uuid4
-          title: Id
-      type: object
-      required:
-      - category
-      - groupId
-      - name
-      - id
-      title: ReportSummary
-    ReportCategory:
+    ReportSummaryStatus:
       type: string
       enum:
-      - backup
-      - restore
-      - migration
-      - bulk_import
-      title: ReportCategory
-    ReportEntryOut:
+      - in-progress
+      - success
+      - failure
+      - partial
+      title: ReportSummaryStatus
+    HTTPValidationError:
       properties:
-        reportId:
-          type: string
-          format: uuid4
-          title: Reportid
-        timestamp:
-          type: string
-          format: date-time
-          title: Timestamp
-        success:
-          type: boolean
-          title: Success
-          default: true
-        message:
-          type: string
-          title: Message
-        exception:
-          type: string
-          title: Exception
-          default: ''
-        id:
-          type: string
-          format: uuid4
-          title: Id
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
       type: object
-      required:
-      - reportId
-      - message
-      - id
-      title: ReportEntryOut
+      title: HTTPValidationError
   securitySchemes:
     OAuth2PasswordBearer:
       type: oauth2

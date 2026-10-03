@@ -213,78 +213,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    LongLiveTokenOut:
-      properties:
-        name:
-          type: string
-          title: Name
-        id:
-          type: integer
-          title: Id
-        createdAt:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Createdat
-      type: object
-      required:
-      - name
-      - id
-      title: LongLiveTokenOut
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    UserRatings_UserRatingSummary_:
-      properties:
-        ratings:
-          items:
-            $ref: '#/components/schemas/UserRatingSummary'
-          type: array
-          title: Ratings
-      type: object
-      required:
-      - ratings
-      title: UserRatings[UserRatingSummary]
-    AuthMethod:
-      type: string
-      enum:
-      - Mealie
-      - LDAP
-      - OIDC
-      title: AuthMethod
     mealie__schema__user__user__UserBase:
       properties:
         id:
@@ -363,6 +291,31 @@ components:
         group: home
         household: Family
         username: ChangeMe
+    ChangePassword:
+      properties:
+        currentPassword:
+          type: string
+          title: Currentpassword
+          default: ''
+        newPassword:
+          type: string
+          minLength: 8
+          title: Newpassword
+      type: object
+      required:
+      - newPassword
+      title: ChangePassword
+    UserRatings_UserRatingSummary_:
+      properties:
+        ratings:
+          items:
+            $ref: '#/components/schemas/UserRatingSummary'
+          type: array
+          title: Ratings
+      type: object
+      required:
+      - ratings
+      title: UserRatings[UserRatingSummary]
     UserOut:
       properties:
         id:
@@ -467,20 +420,67 @@ components:
         group: home
         household: Family
         username: ChangeMe
-    ChangePassword:
+    ValidationError:
       properties:
-        currentPassword:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
           type: string
-          title: Currentpassword
-          default: ''
-        newPassword:
+          title: Message
+        type:
           type: string
-          minLength: 8
-          title: Newpassword
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
       type: object
       required:
-      - newPassword
-      title: ChangePassword
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    LongLiveTokenOut:
+      properties:
+        name:
+          type: string
+          title: Name
+        id:
+          type: integer
+          title: Id
+        createdAt:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Createdat
+      type: object
+      required:
+      - name
+      - id
+      title: LongLiveTokenOut
+    AuthMethod:
+      type: string
+      enum:
+      - Mealie
+      - LDAP
+      - OIDC
+      title: AuthMethod
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     UserRatingSummary:
       properties:
         recipeId:

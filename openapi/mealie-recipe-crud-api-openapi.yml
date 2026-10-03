@@ -1206,613 +1206,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    RecipeCommentOut-Input:
-      properties:
-        recipeId:
-          type: string
-          format: uuid4
-          title: Recipeid
-        text:
-          type: string
-          title: Text
-        id:
-          type: string
-          format: uuid4
-          title: Id
-        createdAt:
-          type: string
-          format: date-time
-          title: Createdat
-        update_at:
-          type: string
-          format: date-time
-          title: Update At
-        userId:
-          type: string
-          format: uuid4
-          title: Userid
-        user:
-          $ref: '#/components/schemas/mealie__schema__recipe__recipe_comments__UserBase'
-      type: object
-      required:
-      - recipeId
-      - text
-      - id
-      - createdAt
-      - update_at
-      - userId
-      - user
-      title: RecipeCommentOut
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    UpdateImageResponse:
-      properties:
-        image:
-          type: string
-          title: Image
-      type: object
-      required:
-      - image
-      title: UpdateImageResponse
-    RecipeIngredient-Input:
-      properties:
-        quantity:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Quantity
-          default: 0
-        unit:
-          anyOf:
-          - $ref: '#/components/schemas/IngredientUnit-Input'
-          - $ref: '#/components/schemas/CreateIngredientUnit'
-          - type: 'null'
-          title: Unit
-        food:
-          anyOf:
-          - $ref: '#/components/schemas/IngredientFood-Input'
-          - $ref: '#/components/schemas/CreateIngredientFood'
-          - type: 'null'
-          title: Food
-        referencedRecipe:
-          anyOf:
-          - $ref: '#/components/schemas/Recipe-Input'
-          - type: 'null'
-        note:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Note
-          default: ''
-        display:
-          type: string
-          title: Display
-          default: ''
-        title:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Title
-        originalText:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Originaltext
-        referenceId:
-          type: string
-          format: uuid
-          title: Referenceid
-      type: object
-      title: RecipeIngredient
-    RecipeCategory:
-      properties:
-        id:
-          anyOf:
-          - type: string
-            format: uuid4
-          - type: 'null'
-          title: Id
-        groupId:
-          anyOf:
-          - type: string
-            format: uuid4
-          - type: 'null'
-          title: Groupid
-        name:
-          type: string
-          title: Name
-        slug:
-          type: string
-          title: Slug
-        recipeCount:
-          type: integer
-          title: Recipecount
-          default: 0
-      type: object
-      required:
-      - name
-      - slug
-      title: RecipeCategory
-    IngredientUnitAlias:
-      properties:
-        name:
-          type: string
-          title: Name
-      type: object
-      required:
-      - name
-      title: IngredientUnitAlias
-    RecipeTool:
-      properties:
-        id:
-          type: string
-          format: uuid4
-          title: Id
-        groupId:
-          anyOf:
-          - type: string
-            format: uuid4
-          - type: 'null'
-          title: Groupid
-        name:
-          type: string
-          title: Name
-        slug:
-          type: string
-          title: Slug
-        recipeCount:
-          type: integer
-          title: Recipecount
-          default: 0
-        householdsWithTool:
-          items:
-            type: string
-          type: array
-          title: Householdswithtool
-          default: []
-      type: object
-      required:
-      - id
-      - name
-      - slug
-      title: RecipeTool
-    RecipeSettings:
-      properties:
-        public:
-          type: boolean
-          title: Public
-          default: false
-        showNutrition:
-          type: boolean
-          title: Shownutrition
-          default: false
-        showAssets:
-          type: boolean
-          title: Showassets
-          default: false
-        landscapeView:
-          type: boolean
-          title: Landscapeview
-          default: false
-        disableComments:
-          type: boolean
-          title: Disablecomments
-          default: true
-        locked:
-          type: boolean
-          title: Locked
-          default: false
-      type: object
-      title: RecipeSettings
-    ScrapeRecipeData:
-      properties:
-        includeTags:
-          type: boolean
-          title: Includetags
-          default: false
-        includeCategories:
-          type: boolean
-          title: Includecategories
-          default: false
-        data:
-          type: string
-          title: Data
-        url:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Url
-      type: object
-      required:
-      - data
-      title: ScrapeRecipeData
-    CreateIngredientUnit:
-      properties:
-        id:
-          anyOf:
-          - type: string
-            format: uuid4
-          - type: 'null'
-          title: Id
-        name:
-          type: string
-          title: Name
-        pluralName:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Pluralname
-        description:
-          type: string
-          title: Description
-          default: ''
-        extras:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Extras
-          default: {}
-        fraction:
-          type: boolean
-          title: Fraction
-          default: true
-        abbreviation:
-          type: string
-          title: Abbreviation
-          default: ''
-        pluralAbbreviation:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Pluralabbreviation
-          default: ''
-        useAbbreviation:
-          type: boolean
-          title: Useabbreviation
-          default: false
-        aliases:
-          items:
-            $ref: '#/components/schemas/CreateIngredientUnitAlias'
-          type: array
-          title: Aliases
-          default: []
-        standardQuantity:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Standardquantity
-        standardUnit:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Standardunit
-      type: object
-      required:
-      - name
-      title: CreateIngredientUnit
-    ScrapeRecipeTest:
-      properties:
-        url:
-          type: string
-          title: Url
-        useOpenAI:
-          type: boolean
-          title: Useopenai
-          default: false
-      type: object
-      required:
-      - url
-      title: ScrapeRecipeTest
-    ScrapeRecipe:
-      properties:
-        includeTags:
-          type: boolean
-          title: Includetags
-          default: false
-        includeCategories:
-          type: boolean
-          title: Includecategories
-          default: false
-        url:
-          type: string
-          title: Url
-      type: object
-      required:
-      - url
-      title: ScrapeRecipe
-      example:
-        includeCategories: true
-        includeTags: true
-        url: https://myfavoriterecipes.com/recipes
-    Recipe-Output:
-      properties:
-        id:
-          anyOf:
-          - type: string
-            format: uuid4
-          - type: 'null'
-          title: Id
-        userId:
-          type: string
-          format: uuid4
-          title: Userid
-        householdId:
-          type: string
-          format: uuid4
-          title: Householdid
-        groupId:
-          type: string
-          format: uuid4
-          title: Groupid
-        name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Name
-        slug:
-          type: string
-          title: Slug
-          default: ''
-        image:
-          anyOf:
-          - {}
-          - type: 'null'
-          title: Image
-        recipeServings:
-          type: number
-          title: Recipeservings
-          default: 0
-        recipeYieldQuantity:
-          type: number
-          title: Recipeyieldquantity
-          default: 0
-        recipeYield:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Recipeyield
-        totalTime:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Totaltime
-        prepTime:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Preptime
-        cookTime:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Cooktime
-        performTime:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Performtime
-        description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Description
-          default: ''
-        recipeCategory:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/RecipeCategory'
-            type: array
-          - type: 'null'
-          title: Recipecategory
-          default: []
-        tags:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/RecipeTag'
-            type: array
-          - type: 'null'
-          title: Tags
-          default: []
-        tools:
-          items:
-            $ref: '#/components/schemas/RecipeTool'
-          type: array
-          title: Tools
-          default: []
-        rating:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Rating
-        orgURL:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Orgurl
-        dateAdded:
-          anyOf:
-          - type: string
-            format: date
-          - type: 'null'
-          title: Dateadded
-        dateUpdated:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Dateupdated
-        createdAt:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Createdat
-        updatedAt:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Updatedat
-        lastMade:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Lastmade
-        recipeIngredient:
-          items:
-            $ref: '#/components/schemas/RecipeIngredient-Output'
-          type: array
-          title: Recipeingredient
-          default: []
-        recipeInstructions:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/RecipeStep'
-            type: array
-          - type: 'null'
-          title: Recipeinstructions
-          default: []
-        nutrition:
-          anyOf:
-          - $ref: '#/components/schemas/Nutrition'
-          - type: 'null'
-        settings:
-          anyOf:
-          - $ref: '#/components/schemas/RecipeSettings'
-          - type: 'null'
-        assets:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/RecipeAsset'
-            type: array
-          - type: 'null'
-          title: Assets
-          default: []
-        notes:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/RecipeNote'
-            type: array
-          - type: 'null'
-          title: Notes
-          default: []
-        extras:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Extras
-          default: {}
-        comments:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/RecipeCommentOut-Output'
-            type: array
-          - type: 'null'
-          title: Comments
-          default: []
-      type: object
-      title: Recipe
-    OrderByNullPosition:
-      type: string
-      enum:
-      - first
-      - last
-      title: OrderByNullPosition
-    IngredientFoodAlias:
-      properties:
-        name:
-          type: string
-          title: Name
-      type: object
-      required:
-      - name
-      title: IngredientFoodAlias
-    IngredientUnit-Output:
-      properties:
-        id:
-          type: string
-          format: uuid4
-          title: Id
-        name:
-          type: string
-          title: Name
-        pluralName:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Pluralname
-        description:
-          type: string
-          title: Description
-          default: ''
-        extras:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Extras
-          default: {}
-        fraction:
-          type: boolean
-          title: Fraction
-          default: true
-        abbreviation:
-          type: string
-          title: Abbreviation
-          default: ''
-        pluralAbbreviation:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Pluralabbreviation
-          default: ''
-        useAbbreviation:
-          type: boolean
-          title: Useabbreviation
-          default: false
-        aliases:
-          items:
-            $ref: '#/components/schemas/IngredientUnitAlias'
-          type: array
-          title: Aliases
-          default: []
-        standardQuantity:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Standardquantity
-        standardUnit:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Standardunit
-        createdAt:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Createdat
-        updatedAt:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Updatedat
-      type: object
-      required:
-      - id
-      - name
-      title: IngredientUnit
     Recipe-Input:
       properties:
         id:
@@ -2003,122 +1396,65 @@ components:
           default: []
       type: object
       title: Recipe
-    CreateRecipeBulk:
+    Body_create_recipe_from_zip_api_recipes_create_zip_post:
       properties:
-        url:
+        archive:
           type: string
-          title: Url
-        categories:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/RecipeCategory'
-            type: array
-          - type: 'null'
-          title: Categories
-        tags:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/RecipeTag'
-            type: array
-          - type: 'null'
-          title: Tags
+          contentMediaType: application/octet-stream
+          title: Archive
       type: object
       required:
-      - url
-      title: CreateRecipeBulk
-    Body_create_recipe_with_ai_api_recipes_create_ai_post:
+      - archive
+      title: Body_create_recipe_from_zip_api_recipes_create_zip_post
+    CreateIngredientUnitAlias:
       properties:
-        content:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Content
-        url:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Url
-        translateLanguage:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Translatelanguage
-        createNewOrganizers:
-          type: boolean
-          title: Createneworganizers
-          default: false
-        images:
-          items:
-            type: string
-            contentMediaType: application/octet-stream
-          type: array
-          title: Images
-      type: object
-      title: Body_create_recipe_with_ai_api_recipes_create_ai_post
-    RecipeSuggestionResponseItem:
-      properties:
-        recipe:
-          $ref: '#/components/schemas/RecipeSummary'
-        missingFoods:
-          items:
-            $ref: '#/components/schemas/IngredientFood-Output'
-          type: array
-          title: Missingfoods
-        missingTools:
-          items:
-            $ref: '#/components/schemas/RecipeTool'
-          type: array
-          title: Missingtools
+        name:
+          type: string
+          title: Name
       type: object
       required:
-      - recipe
-      - missingFoods
-      - missingTools
-      title: RecipeSuggestionResponseItem
-    CreateRecipeByUrlBulk:
-      properties:
-        imports:
-          items:
-            $ref: '#/components/schemas/CreateRecipeBulk'
-          type: array
-          title: Imports
-      type: object
-      required:
-      - imports
-      title: CreateRecipeByUrlBulk
-    RecipeStep:
+      - name
+      title: CreateIngredientUnitAlias
+    RecipeTag:
       properties:
         id:
           anyOf:
           - type: string
-            format: uuid
+            format: uuid4
           - type: 'null'
           title: Id
-        title:
+        groupId:
           anyOf:
           - type: string
+            format: uuid4
           - type: 'null'
-          title: Title
-          default: ''
-        summary:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Summary
-          default: ''
-        text:
+          title: Groupid
+        name:
           type: string
-          title: Text
-        ingredientReferences:
-          items:
-            $ref: '#/components/schemas/IngredientReferences'
-          type: array
-          title: Ingredientreferences
-          default: []
+          title: Name
+        slug:
+          type: string
+          title: Slug
+        recipeCount:
+          type: integer
+          title: Recipecount
+          default: 0
       type: object
       required:
-      - text
-      title: RecipeStep
+      - name
+      - slug
+      title: RecipeTag
+    IngredientReferences:
+      properties:
+        referenceId:
+          anyOf:
+          - type: string
+            format: uuid4
+          - type: 'null'
+          title: Referenceid
+      type: object
+      title: IngredientReferences
+      description: A list of ingredient references.
     IngredientFood-Output:
       properties:
         id:
@@ -2183,204 +1519,211 @@ components:
       - id
       - name
       title: IngredientFood
-    Body_create_recipe_from_zip_api_recipes_create_zip_post:
+    RecipeStep:
       properties:
-        archive:
-          type: string
-          contentMediaType: application/octet-stream
-          title: Archive
-      type: object
-      required:
-      - archive
-      title: Body_create_recipe_from_zip_api_recipes_create_zip_post
-    Nutrition:
-      properties:
-        calories:
+        id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Id
+        title:
           anyOf:
           - type: string
           - type: 'null'
-          title: Calories
-        carbohydrateContent:
+          title: Title
+          default: ''
+        summary:
           anyOf:
           - type: string
           - type: 'null'
-          title: Carbohydratecontent
-        cholesterolContent:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Cholesterolcontent
-        fatContent:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Fatcontent
-        fiberContent:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Fibercontent
-        proteinContent:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Proteincontent
-        saturatedFatContent:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Saturatedfatcontent
-        sodiumContent:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Sodiumcontent
-        sugarContent:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Sugarcontent
-        transFatContent:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Transfatcontent
-        unsaturatedFatContent:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Unsaturatedfatcontent
-      type: object
-      title: Nutrition
-    RecipeCommentOut-Output:
-      properties:
-        recipeId:
-          type: string
-          format: uuid4
-          title: Recipeid
+          title: Summary
+          default: ''
         text:
           type: string
           title: Text
+        ingredientReferences:
+          items:
+            $ref: '#/components/schemas/IngredientReferences'
+          type: array
+          title: Ingredientreferences
+          default: []
+      type: object
+      required:
+      - text
+      title: RecipeStep
+    CreateIngredientFoodAlias:
+      properties:
+        name:
+          type: string
+          title: Name
+      type: object
+      required:
+      - name
+      title: CreateIngredientFoodAlias
+    CreateIngredientFood:
+      properties:
+        id:
+          anyOf:
+          - type: string
+            format: uuid4
+          - type: 'null'
+          title: Id
+        name:
+          type: string
+          title: Name
+        pluralName:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Pluralname
+        description:
+          type: string
+          title: Description
+          default: ''
+        extras:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Extras
+          default: {}
+        labelId:
+          anyOf:
+          - type: string
+            format: uuid4
+          - type: 'null'
+          title: Labelid
+        aliases:
+          items:
+            $ref: '#/components/schemas/CreateIngredientFoodAlias'
+          type: array
+          title: Aliases
+          default: []
+        householdsWithIngredientFood:
+          items:
+            type: string
+          type: array
+          title: Householdswithingredientfood
+          default: []
+      type: object
+      required:
+      - name
+      title: CreateIngredientFood
+    IngredientFood-Input:
+      properties:
         id:
           type: string
           format: uuid4
           title: Id
-        createdAt:
+        name:
           type: string
-          format: date-time
-          title: Createdat
-        updatedAt:
-          type: string
-          format: date-time
-          title: Updatedat
-        userId:
-          type: string
-          format: uuid4
-          title: Userid
-        user:
-          $ref: '#/components/schemas/UserBase-Output'
-      type: object
-      required:
-      - recipeId
-      - text
-      - id
-      - createdAt
-      - updatedAt
-      - userId
-      - user
-      title: RecipeCommentOut
-    Body_create_recipe_with_ai_stream_api_recipes_create_ai_stream_post:
-      properties:
-        content:
+          title: Name
+        pluralName:
           anyOf:
           - type: string
           - type: 'null'
-          title: Content
+          title: Pluralname
+        description:
+          type: string
+          title: Description
+          default: ''
+        extras:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Extras
+          default: {}
+        labelId:
+          anyOf:
+          - type: string
+            format: uuid4
+          - type: 'null'
+          title: Labelid
+        aliases:
+          items:
+            $ref: '#/components/schemas/IngredientFoodAlias'
+          type: array
+          title: Aliases
+          default: []
+        householdsWithIngredientFood:
+          items:
+            type: string
+          type: array
+          title: Householdswithingredientfood
+          default: []
+        label:
+          anyOf:
+          - $ref: '#/components/schemas/MultiPurposeLabelSummary'
+          - type: 'null'
+        createdAt:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Createdat
+        update_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Update At
+      type: object
+      required:
+      - id
+      - name
+      title: IngredientFood
+    ScrapeRecipeData:
+      properties:
+        includeTags:
+          type: boolean
+          title: Includetags
+          default: false
+        includeCategories:
+          type: boolean
+          title: Includecategories
+          default: false
+        data:
+          type: string
+          title: Data
         url:
           anyOf:
           - type: string
           - type: 'null'
           title: Url
-        translateLanguage:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Translatelanguage
-        createNewOrganizers:
+      type: object
+      required:
+      - data
+      title: ScrapeRecipeData
+    RecipeSettings:
+      properties:
+        public:
           type: boolean
-          title: Createneworganizers
+          title: Public
           default: false
-        images:
-          items:
-            type: string
-            contentMediaType: application/octet-stream
-          type: array
-          title: Images
+        showNutrition:
+          type: boolean
+          title: Shownutrition
+          default: false
+        showAssets:
+          type: boolean
+          title: Showassets
+          default: false
+        landscapeView:
+          type: boolean
+          title: Landscapeview
+          default: false
+        disableComments:
+          type: boolean
+          title: Disablecomments
+          default: true
+        locked:
+          type: boolean
+          title: Locked
+          default: false
       type: object
-      title: Body_create_recipe_with_ai_stream_api_recipes_create_ai_stream_post
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    PaginationBase_RecipeSummary_:
-      properties:
-        page:
-          type: integer
-          title: Page
-          default: 1
-        per_page:
-          type: integer
-          title: Per Page
-          default: 10
-        total:
-          type: integer
-          title: Total
-          default: 0
-        total_pages:
-          type: integer
-          title: Total Pages
-          default: 0
-        items:
-          items:
-            $ref: '#/components/schemas/RecipeSummary'
-          type: array
-          title: Items
-        next:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Next
-        previous:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Previous
-      type: object
-      required:
-      - items
-      title: PaginationBase[RecipeSummary]
+      title: RecipeSettings
     RecipeSummary:
       properties:
         id:
@@ -2518,28 +1861,60 @@ components:
           title: Lastmade
       type: object
       title: RecipeSummary
-    Body_upload_recipe_asset_api_recipes__slug__assets_post:
+    RecipeTool:
       properties:
+        id:
+          type: string
+          format: uuid4
+          title: Id
+        groupId:
+          anyOf:
+          - type: string
+            format: uuid4
+          - type: 'null'
+          title: Groupid
         name:
           type: string
           title: Name
-        icon:
+        slug:
           type: string
-          title: Icon
-        extension:
-          type: string
-          title: Extension
-        file:
-          type: string
-          contentMediaType: application/octet-stream
-          title: File
+          title: Slug
+        recipeCount:
+          type: integer
+          title: Recipecount
+          default: 0
+        householdsWithTool:
+          items:
+            type: string
+          type: array
+          title: Householdswithtool
+          default: []
       type: object
       required:
+      - id
       - name
-      - icon
-      - extension
-      - file
-      title: Body_upload_recipe_asset_api_recipes__slug__assets_post
+      - slug
+      title: RecipeTool
+    RecipeSuggestionResponseItem:
+      properties:
+        recipe:
+          $ref: '#/components/schemas/RecipeSummary'
+        missingFoods:
+          items:
+            $ref: '#/components/schemas/IngredientFood-Output'
+          type: array
+          title: Missingfoods
+        missingTools:
+          items:
+            $ref: '#/components/schemas/RecipeTool'
+          type: array
+          title: Missingtools
+      type: object
+      required:
+      - recipe
+      - missingFoods
+      - missingTools
+      title: RecipeSuggestionResponseItem
     RecipeLastMade:
       properties:
         timestamp:
@@ -2550,28 +1925,11 @@ components:
       required:
       - timestamp
       title: RecipeLastMade
-    OrderDirection:
-      type: string
-      enum:
-      - asc
-      - desc
-      title: OrderDirection
-    CreateRecipe:
-      properties:
-        name:
-          type: string
-          title: Name
-      type: object
-      required:
-      - name
-      title: CreateRecipe
-    CreateIngredientFood:
+    IngredientUnit-Output:
       properties:
         id:
-          anyOf:
-          - type: string
-            format: uuid4
-          - type: 'null'
+          type: string
+          format: uuid4
           title: Id
         name:
           type: string
@@ -2592,61 +1950,57 @@ components:
           - type: 'null'
           title: Extras
           default: {}
-        labelId:
+        fraction:
+          type: boolean
+          title: Fraction
+          default: true
+        abbreviation:
+          type: string
+          title: Abbreviation
+          default: ''
+        pluralAbbreviation:
           anyOf:
           - type: string
-            format: uuid4
           - type: 'null'
-          title: Labelid
+          title: Pluralabbreviation
+          default: ''
+        useAbbreviation:
+          type: boolean
+          title: Useabbreviation
+          default: false
         aliases:
           items:
-            $ref: '#/components/schemas/CreateIngredientFoodAlias'
+            $ref: '#/components/schemas/IngredientUnitAlias'
           type: array
           title: Aliases
           default: []
-        householdsWithIngredientFood:
-          items:
-            type: string
-          type: array
-          title: Householdswithingredientfood
-          default: []
-      type: object
-      required:
-      - name
-      title: CreateIngredientFood
-    UserBase-Output:
-      properties:
-        id:
-          type: string
-          format: uuid4
-          title: Id
-        username:
+        standardQuantity:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Standardquantity
+        standardUnit:
           anyOf:
           - type: string
           - type: 'null'
-          title: Username
-        admin:
-          type: boolean
-          title: Admin
-        fullName:
+          title: Standardunit
+        createdAt:
           anyOf:
           - type: string
+            format: date-time
           - type: 'null'
-          title: Fullname
+          title: Createdat
+        updatedAt:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Updatedat
       type: object
       required:
       - id
-      - admin
-      title: UserBase
-    CreateIngredientFoodAlias:
-      properties:
-        name:
-          type: string
-          title: Name
-      type: object
-      required:
       - name
-      title: CreateIngredientFoodAlias
+      title: IngredientUnit
     RecipeIngredient-Output:
       properties:
         quantity:
@@ -2697,7 +2051,283 @@ components:
           title: Referenceid
       type: object
       title: RecipeIngredient
-    RecipeTag:
+    CreateRecipeBulk:
+      properties:
+        url:
+          type: string
+          title: Url
+        categories:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/RecipeCategory'
+            type: array
+          - type: 'null'
+          title: Categories
+        tags:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/RecipeTag'
+            type: array
+          - type: 'null'
+          title: Tags
+      type: object
+      required:
+      - url
+      title: CreateRecipeBulk
+    CreateIngredientUnit:
+      properties:
+        id:
+          anyOf:
+          - type: string
+            format: uuid4
+          - type: 'null'
+          title: Id
+        name:
+          type: string
+          title: Name
+        pluralName:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Pluralname
+        description:
+          type: string
+          title: Description
+          default: ''
+        extras:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Extras
+          default: {}
+        fraction:
+          type: boolean
+          title: Fraction
+          default: true
+        abbreviation:
+          type: string
+          title: Abbreviation
+          default: ''
+        pluralAbbreviation:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Pluralabbreviation
+          default: ''
+        useAbbreviation:
+          type: boolean
+          title: Useabbreviation
+          default: false
+        aliases:
+          items:
+            $ref: '#/components/schemas/CreateIngredientUnitAlias'
+          type: array
+          title: Aliases
+          default: []
+        standardQuantity:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Standardquantity
+        standardUnit:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Standardunit
+      type: object
+      required:
+      - name
+      title: CreateIngredientUnit
+    UserBase-Output:
+      properties:
+        id:
+          type: string
+          format: uuid4
+          title: Id
+        username:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Username
+        admin:
+          type: boolean
+          title: Admin
+        fullName:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Fullname
+      type: object
+      required:
+      - id
+      - admin
+      title: UserBase
+    RecipeNote:
+      properties:
+        title:
+          type: string
+          title: Title
+        text:
+          type: string
+          title: Text
+      type: object
+      required:
+      - title
+      - text
+      title: RecipeNote
+    IngredientFoodAlias:
+      properties:
+        name:
+          type: string
+          title: Name
+      type: object
+      required:
+      - name
+      title: IngredientFoodAlias
+    mealie__schema__recipe__recipe_comments__UserBase:
+      properties:
+        id:
+          type: string
+          format: uuid4
+          title: Id
+        username:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Username
+        admin:
+          type: boolean
+          title: Admin
+        fullName:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Fullname
+      type: object
+      required:
+      - id
+      - admin
+      title: UserBase
+    Nutrition:
+      properties:
+        calories:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Calories
+        carbohydrateContent:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Carbohydratecontent
+        cholesterolContent:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Cholesterolcontent
+        fatContent:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Fatcontent
+        fiberContent:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Fibercontent
+        proteinContent:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Proteincontent
+        saturatedFatContent:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Saturatedfatcontent
+        sodiumContent:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Sodiumcontent
+        sugarContent:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Sugarcontent
+        transFatContent:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Transfatcontent
+        unsaturatedFatContent:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Unsaturatedfatcontent
+      type: object
+      title: Nutrition
+    RecipeIngredient-Input:
+      properties:
+        quantity:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Quantity
+          default: 0
+        unit:
+          anyOf:
+          - $ref: '#/components/schemas/IngredientUnit-Input'
+          - $ref: '#/components/schemas/CreateIngredientUnit'
+          - type: 'null'
+          title: Unit
+        food:
+          anyOf:
+          - $ref: '#/components/schemas/IngredientFood-Input'
+          - $ref: '#/components/schemas/CreateIngredientFood'
+          - type: 'null'
+          title: Food
+        referencedRecipe:
+          anyOf:
+          - $ref: '#/components/schemas/Recipe-Input'
+          - type: 'null'
+        note:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Note
+          default: ''
+        display:
+          type: string
+          title: Display
+          default: ''
+        title:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Title
+        originalText:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Originaltext
+        referenceId:
+          type: string
+          format: uuid
+          title: Referenceid
+      type: object
+      title: RecipeIngredient
+    IngredientUnitAlias:
+      properties:
+        name:
+          type: string
+          title: Name
+      type: object
+      required:
+      - name
+      title: IngredientUnitAlias
+    RecipeCategory:
       properties:
         id:
           anyOf:
@@ -2725,25 +2355,204 @@ components:
       required:
       - name
       - slug
-      title: RecipeTag
-    IngredientFood-Input:
+      title: RecipeCategory
+    RecipeAsset:
       properties:
-        id:
-          type: string
-          format: uuid4
-          title: Id
         name:
           type: string
           title: Name
-        pluralName:
+        icon:
+          type: string
+          title: Icon
+        fileName:
           anyOf:
           - type: string
           - type: 'null'
-          title: Pluralname
-        description:
+          title: Filename
+      type: object
+      required:
+      - name
+      - icon
+      title: RecipeAsset
+    OrderByNullPosition:
+      type: string
+      enum:
+      - first
+      - last
+      title: OrderByNullPosition
+    Recipe-Output:
+      properties:
+        id:
+          anyOf:
+          - type: string
+            format: uuid4
+          - type: 'null'
+          title: Id
+        userId:
           type: string
+          format: uuid4
+          title: Userid
+        householdId:
+          type: string
+          format: uuid4
+          title: Householdid
+        groupId:
+          type: string
+          format: uuid4
+          title: Groupid
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+        slug:
+          type: string
+          title: Slug
+          default: ''
+        image:
+          anyOf:
+          - {}
+          - type: 'null'
+          title: Image
+        recipeServings:
+          type: number
+          title: Recipeservings
+          default: 0
+        recipeYieldQuantity:
+          type: number
+          title: Recipeyieldquantity
+          default: 0
+        recipeYield:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Recipeyield
+        totalTime:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Totaltime
+        prepTime:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Preptime
+        cookTime:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Cooktime
+        performTime:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Performtime
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
           title: Description
           default: ''
+        recipeCategory:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/RecipeCategory'
+            type: array
+          - type: 'null'
+          title: Recipecategory
+          default: []
+        tags:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/RecipeTag'
+            type: array
+          - type: 'null'
+          title: Tags
+          default: []
+        tools:
+          items:
+            $ref: '#/components/schemas/RecipeTool'
+          type: array
+          title: Tools
+          default: []
+        rating:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Rating
+        orgURL:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Orgurl
+        dateAdded:
+          anyOf:
+          - type: string
+            format: date
+          - type: 'null'
+          title: Dateadded
+        dateUpdated:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Dateupdated
+        createdAt:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Createdat
+        updatedAt:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Updatedat
+        lastMade:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Lastmade
+        recipeIngredient:
+          items:
+            $ref: '#/components/schemas/RecipeIngredient-Output'
+          type: array
+          title: Recipeingredient
+          default: []
+        recipeInstructions:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/RecipeStep'
+            type: array
+          - type: 'null'
+          title: Recipeinstructions
+          default: []
+        nutrition:
+          anyOf:
+          - $ref: '#/components/schemas/Nutrition'
+          - type: 'null'
+        settings:
+          anyOf:
+          - $ref: '#/components/schemas/RecipeSettings'
+          - type: 'null'
+        assets:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/RecipeAsset'
+            type: array
+          - type: 'null'
+          title: Assets
+          default: []
+        notes:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/RecipeNote'
+            type: array
+          - type: 'null'
+          title: Notes
+          default: []
         extras:
           anyOf:
           - additionalProperties: true
@@ -2751,65 +2560,154 @@ components:
           - type: 'null'
           title: Extras
           default: {}
-        labelId:
+        comments:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/RecipeCommentOut-Output'
+            type: array
+          - type: 'null'
+          title: Comments
+          default: []
+      type: object
+      title: Recipe
+    Body_create_recipe_with_ai_stream_api_recipes_create_ai_stream_post:
+      properties:
+        content:
           anyOf:
           - type: string
-            format: uuid4
           - type: 'null'
-          title: Labelid
-        aliases:
-          items:
-            $ref: '#/components/schemas/IngredientFoodAlias'
-          type: array
-          title: Aliases
-          default: []
-        householdsWithIngredientFood:
+          title: Content
+        url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Url
+        translateLanguage:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Translatelanguage
+        createNewOrganizers:
+          type: boolean
+          title: Createneworganizers
+          default: false
+        images:
           items:
             type: string
+            contentMediaType: application/octet-stream
           type: array
-          title: Householdswithingredientfood
-          default: []
-        label:
-          anyOf:
-          - $ref: '#/components/schemas/MultiPurposeLabelSummary'
-          - type: 'null'
-        createdAt:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Createdat
-        update_at:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Update At
+          title: Images
       type: object
-      required:
-      - id
-      - name
-      title: IngredientFood
-    RecipeSuggestionResponse:
+      title: Body_create_recipe_with_ai_stream_api_recipes_create_ai_stream_post
+    CreateRecipeByUrlBulk:
       properties:
-        items:
+        imports:
           items:
-            $ref: '#/components/schemas/RecipeSuggestionResponseItem'
+            $ref: '#/components/schemas/CreateRecipeBulk'
           type: array
-          title: Items
+          title: Imports
       type: object
       required:
-      - items
-      title: RecipeSuggestionResponse
-    CreateIngredientUnitAlias:
+      - imports
+      title: CreateRecipeByUrlBulk
+    Body_upload_recipe_asset_api_recipes__slug__assets_post:
       properties:
         name:
           type: string
           title: Name
+        icon:
+          type: string
+          title: Icon
+        extension:
+          type: string
+          title: Extension
+        file:
+          type: string
+          contentMediaType: application/octet-stream
+          title: File
       type: object
       required:
       - name
-      title: CreateIngredientUnitAlias
+      - icon
+      - extension
+      - file
+      title: Body_upload_recipe_asset_api_recipes__slug__assets_post
+    UpdateImageResponse:
+      properties:
+        image:
+          type: string
+          title: Image
+      type: object
+      required:
+      - image
+      title: UpdateImageResponse
+    RecipeCommentOut-Output:
+      properties:
+        recipeId:
+          type: string
+          format: uuid4
+          title: Recipeid
+        text:
+          type: string
+          title: Text
+        id:
+          type: string
+          format: uuid4
+          title: Id
+        createdAt:
+          type: string
+          format: date-time
+          title: Createdat
+        updatedAt:
+          type: string
+          format: date-time
+          title: Updatedat
+        userId:
+          type: string
+          format: uuid4
+          title: Userid
+        user:
+          $ref: '#/components/schemas/UserBase-Output'
+      type: object
+      required:
+      - recipeId
+      - text
+      - id
+      - createdAt
+      - updatedAt
+      - userId
+      - user
+      title: RecipeCommentOut
+    ScrapeRecipe:
+      properties:
+        includeTags:
+          type: boolean
+          title: Includetags
+          default: false
+        includeCategories:
+          type: boolean
+          title: Includecategories
+          default: false
+        url:
+          type: string
+          title: Url
+      type: object
+      required:
+      - url
+      title: ScrapeRecipe
+      example:
+        includeCategories: true
+        includeTags: true
+        url: https://myfavoriterecipes.com/recipes
+    RecipeDuplicate:
+      properties:
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+      type: object
+      title: RecipeDuplicate
     IngredientUnit-Input:
       properties:
         id:
@@ -2886,64 +2784,128 @@ components:
       - id
       - name
       title: IngredientUnit
-    Body_update_recipe_image_api_recipes__slug__image_put:
+    RecipeSuggestionResponse:
       properties:
-        image:
-          type: string
-          contentMediaType: application/octet-stream
-          title: Image
-        extension:
-          type: string
-          title: Extension
+        items:
+          items:
+            $ref: '#/components/schemas/RecipeSuggestionResponseItem'
+          type: array
+          title: Items
       type: object
       required:
-      - image
-      - extension
-      title: Body_update_recipe_image_api_recipes__slug__image_put
-    IngredientReferences:
+      - items
+      title: RecipeSuggestionResponse
+    RecipeCommentOut-Input:
       properties:
-        referenceId:
-          anyOf:
-          - type: string
-            format: uuid4
-          - type: 'null'
-          title: Referenceid
-      type: object
-      title: IngredientReferences
-      description: A list of ingredient references.
-    mealie__schema__recipe__recipe_comments__UserBase:
-      properties:
+        recipeId:
+          type: string
+          format: uuid4
+          title: Recipeid
+        text:
+          type: string
+          title: Text
         id:
           type: string
           format: uuid4
           title: Id
-        username:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Username
-        admin:
-          type: boolean
-          title: Admin
-        fullName:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Fullname
+        createdAt:
+          type: string
+          format: date-time
+          title: Createdat
+        update_at:
+          type: string
+          format: date-time
+          title: Update At
+        userId:
+          type: string
+          format: uuid4
+          title: Userid
+        user:
+          $ref: '#/components/schemas/mealie__schema__recipe__recipe_comments__UserBase'
       type: object
       required:
+      - recipeId
+      - text
       - id
-      - admin
-      title: UserBase
-    RecipeDuplicate:
+      - createdAt
+      - update_at
+      - userId
+      - user
+      title: RecipeCommentOut
+    Body_create_recipe_with_ai_api_recipes_create_ai_post:
       properties:
-        name:
+        content:
           anyOf:
           - type: string
           - type: 'null'
-          title: Name
+          title: Content
+        url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Url
+        translateLanguage:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Translatelanguage
+        createNewOrganizers:
+          type: boolean
+          title: Createneworganizers
+          default: false
+        images:
+          items:
+            type: string
+            contentMediaType: application/octet-stream
+          type: array
+          title: Images
       type: object
-      title: RecipeDuplicate
+      title: Body_create_recipe_with_ai_api_recipes_create_ai_post
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    OrderDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: OrderDirection
+    ScrapeRecipeTest:
+      properties:
+        url:
+          type: string
+          title: Url
+        useOpenAI:
+          type: boolean
+          title: Useopenai
+          default: false
+      type: object
+      required:
+      - url
+      title: ScrapeRecipeTest
     MultiPurposeLabelSummary:
       properties:
         name:
@@ -2967,37 +2929,75 @@ components:
       - groupId
       - id
       title: MultiPurposeLabelSummary
-    RecipeNote:
+    PaginationBase_RecipeSummary_:
       properties:
-        title:
-          type: string
-          title: Title
-        text:
-          type: string
-          title: Text
+        page:
+          type: integer
+          title: Page
+          default: 1
+        per_page:
+          type: integer
+          title: Per Page
+          default: 10
+        total:
+          type: integer
+          title: Total
+          default: 0
+        total_pages:
+          type: integer
+          title: Total Pages
+          default: 0
+        items:
+          items:
+            $ref: '#/components/schemas/RecipeSummary'
+          type: array
+          title: Items
+        next:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Next
+        previous:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Previous
       type: object
       required:
-      - title
-      - text
-      title: RecipeNote
-    RecipeAsset:
+      - items
+      title: PaginationBase[RecipeSummary]
+    Body_update_recipe_image_api_recipes__slug__image_put:
+      properties:
+        image:
+          type: string
+          contentMediaType: application/octet-stream
+          title: Image
+        extension:
+          type: string
+          title: Extension
+      type: object
+      required:
+      - image
+      - extension
+      title: Body_update_recipe_image_api_recipes__slug__image_put
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    CreateRecipe:
       properties:
         name:
           type: string
           title: Name
-        icon:
-          type: string
-          title: Icon
-        fileName:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Filename
       type: object
       required:
       - name
-      - icon
-      title: RecipeAsset
+      title: CreateRecipe
   securitySchemes:
     OAuth2PasswordBearer:
       type: oauth2

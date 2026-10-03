@@ -150,15 +150,63 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    HTTPValidationError:
+    Body_get_token_api_auth_token_post:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
+        username:
+          type: string
+          title: Username
+          default: ''
+        password:
+          type: string
+          title: Password
+          default: ''
+        remember_me:
+          type: boolean
+          title: Remember Me
+          default: false
       type: object
-      title: HTTPValidationError
+      title: Body_get_token_api_auth_token_post
+    NativeOIDCTokenRequest:
+      properties:
+        code:
+          type: string
+          title: Code
+        code_verifier:
+          type: string
+          title: Code Verifier
+        redirect_uri:
+          type: string
+          title: Redirect Uri
+        nonce:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Nonce
+      type: object
+      required:
+      - code
+      - code_verifier
+      - redirect_uri
+      title: NativeOIDCTokenRequest
+      description: An authorization code captured by a native client, for server-side exchange.
+    OIDCNativeConfig:
+      properties:
+        authorization_endpoint:
+          type: string
+          title: Authorization Endpoint
+        client_id:
+          type: string
+          title: Client Id
+        scope:
+          type: string
+          title: Scope
+      type: object
+      required:
+      - authorization_endpoint
+      - client_id
+      - scope
+      title: OIDCNativeConfig
+      description: Parameters a native client needs to start an OIDC authorization request itself.
     ValidationError:
       properties:
         loc:
@@ -185,63 +233,15 @@ components:
       - msg
       - type
       title: ValidationError
-    Body_get_token_api_auth_token_post:
+    HTTPValidationError:
       properties:
-        username:
-          type: string
-          title: Username
-          default: ''
-        password:
-          type: string
-          title: Password
-          default: ''
-        remember_me:
-          type: boolean
-          title: Remember Me
-          default: false
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
       type: object
-      title: Body_get_token_api_auth_token_post
-    OIDCNativeConfig:
-      properties:
-        authorization_endpoint:
-          type: string
-          title: Authorization Endpoint
-        client_id:
-          type: string
-          title: Client Id
-        scope:
-          type: string
-          title: Scope
-      type: object
-      required:
-      - authorization_endpoint
-      - client_id
-      - scope
-      title: OIDCNativeConfig
-      description: Parameters a native client needs to start an OIDC authorization request itself.
-    NativeOIDCTokenRequest:
-      properties:
-        code:
-          type: string
-          title: Code
-        code_verifier:
-          type: string
-          title: Code Verifier
-        redirect_uri:
-          type: string
-          title: Redirect Uri
-        nonce:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Nonce
-      type: object
-      required:
-      - code
-      - code_verifier
-      - redirect_uri
-      title: NativeOIDCTokenRequest
-      description: An authorization code captured by a native client, for server-side exchange.
+      title: HTTPValidationError
   securitySchemes:
     OAuth2PasswordBearer:
       type: oauth2

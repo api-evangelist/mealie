@@ -112,28 +112,50 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    EmailInvitation:
+    CreateInviteToken:
       properties:
-        email:
-          type: string
-          title: Email
+        uses:
+          type: integer
+          title: Uses
+        groupId:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Groupid
+        householdId:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Householdid
+      type: object
+      required:
+      - uses
+      title: CreateInviteToken
+    ReadInviteToken:
+      properties:
         token:
           type: string
           title: Token
+        usesLeft:
+          type: integer
+          title: Usesleft
+        groupId:
+          type: string
+          format: uuid
+          title: Groupid
+        householdId:
+          type: string
+          format: uuid
+          title: Householdid
       type: object
       required:
-      - email
       - token
-      title: EmailInvitation
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
+      - usesLeft
+      - groupId
+      - householdId
+      title: ReadInviteToken
     ValidationError:
       properties:
         loc:
@@ -160,6 +182,19 @@ components:
       - msg
       - type
       title: ValidationError
+    EmailInvitation:
+      properties:
+        email:
+          type: string
+          title: Email
+        token:
+          type: string
+          title: Token
+      type: object
+      required:
+      - email
+      - token
+      title: EmailInvitation
     EmailInitationResponse:
       properties:
         success:
@@ -174,50 +209,15 @@ components:
       required:
       - success
       title: EmailInitationResponse
-    ReadInviteToken:
+    HTTPValidationError:
       properties:
-        token:
-          type: string
-          title: Token
-        usesLeft:
-          type: integer
-          title: Usesleft
-        groupId:
-          type: string
-          format: uuid
-          title: Groupid
-        householdId:
-          type: string
-          format: uuid
-          title: Householdid
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
       type: object
-      required:
-      - token
-      - usesLeft
-      - groupId
-      - householdId
-      title: ReadInviteToken
-    CreateInviteToken:
-      properties:
-        uses:
-          type: integer
-          title: Uses
-        groupId:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Groupid
-        householdId:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Householdid
-      type: object
-      required:
-      - uses
-      title: CreateInviteToken
+      title: HTTPValidationError
   securitySchemes:
     OAuth2PasswordBearer:
       type: oauth2

@@ -50,19 +50,6 @@ paths:
                 $ref: '#/components/schemas/AppTheme'
 components:
   schemas:
-    AppStartupInfo:
-      properties:
-        isFirstLogin:
-          type: boolean
-          title: Isfirstlogin
-        isDemo:
-          type: boolean
-          title: Isdemo
-      type: object
-      required:
-      - isFirstLogin
-      - isDemo
-      title: AppStartupInfo
     AppInfo:
       properties:
         production:
@@ -180,6 +167,19 @@ components:
           default: '#EF5350'
       type: object
       title: AppTheme
+    AppStartupInfo:
+      properties:
+        isFirstLogin:
+          type: boolean
+          title: Isfirstlogin
+        isDemo:
+          type: boolean
+          title: Isdemo
+      type: object
+      required:
+      - isFirstLogin
+      - isDemo
+      title: AppStartupInfo
   securitySchemes:
     OAuth2PasswordBearer:
       type: oauth2

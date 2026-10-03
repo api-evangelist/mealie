@@ -257,151 +257,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    ReadGroupPreferences:
-      properties:
-        privateGroup:
-          type: boolean
-          title: Privategroup
-          default: true
-        showAnnouncements:
-          type: boolean
-          title: Showannouncements
-          default: true
-        groupId:
-          type: string
-          format: uuid
-          title: Groupid
-        id:
-          type: string
-          format: uuid4
-          title: Id
-      type: object
-      required:
-      - groupId
-      - id
-      title: ReadGroupPreferences
-    UserSummary:
-      properties:
-        id:
-          type: string
-          format: uuid4
-          title: Id
-        groupId:
-          type: string
-          format: uuid4
-          title: Groupid
-        householdId:
-          type: string
-          format: uuid4
-          title: Householdid
-        username:
-          type: string
-          title: Username
-        fullName:
-          type: string
-          title: Fullname
-      type: object
-      required:
-      - id
-      - groupId
-      - householdId
-      - username
-      - fullName
-      title: UserSummary
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    AIProviderSummary:
-      properties:
-        id:
-          type: string
-          format: uuid4
-          title: Id
-        name:
-          type: string
-          title: Name
-      type: object
-      required:
-      - id
-      - name
-      title: AIProviderSummary
-    OrderByNullPosition:
-      type: string
-      enum:
-      - first
-      - last
-      title: OrderByNullPosition
-    UpdateGroupPreferences:
-      properties:
-        privateGroup:
-          type: boolean
-          title: Privategroup
-          default: true
-        showAnnouncements:
-          type: boolean
-          title: Showannouncements
-          default: true
-      type: object
-      title: UpdateGroupPreferences
-    GroupStorage:
-      properties:
-        usedStorageBytes:
-          type: integer
-          title: Usedstoragebytes
-        usedStorageStr:
-          type: string
-          title: Usedstoragestr
-        totalStorageBytes:
-          type: integer
-          title: Totalstoragebytes
-        totalStorageStr:
-          type: string
-          title: Totalstoragestr
-      type: object
-      required:
-      - usedStorageBytes
-      - usedStorageStr
-      - totalStorageBytes
-      - totalStorageStr
-      title: GroupStorage
-    OrderDirection:
-      type: string
-      enum:
-      - asc
-      - desc
-      title: OrderDirection
     PaginationBase_UserSummary_:
       properties:
         page:
@@ -439,6 +294,27 @@ components:
       required:
       - items
       title: PaginationBase[UserSummary]
+    GroupStorage:
+      properties:
+        usedStorageBytes:
+          type: integer
+          title: Usedstoragebytes
+        usedStorageStr:
+          type: string
+          title: Usedstoragestr
+        totalStorageBytes:
+          type: integer
+          title: Totalstoragebytes
+        totalStorageStr:
+          type: string
+          title: Totalstoragestr
+      type: object
+      required:
+      - usedStorageBytes
+      - usedStorageStr
+      - totalStorageBytes
+      - totalStorageStr
+      title: GroupStorage
     GroupSummary:
       properties:
         name:
@@ -512,6 +388,130 @@ components:
       - audioProviderEnabled
       - imageProviderEnabled
       title: AIProviderSettingsOut
+    AIProviderSummary:
+      properties:
+        id:
+          type: string
+          format: uuid4
+          title: Id
+        name:
+          type: string
+          title: Name
+      type: object
+      required:
+      - id
+      - name
+      title: AIProviderSummary
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    UpdateGroupPreferences:
+      properties:
+        privateGroup:
+          type: boolean
+          title: Privategroup
+          default: true
+        showAnnouncements:
+          type: boolean
+          title: Showannouncements
+          default: true
+      type: object
+      title: UpdateGroupPreferences
+    ReadGroupPreferences:
+      properties:
+        privateGroup:
+          type: boolean
+          title: Privategroup
+          default: true
+        showAnnouncements:
+          type: boolean
+          title: Showannouncements
+          default: true
+        groupId:
+          type: string
+          format: uuid
+          title: Groupid
+        id:
+          type: string
+          format: uuid4
+          title: Id
+      type: object
+      required:
+      - groupId
+      - id
+      title: ReadGroupPreferences
+    OrderDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: OrderDirection
+    UserSummary:
+      properties:
+        id:
+          type: string
+          format: uuid4
+          title: Id
+        groupId:
+          type: string
+          format: uuid4
+          title: Groupid
+        householdId:
+          type: string
+          format: uuid4
+          title: Householdid
+        username:
+          type: string
+          title: Username
+        fullName:
+          type: string
+          title: Fullname
+      type: object
+      required:
+      - id
+      - groupId
+      - householdId
+      - username
+      - fullName
+      title: UserSummary
+    OrderByNullPosition:
+      type: string
+      enum:
+      - first
+      - last
+      title: OrderByNullPosition
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
   securitySchemes:
     OAuth2PasswordBearer:
       type: oauth2

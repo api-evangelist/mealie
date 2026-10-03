@@ -248,15 +248,42 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    HTTPValidationError:
+    MultiPurposeLabelOut:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
+        name:
+          type: string
+          title: Name
+        color:
+          type: string
+          title: Color
+          default: '#959595'
+        groupId:
+          type: string
+          format: uuid4
+          title: Groupid
+        id:
+          type: string
+          format: uuid4
+          title: Id
       type: object
-      title: HTTPValidationError
+      required:
+      - name
+      - groupId
+      - id
+      title: MultiPurposeLabelOut
+    MultiPurposeLabelCreate:
+      properties:
+        name:
+          type: string
+          title: Name
+        color:
+          type: string
+          title: Color
+          default: '#959595'
+      type: object
+      required:
+      - name
+      title: MultiPurposeLabelCreate
     ValidationError:
       properties:
         loc:
@@ -283,12 +310,6 @@ components:
       - msg
       - type
       title: ValidationError
-    OrderByNullPosition:
-      type: string
-      enum:
-      - first
-      - last
-      title: OrderByNullPosition
     MultiPurposeLabelUpdate:
       properties:
         name:
@@ -318,19 +339,6 @@ components:
       - asc
       - desc
       title: OrderDirection
-    MultiPurposeLabelCreate:
-      properties:
-        name:
-          type: string
-          title: Name
-        color:
-          type: string
-          title: Color
-          default: '#959595'
-      type: object
-      required:
-      - name
-      title: MultiPurposeLabelCreate
     MultiPurposeLabelPagination:
       properties:
         page:
@@ -368,29 +376,6 @@ components:
       required:
       - items
       title: MultiPurposeLabelPagination
-    MultiPurposeLabelOut:
-      properties:
-        name:
-          type: string
-          title: Name
-        color:
-          type: string
-          title: Color
-          default: '#959595'
-        groupId:
-          type: string
-          format: uuid4
-          title: Groupid
-        id:
-          type: string
-          format: uuid4
-          title: Id
-      type: object
-      required:
-      - name
-      - groupId
-      - id
-      title: MultiPurposeLabelOut
     MultiPurposeLabelSummary:
       properties:
         name:
@@ -414,6 +399,21 @@ components:
       - groupId
       - id
       title: MultiPurposeLabelSummary
+    OrderByNullPosition:
+      type: string
+      enum:
+      - first
+      - last
+      title: OrderByNullPosition
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
   securitySchemes:
     OAuth2PasswordBearer:
       type: oauth2

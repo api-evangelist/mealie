@@ -362,15 +362,39 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    HTTPValidationError:
+    CategoryIn:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
+        name:
+          type: string
+          title: Name
       type: object
-      title: HTTPValidationError
+      required:
+      - name
+      title: CategoryIn
+    CategoryBase:
+      properties:
+        name:
+          type: string
+          title: Name
+        id:
+          type: string
+          format: uuid4
+          title: Id
+        groupId:
+          anyOf:
+          - type: string
+            format: uuid4
+          - type: 'null'
+          title: Groupid
+        slug:
+          type: string
+          title: Slug
+      type: object
+      required:
+      - name
+      - id
+      - slug
+      title: CategoryBase
     CategoryMerge:
       properties:
         fromId:
@@ -386,38 +410,6 @@ components:
       - fromId
       - toId
       title: CategoryMerge
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    OrderByNullPosition:
-      type: string
-      enum:
-      - first
-      - last
-      title: OrderByNullPosition
     CategoryOut:
       properties:
         name:
@@ -445,6 +437,100 @@ components:
       - groupId
       - slug
       title: CategoryOut
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    CategorySummary:
+      properties:
+        id:
+          type: string
+          format: uuid4
+          title: Id
+        slug:
+          type: string
+          title: Slug
+        name:
+          type: string
+          title: Name
+      type: object
+      required:
+      - id
+      - slug
+      - name
+      title: CategorySummary
+    OrderDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: OrderDirection
+    RecipeCategory:
+      properties:
+        id:
+          anyOf:
+          - type: string
+            format: uuid4
+          - type: 'null'
+          title: Id
+        groupId:
+          anyOf:
+          - type: string
+            format: uuid4
+          - type: 'null'
+          title: Groupid
+        name:
+          type: string
+          title: Name
+        slug:
+          type: string
+          title: Slug
+        recipeCount:
+          type: integer
+          title: Recipecount
+          default: 0
+      type: object
+      required:
+      - name
+      - slug
+      title: RecipeCategory
+    OrderByNullPosition:
+      type: string
+      enum:
+      - first
+      - last
+      title: OrderByNullPosition
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     RecipeCategoryPagination:
       properties:
         page:
@@ -482,92 +568,6 @@ components:
       required:
       - items
       title: RecipeCategoryPagination
-    OrderDirection:
-      type: string
-      enum:
-      - asc
-      - desc
-      title: OrderDirection
-    RecipeCategory:
-      properties:
-        id:
-          anyOf:
-          - type: string
-            format: uuid4
-          - type: 'null'
-          title: Id
-        groupId:
-          anyOf:
-          - type: string
-            format: uuid4
-          - type: 'null'
-          title: Groupid
-        name:
-          type: string
-          title: Name
-        slug:
-          type: string
-          title: Slug
-        recipeCount:
-          type: integer
-          title: Recipecount
-          default: 0
-      type: object
-      required:
-      - name
-      - slug
-      title: RecipeCategory
-    CategoryIn:
-      properties:
-        name:
-          type: string
-          title: Name
-      type: object
-      required:
-      - name
-      title: CategoryIn
-    CategoryBase:
-      properties:
-        name:
-          type: string
-          title: Name
-        id:
-          type: string
-          format: uuid4
-          title: Id
-        groupId:
-          anyOf:
-          - type: string
-            format: uuid4
-          - type: 'null'
-          title: Groupid
-        slug:
-          type: string
-          title: Slug
-      type: object
-      required:
-      - name
-      - id
-      - slug
-      title: CategoryBase
-    CategorySummary:
-      properties:
-        id:
-          type: string
-          format: uuid4
-          title: Id
-        slug:
-          type: string
-          title: Slug
-        name:
-          type: string
-          title: Name
-      type: object
-      required:
-      - id
-      - slug
-      - name
-      title: CategorySummary
   securitySchemes:
     OAuth2PasswordBearer:
       type: oauth2

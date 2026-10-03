@@ -287,161 +287,30 @@ components:
       - audioProviderEnabled
       - imageProviderEnabled
       title: AIProviderSettingsOut
-    HTTPValidationError:
+    CategoryBase:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    ReadGroupPreferences:
-      properties:
-        privateGroup:
-          type: boolean
-          title: Privategroup
-          default: true
-        showAnnouncements:
-          type: boolean
-          title: Showannouncements
-          default: true
-        groupId:
-          type: string
-          format: uuid
-          title: Groupid
-        id:
-          type: string
-          format: uuid4
-          title: Id
-      type: object
-      required:
-      - groupId
-      - id
-      title: ReadGroupPreferences
-    UserSummary:
-      properties:
-        id:
-          type: string
-          format: uuid4
-          title: Id
-        groupId:
-          type: string
-          format: uuid4
-          title: Groupid
-        householdId:
-          type: string
-          format: uuid4
-          title: Householdid
-        username:
-          type: string
-          title: Username
-        fullName:
-          type: string
-          title: Fullname
-      type: object
-      required:
-      - id
-      - groupId
-      - householdId
-      - username
-      - fullName
-      title: UserSummary
-    AIProviderSettingsUpdate:
-      properties:
-        defaultProviderId:
-          anyOf:
-          - type: string
-            format: uuid4
-          - type: 'null'
-          title: Defaultproviderid
-        audioProviderId:
-          anyOf:
-          - type: string
-            format: uuid4
-          - type: 'null'
-          title: Audioproviderid
-        imageProviderId:
-          anyOf:
-          - type: string
-            format: uuid4
-          - type: 'null'
-          title: Imageproviderid
-      type: object
-      required:
-      - defaultProviderId
-      - audioProviderId
-      - imageProviderId
-      title: AIProviderSettingsUpdate
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    AIProviderSummary:
-      properties:
-        id:
-          type: string
-          format: uuid4
-          title: Id
         name:
           type: string
           title: Name
+        id:
+          type: string
+          format: uuid4
+          title: Id
+        groupId:
+          anyOf:
+          - type: string
+            format: uuid4
+          - type: 'null'
+          title: Groupid
+        slug:
+          type: string
+          title: Slug
       type: object
       required:
-      - id
       - name
-      title: AIProviderSummary
-    OrderByNullPosition:
-      type: string
-      enum:
-      - first
-      - last
-      title: OrderByNullPosition
-    UpdateGroupPreferences:
-      properties:
-        privateGroup:
-          type: boolean
-          title: Privategroup
-          default: true
-        showAnnouncements:
-          type: boolean
-          title: Showannouncements
-          default: true
-      type: object
-      title: UpdateGroupPreferences
-    OrderDirection:
-      type: string
-      enum:
-      - asc
-      - desc
-      title: OrderDirection
-    WebhookType:
-      type: string
-      enum:
-      - mealplan
-      title: WebhookType
+      - id
+      - slug
+      title: CategoryBase
     GroupBase:
       properties:
         name:
@@ -474,30 +343,195 @@ components:
       - id
       - name
       title: GroupAdminUpdate
-    CategoryBase:
+    AIProviderSummary:
       properties:
-        name:
-          type: string
-          title: Name
         id:
           type: string
           format: uuid4
           title: Id
+        name:
+          type: string
+          title: Name
+      type: object
+      required:
+      - id
+      - name
+      title: AIProviderSummary
+    GroupPagination:
+      properties:
+        page:
+          type: integer
+          title: Page
+          default: 1
+        per_page:
+          type: integer
+          title: Per Page
+          default: 10
+        total:
+          type: integer
+          title: Total
+          default: 0
+        total_pages:
+          type: integer
+          title: Total Pages
+          default: 0
+        items:
+          items:
+            $ref: '#/components/schemas/GroupInDB'
+          type: array
+          title: Items
+        next:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Next
+        previous:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Previous
+      type: object
+      required:
+      - items
+      title: GroupPagination
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    ReadWebhook:
+      properties:
+        enabled:
+          type: boolean
+          title: Enabled
+          default: true
+        name:
+          type: string
+          title: Name
+          default: ''
+        url:
+          type: string
+          title: Url
+          default: ''
+        webhookType:
+          $ref: '#/components/schemas/WebhookType'
+          default: mealplan
+        scheduledTime:
+          type: string
+          format: time
+          title: Scheduledtime
         groupId:
+          type: string
+          format: uuid4
+          title: Groupid
+        householdId:
+          type: string
+          format: uuid4
+          title: Householdid
+        id:
+          type: string
+          format: uuid4
+          title: Id
+      type: object
+      required:
+      - scheduledTime
+      - groupId
+      - householdId
+      - id
+      title: ReadWebhook
+    WebhookType:
+      type: string
+      enum:
+      - mealplan
+      title: WebhookType
+    ReadGroupPreferences:
+      properties:
+        privateGroup:
+          type: boolean
+          title: Privategroup
+          default: true
+        showAnnouncements:
+          type: boolean
+          title: Showannouncements
+          default: true
+        groupId:
+          type: string
+          format: uuid
+          title: Groupid
+        id:
+          type: string
+          format: uuid4
+          title: Id
+      type: object
+      required:
+      - groupId
+      - id
+      title: ReadGroupPreferences
+    OrderDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: OrderDirection
+    AIProviderSettingsUpdate:
+      properties:
+        defaultProviderId:
           anyOf:
           - type: string
             format: uuid4
           - type: 'null'
-          title: Groupid
-        slug:
-          type: string
-          title: Slug
+          title: Defaultproviderid
+        audioProviderId:
+          anyOf:
+          - type: string
+            format: uuid4
+          - type: 'null'
+          title: Audioproviderid
+        imageProviderId:
+          anyOf:
+          - type: string
+            format: uuid4
+          - type: 'null'
+          title: Imageproviderid
       type: object
       required:
-      - name
-      - id
-      - slug
-      title: CategoryBase
+      - defaultProviderId
+      - audioProviderId
+      - imageProviderId
+      title: AIProviderSettingsUpdate
+    UpdateGroupPreferences:
+      properties:
+        privateGroup:
+          type: boolean
+          title: Privategroup
+          default: true
+        showAnnouncements:
+          type: boolean
+          title: Showannouncements
+          default: true
+      type: object
+      title: UpdateGroupPreferences
     GroupHouseholdSummary:
       properties:
         id:
@@ -512,6 +546,34 @@ components:
       - id
       - name
       title: GroupHouseholdSummary
+    UserSummary:
+      properties:
+        id:
+          type: string
+          format: uuid4
+          title: Id
+        groupId:
+          type: string
+          format: uuid4
+          title: Groupid
+        householdId:
+          type: string
+          format: uuid4
+          title: Householdid
+        username:
+          type: string
+          title: Username
+        fullName:
+          type: string
+          title: Fullname
+      type: object
+      required:
+      - id
+      - groupId
+      - householdId
+      - username
+      - fullName
+      title: UserSummary
     GroupInDB:
       properties:
         name:
@@ -566,83 +628,21 @@ components:
       - id
       - slug
       title: GroupInDB
-    GroupPagination:
+    OrderByNullPosition:
+      type: string
+      enum:
+      - first
+      - last
+      title: OrderByNullPosition
+    HTTPValidationError:
       properties:
-        page:
-          type: integer
-          title: Page
-          default: 1
-        per_page:
-          type: integer
-          title: Per Page
-          default: 10
-        total:
-          type: integer
-          title: Total
-          default: 0
-        total_pages:
-          type: integer
-          title: Total Pages
-          default: 0
-        items:
+        detail:
           items:
-            $ref: '#/components/schemas/GroupInDB'
+            $ref: '#/components/schemas/ValidationError'
           type: array
-          title: Items
-        next:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Next
-        previous:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Previous
+          title: Detail
       type: object
-      required:
-      - items
-      title: GroupPagination
-    ReadWebhook:
-      properties:
-        enabled:
-          type: boolean
-          title: Enabled
-          default: true
-        name:
-          type: string
-          title: Name
-          default: ''
-        url:
-          type: string
-          title: Url
-          default: ''
-        webhookType:
-          $ref: '#/components/schemas/WebhookType'
-          default: mealplan
-        scheduledTime:
-          type: string
-          format: time
-          title: Scheduledtime
-        groupId:
-          type: string
-          format: uuid4
-          title: Groupid
-        householdId:
-          type: string
-          format: uuid4
-          title: Householdid
-        id:
-          type: string
-          format: uuid4
-          title: Id
-      type: object
-      required:
-      - scheduledTime
-      - groupId
-      - householdId
-      - id
-      title: ReadWebhook
+      title: HTTPValidationError
   securitySchemes:
     OAuth2PasswordBearer:
       type: oauth2

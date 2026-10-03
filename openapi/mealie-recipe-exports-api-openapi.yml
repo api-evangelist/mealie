@@ -83,32 +83,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    FormatResponse:
-      properties:
-        json:
-          items:
-            type: string
-          type: array
-          title: Json
-        zip:
-          items:
-            type: string
-          type: array
-          title: Zip
-      type: object
-      required:
-      - json
-      - zip
-      title: FormatResponse
     ValidationError:
       properties:
         loc:
@@ -135,6 +109,32 @@ components:
       - msg
       - type
       title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    FormatResponse:
+      properties:
+        json:
+          items:
+            type: string
+          type: array
+          title: Json
+        zip:
+          items:
+            type: string
+          type: array
+          title: Zip
+      type: object
+      required:
+      - json
+      - zip
+      title: FormatResponse
   securitySchemes:
     OAuth2PasswordBearer:
       type: oauth2

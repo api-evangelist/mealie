@@ -240,41 +240,38 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    HTTPValidationError:
+    PlanRulesOut:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
+        day:
+          $ref: '#/components/schemas/PlanRulesDay'
+          default: unset
+        entryType:
+          $ref: '#/components/schemas/PlanRulesType'
+          default: unset
+        queryFilterString:
           type: string
-          title: Message
-        type:
+          title: Queryfilterstring
+          default: ''
+        groupId:
           type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
+          format: uuid4
+          title: Groupid
+        householdId:
+          type: string
+          format: uuid4
+          title: Householdid
+        id:
+          type: string
+          format: uuid4
+          title: Id
+        queryFilter:
+          $ref: '#/components/schemas/QueryFilterJSON'
       type: object
       required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
+      - groupId
+      - householdId
+      - id
+      title: PlanRulesOut
     QueryFilterJSONPart:
       properties:
         leftParenthesis:
@@ -312,46 +309,77 @@ components:
           title: Value
       type: object
       title: QueryFilterJSONPart
-    PlanRulesDay:
+    PlanRulesType:
       type: string
       enum:
-      - monday
-      - tuesday
-      - wednesday
-      - thursday
-      - friday
-      - saturday
-      - sunday
+      - breakfast
+      - lunch
+      - dinner
+      - side
+      - snack
+      - drink
+      - dessert
       - unset
-      title: PlanRulesDay
-    OrderByNullPosition:
+      title: PlanRulesType
+    RelationalKeyword:
       type: string
       enum:
-      - first
-      - last
-      title: OrderByNullPosition
+      - IS
+      - IS NOT
+      - IN
+      - NOT IN
+      - CONTAINS ALL
+      - LIKE
+      - NOT LIKE
+      title: RelationalKeyword
     LogicalOperator:
       type: string
       enum:
       - AND
       - OR
       title: LogicalOperator
-    QueryFilterJSON:
+    ValidationError:
       properties:
-        parts:
+        loc:
           items:
-            $ref: '#/components/schemas/QueryFilterJSONPart'
+            anyOf:
+            - type: string
+            - type: integer
           type: array
-          title: Parts
-          default: []
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
       type: object
-      title: QueryFilterJSON
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     OrderDirection:
       type: string
       enum:
       - asc
       - desc
       title: OrderDirection
+    RelationalOperator:
+      type: string
+      enum:
+      - '='
+      - <>
+      - '>'
+      - <
+      - '>='
+      - <=
+      title: RelationalOperator
     PlanRulesCreate:
       properties:
         day:
@@ -366,61 +394,28 @@ components:
           default: ''
       type: object
       title: PlanRulesCreate
-    RelationalKeyword:
-      type: string
-      enum:
-      - IS
-      - IS NOT
-      - IN
-      - NOT IN
-      - CONTAINS ALL
-      - LIKE
-      - NOT LIKE
-      title: RelationalKeyword
-    PlanRulesOut:
+    QueryFilterJSON:
       properties:
-        day:
-          $ref: '#/components/schemas/PlanRulesDay'
-          default: unset
-        entryType:
-          $ref: '#/components/schemas/PlanRulesType'
-          default: unset
-        queryFilterString:
-          type: string
-          title: Queryfilterstring
-          default: ''
-        groupId:
-          type: string
-          format: uuid4
-          title: Groupid
-        householdId:
-          type: string
-          format: uuid4
-          title: Householdid
-        id:
-          type: string
-          format: uuid4
-          title: Id
-        queryFilter:
-          $ref: '#/components/schemas/QueryFilterJSON'
+        parts:
+          items:
+            $ref: '#/components/schemas/QueryFilterJSONPart'
+          type: array
+          title: Parts
+          default: []
       type: object
-      required:
-      - groupId
-      - householdId
-      - id
-      title: PlanRulesOut
-    PlanRulesType:
+      title: QueryFilterJSON
+    PlanRulesDay:
       type: string
       enum:
-      - breakfast
-      - lunch
-      - dinner
-      - side
-      - snack
-      - drink
-      - dessert
+      - monday
+      - tuesday
+      - wednesday
+      - thursday
+      - friday
+      - saturday
+      - sunday
       - unset
-      title: PlanRulesType
+      title: PlanRulesDay
     PlanRulesPagination:
       properties:
         page:
@@ -458,16 +453,21 @@ components:
       required:
       - items
       title: PlanRulesPagination
-    RelationalOperator:
+    OrderByNullPosition:
       type: string
       enum:
-      - '='
-      - <>
-      - '>'
-      - <
-      - '>='
-      - <=
-      title: RelationalOperator
+      - first
+      - last
+      title: OrderByNullPosition
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
   securitySchemes:
     OAuth2PasswordBearer:
       type: oauth2

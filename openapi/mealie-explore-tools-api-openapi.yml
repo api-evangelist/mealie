@@ -143,41 +143,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
     RecipeToolOut:
       properties:
         name:
@@ -207,18 +172,40 @@ components:
       - groupId
       - slug
       title: RecipeToolOut
-    OrderByNullPosition:
-      type: string
-      enum:
-      - first
-      - last
-      title: OrderByNullPosition
-    OrderDirection:
-      type: string
-      enum:
-      - asc
-      - desc
-      title: OrderDirection
+    RecipeTool:
+      properties:
+        id:
+          type: string
+          format: uuid4
+          title: Id
+        groupId:
+          anyOf:
+          - type: string
+            format: uuid4
+          - type: 'null'
+          title: Groupid
+        name:
+          type: string
+          title: Name
+        slug:
+          type: string
+          title: Slug
+        recipeCount:
+          type: integer
+          title: Recipecount
+          default: 0
+        householdsWithTool:
+          items:
+            type: string
+          type: array
+          title: Householdswithtool
+          default: []
+      type: object
+      required:
+      - id
+      - name
+      - slug
+      title: RecipeTool
     PaginationBase_RecipeTool_:
       properties:
         page:
@@ -256,40 +243,53 @@ components:
       required:
       - items
       title: PaginationBase[RecipeTool]
-    RecipeTool:
+    ValidationError:
       properties:
-        id:
-          type: string
-          format: uuid4
-          title: Id
-        groupId:
-          anyOf:
-          - type: string
-            format: uuid4
-          - type: 'null'
-          title: Groupid
-        name:
-          type: string
-          title: Name
-        slug:
-          type: string
-          title: Slug
-        recipeCount:
-          type: integer
-          title: Recipecount
-          default: 0
-        householdsWithTool:
+        loc:
           items:
-            type: string
+            anyOf:
+            - type: string
+            - type: integer
           type: array
-          title: Householdswithtool
-          default: []
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
       type: object
       required:
-      - id
-      - name
-      - slug
-      title: RecipeTool
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    OrderDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: OrderDirection
+    OrderByNullPosition:
+      type: string
+      enum:
+      - first
+      - last
+      title: OrderByNullPosition
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
   securitySchemes:
     OAuth2PasswordBearer:
       type: oauth2

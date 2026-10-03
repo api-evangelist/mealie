@@ -145,41 +145,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
     QueryFilterJSONPart:
       properties:
         leftParenthesis:
@@ -217,6 +182,95 @@ components:
           title: Value
       type: object
       title: QueryFilterJSONPart
+    RelationalKeyword:
+      type: string
+      enum:
+      - IS
+      - IS NOT
+      - IN
+      - NOT IN
+      - CONTAINS ALL
+      - LIKE
+      - NOT LIKE
+      title: RelationalKeyword
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    OrderDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: OrderDirection
+    RelationalOperator:
+      type: string
+      enum:
+      - '='
+      - <>
+      - '>'
+      - <
+      - '>='
+      - <=
+      title: RelationalOperator
+    CookbookHousehold:
+      properties:
+        id:
+          type: string
+          format: uuid4
+          title: Id
+        name:
+          type: string
+          title: Name
+      type: object
+      required:
+      - id
+      - name
+      title: CookbookHousehold
+    QueryFilterJSON:
+      properties:
+        parts:
+          items:
+            $ref: '#/components/schemas/QueryFilterJSONPart'
+          type: array
+          title: Parts
+          default: []
+      type: object
+      title: QueryFilterJSON
+    OrderByNullPosition:
+      type: string
+      enum:
+      - first
+      - last
+      title: OrderByNullPosition
+    LogicalOperator:
+      type: string
+      enum:
+      - AND
+      - OR
+      title: LogicalOperator
     ReadCookBook:
       properties:
         name:
@@ -268,18 +322,6 @@ components:
       - householdId
       - id
       title: ReadCookBook
-    LogicalOperator:
-      type: string
-      enum:
-      - AND
-      - OR
-      title: LogicalOperator
-    OrderByNullPosition:
-      type: string
-      enum:
-      - first
-      - last
-      title: OrderByNullPosition
     PaginationBase_ReadCookBook_:
       properties:
         page:
@@ -317,57 +359,15 @@ components:
       required:
       - items
       title: PaginationBase[ReadCookBook]
-    QueryFilterJSON:
+    HTTPValidationError:
       properties:
-        parts:
+        detail:
           items:
-            $ref: '#/components/schemas/QueryFilterJSONPart'
+            $ref: '#/components/schemas/ValidationError'
           type: array
-          title: Parts
-          default: []
+          title: Detail
       type: object
-      title: QueryFilterJSON
-    OrderDirection:
-      type: string
-      enum:
-      - asc
-      - desc
-      title: OrderDirection
-    RelationalKeyword:
-      type: string
-      enum:
-      - IS
-      - IS NOT
-      - IN
-      - NOT IN
-      - CONTAINS ALL
-      - LIKE
-      - NOT LIKE
-      title: RelationalKeyword
-    CookbookHousehold:
-      properties:
-        id:
-          type: string
-          format: uuid4
-          title: Id
-        name:
-          type: string
-          title: Name
-      type: object
-      required:
-      - id
-      - name
-      title: CookbookHousehold
-    RelationalOperator:
-      type: string
-      enum:
-      - '='
-      - <>
-      - '>'
-      - <
-      - '>='
-      - <=
-      title: RelationalOperator
+      title: HTTPValidationError
   securitySchemes:
     OAuth2PasswordBearer:
       type: oauth2

@@ -73,15 +73,67 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    HTTPValidationError:
+    AIProviderSettingsOut:
       properties:
-        detail:
+        defaultProviderId:
+          anyOf:
+          - type: string
+            format: uuid4
+          - type: 'null'
+          title: Defaultproviderid
+        audioProviderId:
+          anyOf:
+          - type: string
+            format: uuid4
+          - type: 'null'
+          title: Audioproviderid
+        imageProviderId:
+          anyOf:
+          - type: string
+            format: uuid4
+          - type: 'null'
+          title: Imageproviderid
+        providers:
           items:
-            $ref: '#/components/schemas/ValidationError'
+            $ref: '#/components/schemas/AIProviderSummary'
           type: array
-          title: Detail
+          title: Providers
+        aiEnabled:
+          type: boolean
+          title: Aienabled
+          readOnly: true
+        audioProviderEnabled:
+          type: boolean
+          title: Audioproviderenabled
+          readOnly: true
+        imageProviderEnabled:
+          type: boolean
+          title: Imageproviderenabled
+          readOnly: true
       type: object
-      title: HTTPValidationError
+      required:
+      - defaultProviderId
+      - audioProviderId
+      - imageProviderId
+      - providers
+      - aiEnabled
+      - audioProviderEnabled
+      - imageProviderEnabled
+      title: AIProviderSettingsOut
+    AIProviderSummary:
+      properties:
+        id:
+          type: string
+          format: uuid4
+          title: Id
+        name:
+          type: string
+          title: Name
+      type: object
+      required:
+      - id
+      - name
+      title: AIProviderSummary
     ValidationError:
       properties:
         loc:
@@ -134,67 +186,15 @@ components:
       - audioProviderId
       - imageProviderId
       title: AIProviderSettingsUpdate
-    AIProviderSummary:
+    HTTPValidationError:
       properties:
-        id:
-          type: string
-          format: uuid4
-          title: Id
-        name:
-          type: string
-          title: Name
-      type: object
-      required:
-      - id
-      - name
-      title: AIProviderSummary
-    AIProviderSettingsOut:
-      properties:
-        defaultProviderId:
-          anyOf:
-          - type: string
-            format: uuid4
-          - type: 'null'
-          title: Defaultproviderid
-        audioProviderId:
-          anyOf:
-          - type: string
-            format: uuid4
-          - type: 'null'
-          title: Audioproviderid
-        imageProviderId:
-          anyOf:
-          - type: string
-            format: uuid4
-          - type: 'null'
-          title: Imageproviderid
-        providers:
+        detail:
           items:
-            $ref: '#/components/schemas/AIProviderSummary'
+            $ref: '#/components/schemas/ValidationError'
           type: array
-          title: Providers
-        aiEnabled:
-          type: boolean
-          title: Aienabled
-          readOnly: true
-        audioProviderEnabled:
-          type: boolean
-          title: Audioproviderenabled
-          readOnly: true
-        imageProviderEnabled:
-          type: boolean
-          title: Imageproviderenabled
-          readOnly: true
+          title: Detail
       type: object
-      required:
-      - defaultProviderId
-      - audioProviderId
-      - imageProviderId
-      - providers
-      - aiEnabled
-      - audioProviderEnabled
-      - imageProviderEnabled
-      title: AIProviderSettingsOut
+      title: HTTPValidationError
   securitySchemes:
     OAuth2PasswordBearer:
       type: oauth2

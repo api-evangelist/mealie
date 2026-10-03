@@ -218,6 +218,66 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    UserRatingUpdate:
+      properties:
+        rating:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Rating
+        isFavorite:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Isfavorite
+      type: object
+      title: UserRatingUpdate
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    UserRatings_UserRatingOut_:
+      properties:
+        ratings:
+          items:
+            $ref: '#/components/schemas/UserRatingOut'
+          type: array
+          title: Ratings
+      type: object
+      required:
+      - ratings
+      title: UserRatings[UserRatingOut]
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     UserRatingOut:
       properties:
         recipeId:
@@ -247,66 +307,6 @@ components:
       - userId
       - id
       title: UserRatingOut
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    UserRatings_UserRatingOut_:
-      properties:
-        ratings:
-          items:
-            $ref: '#/components/schemas/UserRatingOut'
-          type: array
-          title: Ratings
-      type: object
-      required:
-      - ratings
-      title: UserRatings[UserRatingOut]
-    UserRatingUpdate:
-      properties:
-        rating:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Rating
-        isFavorite:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Isfavorite
-      type: object
-      title: UserRatingUpdate
   securitySchemes:
     OAuth2PasswordBearer:
       type: oauth2

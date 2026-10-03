@@ -187,79 +187,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    AIProviderCreate:
-      properties:
-        name:
-          type: string
-          title: Name
-        baseUrl:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Baseurl
-        apiKey:
-          type: string
-          title: Apikey
-          default: ''
-        model:
-          type: string
-          title: Model
-        timeout:
-          type: integer
-          title: Timeout
-          default: 300
-        requestHeaders:
-          additionalProperties:
-            type: string
-          type: object
-          title: Requestheaders
-          default: {}
-        requestParams:
-          additionalProperties:
-            type: string
-          type: object
-          title: Requestparams
-          default: {}
-      type: object
-      required:
-      - name
-      - model
-      title: AIProviderCreate
     AIProviderOut:
       properties:
         name:
@@ -337,6 +264,79 @@ components:
       - name
       - model
       title: AIProviderUpdate
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    AIProviderCreate:
+      properties:
+        name:
+          type: string
+          title: Name
+        baseUrl:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Baseurl
+        apiKey:
+          type: string
+          title: Apikey
+          default: ''
+        model:
+          type: string
+          title: Model
+        timeout:
+          type: integer
+          title: Timeout
+          default: 300
+        requestHeaders:
+          additionalProperties:
+            type: string
+          type: object
+          title: Requestheaders
+          default: {}
+        requestParams:
+          additionalProperties:
+            type: string
+          type: object
+          title: Requestparams
+          default: {}
+      type: object
+      required:
+      - name
+      - model
+      title: AIProviderCreate
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
   securitySchemes:
     OAuth2PasswordBearer:
       type: oauth2

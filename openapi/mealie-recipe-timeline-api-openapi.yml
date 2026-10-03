@@ -283,52 +283,12 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    RecipeTimelineEventPagination:
-      properties:
-        page:
-          type: integer
-          title: Page
-          default: 1
-        per_page:
-          type: integer
-          title: Per Page
-          default: 10
-        total:
-          type: integer
-          title: Total
-          default: 0
-        total_pages:
-          type: integer
-          title: Total Pages
-          default: 0
-        items:
-          items:
-            $ref: '#/components/schemas/RecipeTimelineEventOut'
-          type: array
-          title: Items
-        next:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Next
-        previous:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Previous
-      type: object
-      required:
-      - items
-      title: RecipeTimelineEventPagination
+    TimelineEventImage:
+      type: string
+      enum:
+      - has image
+      - does not have image
+      title: TimelineEventImage
     UpdateImageResponse:
       properties:
         image:
@@ -352,38 +312,6 @@ components:
       - image
       - extension
       title: Body_update_event_image_api_recipes_timeline_events__item_id__image_put
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    OrderByNullPosition:
-      type: string
-      enum:
-      - first
-      - last
-      title: OrderByNullPosition
     RecipeTimelineEventIn:
       properties:
         recipeId:
@@ -422,30 +350,32 @@ components:
       - subject
       - eventType
       title: RecipeTimelineEventIn
-    OrderDirection:
-      type: string
-      enum:
-      - asc
-      - desc
-      title: OrderDirection
-    RecipeTimelineEventUpdate:
+    ValidationError:
       properties:
-        subject:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
           type: string
-          title: Subject
-        eventMessage:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Eventmessage
-        image:
-          anyOf:
-          - $ref: '#/components/schemas/TimelineEventImage'
-          - type: 'null'
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
       type: object
       required:
-      - subject
-      title: RecipeTimelineEventUpdate
+      - loc
+      - msg
+      - type
+      title: ValidationError
     TimelineEventType:
       type: string
       enum:
@@ -453,12 +383,49 @@ components:
       - info
       - comment
       title: TimelineEventType
-    TimelineEventImage:
+    RecipeTimelineEventPagination:
+      properties:
+        page:
+          type: integer
+          title: Page
+          default: 1
+        per_page:
+          type: integer
+          title: Per Page
+          default: 10
+        total:
+          type: integer
+          title: Total
+          default: 0
+        total_pages:
+          type: integer
+          title: Total Pages
+          default: 0
+        items:
+          items:
+            $ref: '#/components/schemas/RecipeTimelineEventOut'
+          type: array
+          title: Items
+        next:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Next
+        previous:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Previous
+      type: object
+      required:
+      - items
+      title: RecipeTimelineEventPagination
+    OrderDirection:
       type: string
       enum:
-      - has image
-      - does not have image
-      title: TimelineEventImage
+      - asc
+      - desc
+      title: OrderDirection
     RecipeTimelineEventOut:
       properties:
         recipeId:
@@ -521,6 +488,39 @@ components:
       - createdAt
       - updatedAt
       title: RecipeTimelineEventOut
+    RecipeTimelineEventUpdate:
+      properties:
+        subject:
+          type: string
+          title: Subject
+        eventMessage:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Eventmessage
+        image:
+          anyOf:
+          - $ref: '#/components/schemas/TimelineEventImage'
+          - type: 'null'
+      type: object
+      required:
+      - subject
+      title: RecipeTimelineEventUpdate
+    OrderByNullPosition:
+      type: string
+      enum:
+      - first
+      - last
+      title: OrderByNullPosition
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
   securitySchemes:
     OAuth2PasswordBearer:
       type: oauth2

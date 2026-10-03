@@ -44,32 +44,43 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    HTTPValidationError:
+    ReportCategory:
+      type: string
+      enum:
+      - backup
+      - restore
+      - migration
+      - bulk_import
+      title: ReportCategory
+    ReportSummary:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    Body_start_data_migration_api_groups_migrations_post:
-      properties:
-        add_migration_tag:
-          type: boolean
-          title: Add Migration Tag
-          default: false
-        migration_type:
-          $ref: '#/components/schemas/SupportedMigrations'
-        archive:
+        timestamp:
           type: string
-          contentMediaType: application/octet-stream
-          title: Archive
+          format: date-time
+          title: Timestamp
+        category:
+          $ref: '#/components/schemas/ReportCategory'
+        groupId:
+          type: string
+          format: uuid4
+          title: Groupid
+        name:
+          type: string
+          title: Name
+        status:
+          $ref: '#/components/schemas/ReportSummaryStatus'
+          default: in-progress
+        id:
+          type: string
+          format: uuid4
+          title: Id
       type: object
       required:
-      - migration_type
-      - archive
-      title: Body_start_data_migration_api_groups_migrations_post
+      - category
+      - groupId
+      - name
+      - id
+      title: ReportSummary
     SupportedMigrations:
       type: string
       enum:
@@ -110,6 +121,23 @@ components:
       - msg
       - type
       title: ValidationError
+    Body_start_data_migration_api_groups_migrations_post:
+      properties:
+        add_migration_tag:
+          type: boolean
+          title: Add Migration Tag
+          default: false
+        migration_type:
+          $ref: '#/components/schemas/SupportedMigrations'
+        archive:
+          type: string
+          contentMediaType: application/octet-stream
+          title: Archive
+      type: object
+      required:
+      - migration_type
+      - archive
+      title: Body_start_data_migration_api_groups_migrations_post
     ReportSummaryStatus:
       type: string
       enum:
@@ -118,43 +146,15 @@ components:
       - failure
       - partial
       title: ReportSummaryStatus
-    ReportSummary:
+    HTTPValidationError:
       properties:
-        timestamp:
-          type: string
-          format: date-time
-          title: Timestamp
-        category:
-          $ref: '#/components/schemas/ReportCategory'
-        groupId:
-          type: string
-          format: uuid4
-          title: Groupid
-        name:
-          type: string
-          title: Name
-        status:
-          $ref: '#/components/schemas/ReportSummaryStatus'
-          default: in-progress
-        id:
-          type: string
-          format: uuid4
-          title: Id
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
       type: object
-      required:
-      - category
-      - groupId
-      - name
-      - id
-      title: ReportSummary
-    ReportCategory:
-      type: string
-      enum:
-      - backup
-      - restore
-      - migration
-      - bulk_import
-      title: ReportCategory
+      title: HTTPValidationError
   securitySchemes:
     OAuth2PasswordBearer:
       type: oauth2

@@ -299,111 +299,6 @@ components:
       required:
       - name
       title: RecipeToolCreate
-    RecipeTag:
-      properties:
-        id:
-          anyOf:
-          - type: string
-            format: uuid4
-          - type: 'null'
-          title: Id
-        groupId:
-          anyOf:
-          - type: string
-            format: uuid4
-          - type: 'null'
-          title: Groupid
-        name:
-          type: string
-          title: Name
-        slug:
-          type: string
-          title: Slug
-        recipeCount:
-          type: integer
-          title: Recipecount
-          default: 0
-      type: object
-      required:
-      - name
-      - slug
-      title: RecipeTag
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    RecipeToolResponse:
-      properties:
-        name:
-          type: string
-          title: Name
-        householdsWithTool:
-          items:
-            type: string
-          type: array
-          title: Householdswithtool
-          default: []
-        id:
-          type: string
-          format: uuid4
-          title: Id
-        groupId:
-          type: string
-          format: uuid4
-          title: Groupid
-        slug:
-          type: string
-          title: Slug
-        recipes:
-          items:
-            $ref: '#/components/schemas/RecipeSummary'
-          type: array
-          title: Recipes
-          default: []
-      type: object
-      required:
-      - name
-      - id
-      - groupId
-      - slug
-      title: RecipeToolResponse
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    OrderByNullPosition:
-      type: string
-      enum:
-      - first
-      - last
-      title: OrderByNullPosition
     RecipeSummary:
       properties:
         id:
@@ -541,12 +436,6 @@ components:
           title: Lastmade
       type: object
       title: RecipeSummary
-    OrderDirection:
-      type: string
-      enum:
-      - asc
-      - desc
-      title: OrderDirection
     RecipeTool:
       properties:
         id:
@@ -581,35 +470,73 @@ components:
       - name
       - slug
       title: RecipeTool
-    RecipeCategory:
+    ValidationError:
       properties:
-        id:
-          anyOf:
-          - type: string
-            format: uuid4
-          - type: 'null'
-          title: Id
-        groupId:
-          anyOf:
-          - type: string
-            format: uuid4
-          - type: 'null'
-          title: Groupid
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    RecipeToolResponse:
+      properties:
         name:
           type: string
           title: Name
+        householdsWithTool:
+          items:
+            type: string
+          type: array
+          title: Householdswithtool
+          default: []
+        id:
+          type: string
+          format: uuid4
+          title: Id
+        groupId:
+          type: string
+          format: uuid4
+          title: Groupid
         slug:
           type: string
           title: Slug
-        recipeCount:
-          type: integer
-          title: Recipecount
-          default: 0
+        recipes:
+          items:
+            $ref: '#/components/schemas/RecipeSummary'
+          type: array
+          title: Recipes
+          default: []
       type: object
       required:
       - name
+      - id
+      - groupId
       - slug
-      title: RecipeCategory
+      title: RecipeToolResponse
+    OrderDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: OrderDirection
     RecipeToolPagination:
       properties:
         page:
@@ -647,6 +574,79 @@ components:
       required:
       - items
       title: RecipeToolPagination
+    RecipeTag:
+      properties:
+        id:
+          anyOf:
+          - type: string
+            format: uuid4
+          - type: 'null'
+          title: Id
+        groupId:
+          anyOf:
+          - type: string
+            format: uuid4
+          - type: 'null'
+          title: Groupid
+        name:
+          type: string
+          title: Name
+        slug:
+          type: string
+          title: Slug
+        recipeCount:
+          type: integer
+          title: Recipecount
+          default: 0
+      type: object
+      required:
+      - name
+      - slug
+      title: RecipeTag
+    RecipeCategory:
+      properties:
+        id:
+          anyOf:
+          - type: string
+            format: uuid4
+          - type: 'null'
+          title: Id
+        groupId:
+          anyOf:
+          - type: string
+            format: uuid4
+          - type: 'null'
+          title: Groupid
+        name:
+          type: string
+          title: Name
+        slug:
+          type: string
+          title: Slug
+        recipeCount:
+          type: integer
+          title: Recipecount
+          default: 0
+      type: object
+      required:
+      - name
+      - slug
+      title: RecipeCategory
+    OrderByNullPosition:
+      type: string
+      enum:
+      - first
+      - last
+      title: OrderByNullPosition
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
   securitySchemes:
     OAuth2PasswordBearer:
       type: oauth2

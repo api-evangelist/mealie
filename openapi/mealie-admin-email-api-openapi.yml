@@ -74,15 +74,15 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    HTTPValidationError:
+    EmailReady:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
+        ready:
+          type: boolean
+          title: Ready
       type: object
-      title: HTTPValidationError
+      required:
+      - ready
+      title: EmailReady
     EmailSuccess:
       properties:
         success:
@@ -132,15 +132,15 @@ components:
       required:
       - email
       title: EmailTest
-    EmailReady:
+    HTTPValidationError:
       properties:
-        ready:
-          type: boolean
-          title: Ready
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
       type: object
-      required:
-      - ready
-      title: EmailReady
+      title: HTTPValidationError
   securitySchemes:
     OAuth2PasswordBearer:
       type: oauth2

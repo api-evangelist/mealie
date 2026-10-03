@@ -82,15 +82,15 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    HTTPValidationError:
+    DeleteTokenResponse:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
+        tokenDelete:
+          type: string
+          title: Tokendelete
       type: object
-      title: HTTPValidationError
+      required:
+      - tokenDelete
+      title: DeleteTokenResponse
     ValidationError:
       properties:
         loc:
@@ -117,6 +117,19 @@ components:
       - msg
       - type
       title: ValidationError
+    LongLiveTokenIn:
+      properties:
+        name:
+          type: string
+          title: Name
+        integrationId:
+          type: string
+          title: Integrationid
+          default: generic
+      type: object
+      required:
+      - name
+      title: LongLiveTokenIn
     LongLiveTokenCreateResponse:
       properties:
         name:
@@ -141,28 +154,15 @@ components:
       - token
       title: LongLiveTokenCreateResponse
       description: Should ONLY be used when creating a new token, as the token field is sensitive
-    LongLiveTokenIn:
+    HTTPValidationError:
       properties:
-        name:
-          type: string
-          title: Name
-        integrationId:
-          type: string
-          title: Integrationid
-          default: generic
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
       type: object
-      required:
-      - name
-      title: LongLiveTokenIn
-    DeleteTokenResponse:
-      properties:
-        tokenDelete:
-          type: string
-          title: Tokendelete
-      type: object
-      required:
-      - tokenDelete
-      title: DeleteTokenResponse
+      title: HTTPValidationError
   securitySchemes:
     OAuth2PasswordBearer:
       type: oauth2

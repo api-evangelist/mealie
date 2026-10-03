@@ -212,25 +212,41 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    HTTPValidationError:
+    BackupFile:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    Body_upload_one_api_admin_backups_upload_post:
-      properties:
-        archive:
+        name:
           type: string
-          contentMediaType: application/octet-stream
-          title: Archive
+          title: Name
+        date:
+          type: string
+          format: date-time
+          title: Date
+        size:
+          type: string
+          title: Size
       type: object
       required:
-      - archive
-      title: Body_upload_one_api_admin_backups_upload_post
+      - name
+      - date
+      - size
+      title: BackupFile
+    AllBackups:
+      properties:
+        imports:
+          items:
+            $ref: '#/components/schemas/BackupFile'
+          type: array
+          title: Imports
+        templates:
+          items:
+            type: string
+          type: array
+          title: Templates
+      type: object
+      required:
+      - imports
+      - templates
+      title: AllBackups
     FileTokenResponse:
       properties:
         fileToken:
@@ -279,41 +295,25 @@ components:
       required:
       - message
       title: SuccessResponse
-    AllBackups:
+    Body_upload_one_api_admin_backups_upload_post:
       properties:
-        imports:
-          items:
-            $ref: '#/components/schemas/BackupFile'
-          type: array
-          title: Imports
-        templates:
-          items:
-            type: string
-          type: array
-          title: Templates
+        archive:
+          type: string
+          contentMediaType: application/octet-stream
+          title: Archive
       type: object
       required:
-      - imports
-      - templates
-      title: AllBackups
-    BackupFile:
+      - archive
+      title: Body_upload_one_api_admin_backups_upload_post
+    HTTPValidationError:
       properties:
-        name:
-          type: string
-          title: Name
-        date:
-          type: string
-          format: date-time
-          title: Date
-        size:
-          type: string
-          title: Size
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
       type: object
-      required:
-      - name
-      - date
-      - size
-      title: BackupFile
+      title: HTTPValidationError
   securitySchemes:
     OAuth2PasswordBearer:
       type: oauth2

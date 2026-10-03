@@ -284,80 +284,52 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    CreateIngredientUnit:
+    CreateIngredientUnitAlias:
       properties:
-        id:
-          anyOf:
-          - type: string
-            format: uuid4
-          - type: 'null'
-          title: Id
         name:
           type: string
           title: Name
-        pluralName:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Pluralname
-        description:
-          type: string
-          title: Description
-          default: ''
-        extras:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Extras
-          default: {}
-        fraction:
-          type: boolean
-          title: Fraction
-          default: true
-        abbreviation:
-          type: string
-          title: Abbreviation
-          default: ''
-        pluralAbbreviation:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Pluralabbreviation
-          default: ''
-        useAbbreviation:
-          type: boolean
-          title: Useabbreviation
-          default: false
-        aliases:
-          items:
-            $ref: '#/components/schemas/CreateIngredientUnitAlias'
-          type: array
-          title: Aliases
-          default: []
-        standardQuantity:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Standardquantity
-        standardUnit:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Standardunit
       type: object
       required:
       - name
-      title: CreateIngredientUnit
-    HTTPValidationError:
+      title: CreateIngredientUnitAlias
+    IngredientUnitPagination:
       properties:
-        detail:
+        page:
+          type: integer
+          title: Page
+          default: 1
+        per_page:
+          type: integer
+          title: Per Page
+          default: 10
+        total:
+          type: integer
+          title: Total
+          default: 0
+        total_pages:
+          type: integer
+          title: Total Pages
+          default: 0
+        items:
           items:
-            $ref: '#/components/schemas/ValidationError'
+            $ref: '#/components/schemas/IngredientUnit-Output'
           type: array
-          title: Detail
+          title: Items
+        next:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Next
+        previous:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Previous
       type: object
-      title: HTTPValidationError
+      required:
+      - items
+      title: IngredientUnitPagination
     ValidationError:
       properties:
         loc:
@@ -384,7 +356,7 @@ components:
       - msg
       - type
       title: ValidationError
-    CreateIngredientUnitAlias:
+    IngredientUnitAlias:
       properties:
         name:
           type: string
@@ -392,13 +364,13 @@ components:
       type: object
       required:
       - name
-      title: CreateIngredientUnitAlias
-    OrderByNullPosition:
+      title: IngredientUnitAlias
+    OrderDirection:
       type: string
       enum:
-      - first
-      - last
-      title: OrderByNullPosition
+      - asc
+      - desc
+      title: OrderDirection
     SuccessResponse:
       properties:
         message:
@@ -412,21 +384,6 @@ components:
       required:
       - message
       title: SuccessResponse
-    OrderDirection:
-      type: string
-      enum:
-      - asc
-      - desc
-      title: OrderDirection
-    IngredientUnitAlias:
-      properties:
-        name:
-          type: string
-          title: Name
-      type: object
-      required:
-      - name
-      title: IngredientUnitAlias
     IngredientUnit-Output:
       properties:
         id:
@@ -518,43 +475,86 @@ components:
       - fromUnit
       - toUnit
       title: MergeUnit
-    IngredientUnitPagination:
+    CreateIngredientUnit:
       properties:
-        page:
-          type: integer
-          title: Page
-          default: 1
-        per_page:
-          type: integer
-          title: Per Page
-          default: 10
-        total:
-          type: integer
-          title: Total
-          default: 0
-        total_pages:
-          type: integer
-          title: Total Pages
-          default: 0
-        items:
+        id:
+          anyOf:
+          - type: string
+            format: uuid4
+          - type: 'null'
+          title: Id
+        name:
+          type: string
+          title: Name
+        pluralName:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Pluralname
+        description:
+          type: string
+          title: Description
+          default: ''
+        extras:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Extras
+          default: {}
+        fraction:
+          type: boolean
+          title: Fraction
+          default: true
+        abbreviation:
+          type: string
+          title: Abbreviation
+          default: ''
+        pluralAbbreviation:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Pluralabbreviation
+          default: ''
+        useAbbreviation:
+          type: boolean
+          title: Useabbreviation
+          default: false
+        aliases:
           items:
-            $ref: '#/components/schemas/IngredientUnit-Output'
+            $ref: '#/components/schemas/CreateIngredientUnitAlias'
           type: array
-          title: Items
-        next:
+          title: Aliases
+          default: []
+        standardQuantity:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Standardquantity
+        standardUnit:
           anyOf:
           - type: string
           - type: 'null'
-          title: Next
-        previous:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Previous
+          title: Standardunit
       type: object
       required:
-      - items
-      title: IngredientUnitPagination
+      - name
+      title: CreateIngredientUnit
+    OrderByNullPosition:
+      type: string
+      enum:
+      - first
+      - last
+      title: OrderByNullPosition
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
   securitySchemes:
     OAuth2PasswordBearer:
       type: oauth2
