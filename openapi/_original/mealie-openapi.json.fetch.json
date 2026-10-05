@@ -1,0 +1,12 @@
+{
+ "url": "https://demo.mealie.io/openapi.json",
+ "requested_url": "https://demo.mealie.io/openapi.json",
+ "status": 200,
+ "content_type": "application/json",
+ "bytes": 378235,
+ "sha256": "ab950c779277011851c70f30f6a7e8a1b29df7bdd4c3f96a4be9db07846db832",
+ "fetched_at": "2026-10-04",
+ "fetched_by": "APIEvangelist-Harvest/1.0 (+https://apievangelist.com)",
+ "match": "equivalent",
+ "note": "Re-fetched from the provider by verify-openapi-sources.py; the provider's current document describes the same operations (Jaccard 0.985), but the bytes differ, so the archive is an earlier or reformatted copy."
+}
