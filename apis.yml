@@ -2036,6 +2036,8 @@ maintainers:
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: RateLimits
+  url: rate-limits/mealie-rate-limits.yml
 - type: CapabilityMap
   url: capabilities/mealie-capability-edges.yml
   name: Mealie Business Capability Map
